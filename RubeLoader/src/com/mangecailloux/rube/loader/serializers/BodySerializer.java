@@ -1,4 +1,4 @@
-package com.mangecailloux.rube.serializers;
+package com.mangecailloux.rube.loader.serializers;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -16,9 +16,18 @@ public class BodySerializer extends ReadOnlySerializer<Body>
 {
 	private 	  World world;
 	private final BodyDef def = new BodyDef();
-	private final Vector2Serializer vector2Serializer = new Vector2Serializer();
-	private final FixtureSerializer fixtureSerializer = new FixtureSerializer();
+	private final FixtureSerializer fixtureSerializer;
 
+	public BodySerializer(Json json)
+	{		
+		fixtureSerializer = new FixtureSerializer(json);
+		
+		// as some Vector2 can be stored as a float we need a custom Vector2 Serializer :(
+		json.setSerializer(Vector2.class, new Vector2Serializer());
+		
+		json.setSerializer(Fixture.class, fixtureSerializer);
+	}
+	
 	public void setWorld(World _world)
 	{
 		world = _world;
@@ -30,10 +39,6 @@ public class BodySerializer extends ReadOnlySerializer<Body>
 		if(world == null)
 			return null;
 		BodyDef defaults = RubeDefaults.Body.definition;
-		
-		// as some Vector2 can be stored as a float we need a custom Vector2 Serializer :(
-		json.setSerializer(Vector2.class, vector2Serializer);
-		json.setSerializer(Fixture.class, fixtureSerializer);
 
 		int bodyType = json.readValue("type", int.class, defaults.type.getValue(), jsonData);
 		
@@ -63,14 +68,21 @@ public class BodySerializer extends ReadOnlySerializer<Body>
 		
 		if(def.type == BodyType.DynamicBody)
 		{
-			MassData mass = new MassData();
-			mass.center.set(	json.readValue("massData-center",  Vector2.class, jsonData));
+			Vector2 center = json.readValue("massData-center",  Vector2.class, jsonData);
+			float mass = json.readValue("massData-mass", 	float.class, 0.0f, 	jsonData);
+			float I = json.readValue("massData-I", 	float.class, 0.0f, 	jsonData);
 			
-			mass.mass = json.readValue("massData-mass", 	float.class, 0.0f, 	jsonData);
-			mass.I = json.readValue("massData-I", 	float.class, 0.0f, 	jsonData);
-			
-			if(mass.mass != 0.0f || mass.I != 0.0f || mass.center.x != 0.0f || mass.center.y != 0.0f)
-				body.setMassData(mass);
+			if(center != null)
+			{
+				MassData massData = new MassData();
+				
+				massData.center.set(center);
+				massData.mass = mass;
+				massData.I = I;
+				
+				if(massData.mass != 0.0f || massData.I != 0.0f || massData.center.x != 0.0f || massData.center.y != 0.0f)
+					body.setMassData(massData);
+			}
 		}
 		
 		fixtureSerializer.setBody(body);

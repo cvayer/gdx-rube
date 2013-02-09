@@ -1,25 +1,23 @@
-package com.mangecailloux.rube.serializers;
+package com.mangecailloux.rube.loader.serializers;
 
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
 import com.mangecailloux.rube.RubeDefaults;
-import com.mangecailloux.rube.RubeWorld;
+import com.mangecailloux.rube.RubeScene;
 
-public class RubeWorldSerializer extends ReadOnlySerializer<RubeWorld>
+public class RubeWorldSerializer extends ReadOnlySerializer<RubeScene>
 {
-	private final WorldSerializer worldSerializer = new WorldSerializer();
-	
 	public RubeWorldSerializer(Json json)
 	{
-		json.setSerializer(World.class, worldSerializer);
+		json.setSerializer(World.class, new WorldSerializer(json));
 		json.setIgnoreUnknownFields(true);
 	}
 	
 	@Override
-	public RubeWorld read(Json json, Object jsonData, Class type) 
+	public RubeScene read(Json json, Object jsonData, Class type) 
 	{
-		RubeWorld world = new RubeWorld();
+		RubeScene world = new RubeScene();
 		
 		world.stepsPerSecond 		= json.readValue("stepsPerSecond", 		int.class, RubeDefaults.World.stepsPerSecond, 		jsonData);
 		world.positionIterations 	= json.readValue("positionIterations", 	int.class, RubeDefaults.World.positionIterations, 	jsonData);

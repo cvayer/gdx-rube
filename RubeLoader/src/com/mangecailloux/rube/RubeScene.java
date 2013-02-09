@@ -2,30 +2,33 @@ package com.mangecailloux.rube;
 
 import com.badlogic.gdx.physics.box2d.World;
 
-public class RubeWorld 
+/**
+ * A simple encapsulation of a {@link World}. Plus the data needed to run the simulation.
+ * @author clement.vayer
+ *
+ */
+public class RubeScene 
 {
+	/** Box2D {@link World} */
 	public World world;
+	
+	/** Simulation steps wanted per second */
 	public int   stepsPerSecond;
+	/** Iteration steps done in the simulation to calculates positions */
 	public int   positionIterations;
+	/** Iteration steps done in the simulation to calculates velocities */
 	public int   velocityIterations;
 	
-	public RubeWorld()
+	public RubeScene()
 	{
 		stepsPerSecond 		= RubeDefaults.World.stepsPerSecond;
 		positionIterations 	= RubeDefaults.World.positionIterations;
 		velocityIterations 	= RubeDefaults.World.velocityIterations;
 	}
 	
-	public World getWorld()
-	{
-		return world;
-	}
-	
-	public void setWorld(World _world)
-	{
-		world = _world;
-	}
-	
+	/**
+	 * Convenience method to update the Box2D simulation with the parameters read from the scene.
+	 */
 	public void step()
 	{
 		if(world != null)

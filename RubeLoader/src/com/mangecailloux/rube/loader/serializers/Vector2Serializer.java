@@ -1,4 +1,4 @@
-package com.mangecailloux.rube.serializers;
+package com.mangecailloux.rube.loader.serializers;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Json;
@@ -14,7 +14,7 @@ public class Vector2Serializer extends ReadOnlySerializer<Vector2>
 		
 		try 
 		{
-			Float value = json.readValue(float.class, jsonData);
+			json.readValue(float.class, jsonData);
 		} 
 		catch (SerializationException e) 
 		{
