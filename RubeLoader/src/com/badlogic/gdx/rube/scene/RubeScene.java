@@ -24,7 +24,7 @@ public class RubeScene
 	
 	private final RubeSceneStores		   stores;
 	
-	public RubeScene()
+	public RubeScene(RubeSceneStores _stores)
 	{
 		stores 				= new RubeSceneStores();
 		stepsPerSecond 		= RubeDefaults.World.stepsPerSecond;
@@ -42,11 +42,6 @@ public class RubeScene
 			float dt = 1.0f/stepsPerSecond;
 			world.step(dt, velocityIterations, positionIterations);
 		}
-	}
-	
-	public void addStore(RubeSceneStore<?> _store)
-	{
-		stores.addStore(_store);
 	}
 	
 	public <T extends RubeSceneStore<?>> T getStore(Class<T> _type)

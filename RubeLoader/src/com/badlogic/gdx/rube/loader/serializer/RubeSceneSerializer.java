@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
 import com.badlogic.gdx.rube.scene.RubeScene;
 import com.badlogic.gdx.rube.scene.store.RubeSceneStore;
 import com.badlogic.gdx.rube.scene.store.RubeSceneStore.RubeSceneStoreDefinition;
+import com.badlogic.gdx.rube.scene.store.RubeSceneStores;
 
 public class RubeSceneSerializer extends ReadOnlySerializer<RubeScene>
 {
@@ -25,15 +26,15 @@ public class RubeSceneSerializer extends ReadOnlySerializer<RubeScene>
 	@Override
 	public RubeScene read(Json json, Object jsonData, Class type) 
 	{
-		RubeScene scene = new RubeScene();
-		
+		RubeSceneStores stores = new RubeSceneStores();
+		listeners.clear();
 		for(int i=0; i < storesDef.size; ++i)
 		{
 			try 
 			{
 				RubeSceneStore<?> store = storesDef.get(i).storeType.newInstance();
 				
-				scene.addStore(store);
+				stores.addStore(store);
 				listeners.addListener(storesDef.get(i).type, store);
 				
 			} catch (InstantiationException e) {
@@ -45,13 +46,11 @@ public class RubeSceneSerializer extends ReadOnlySerializer<RubeScene>
 			}
 		}
 		
-		
+		RubeScene scene = new RubeScene(stores);
 		scene.stepsPerSecond 		= json.readValue("stepsPerSecond", 		int.class, RubeDefaults.World.stepsPerSecond, 		jsonData);
 		scene.positionIterations 	= json.readValue("positionIterations", 	int.class, RubeDefaults.World.positionIterations, 	jsonData);
 		scene.velocityIterations 	= json.readValue("velocityIterations", 	int.class, RubeDefaults.World.velocityIterations, 	jsonData);
 		scene.world					= json.readValue(World.class,	jsonData);
-		
-		listeners.clear();
 		
 		return scene;
 	}
