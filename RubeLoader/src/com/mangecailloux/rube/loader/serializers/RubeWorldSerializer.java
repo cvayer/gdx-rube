@@ -17,13 +17,13 @@ public class RubeWorldSerializer extends ReadOnlySerializer<RubeScene>
 	@Override
 	public RubeScene read(Json json, Object jsonData, Class type) 
 	{
-		RubeScene world = new RubeScene();
+		RubeScene scene = new RubeScene();
 		
-		world.stepsPerSecond 		= json.readValue("stepsPerSecond", 		int.class, RubeDefaults.World.stepsPerSecond, 		jsonData);
-		world.positionIterations 	= json.readValue("positionIterations", 	int.class, RubeDefaults.World.positionIterations, 	jsonData);
-		world.velocityIterations 	= json.readValue("velocityIterations", 	int.class, RubeDefaults.World.velocityIterations, 	jsonData);
-		world.world					= json.readValue(World.class,	jsonData);
-		return world;
+		scene.stepsPerSecond 		= json.readValue("stepsPerSecond", 		int.class, RubeDefaults.World.stepsPerSecond, 		jsonData);
+		scene.positionIterations 	= json.readValue("positionIterations", 	int.class, RubeDefaults.World.positionIterations, 	jsonData);
+		scene.velocityIterations 	= json.readValue("velocityIterations", 	int.class, RubeDefaults.World.velocityIterations, 	jsonData);
+		scene.world					= json.readValue(World.class,	jsonData);
+		return scene;
 	}
 
 }

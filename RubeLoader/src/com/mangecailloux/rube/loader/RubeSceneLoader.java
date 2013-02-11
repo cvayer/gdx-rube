@@ -31,15 +31,15 @@ public class RubeSceneLoader
 	 */
 	public RubeScene loadScene(FileHandle _file)
 	{
-		RubeScene world = null;
+		RubeScene scene = null;
 		try 
 		{
-			world = json.fromJson(RubeScene.class, _file);	
+			scene = json.fromJson(RubeScene.class, _file);	
 		} 
 		catch (SerializationException ex) 
 		{
 			throw new SerializationException("Error reading file: " + _file, ex);
 		}
-		return world;
+		return scene;
 	}
 }
