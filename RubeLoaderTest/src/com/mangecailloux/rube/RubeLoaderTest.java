@@ -4,8 +4,11 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.mangecailloux.rube.loader.RubeSceneLoader;
+import com.badlogic.gdx.rube.loader.RubeSceneLoader;
+import com.badlogic.gdx.rube.scene.RubeScene;
+import com.badlogic.gdx.rube.scene.store.ByNameStore.BodiesByNameStore;
 
 
 public class RubeLoaderTest implements ApplicationListener {
@@ -23,7 +26,16 @@ public class RubeLoaderTest implements ApplicationListener {
 		
 		loader = new RubeSceneLoader();
 		
-		scene = loader.loadScene(Gdx.files.internal("data/bike.json"));
+		loader.addStore(Body.class, BodiesByNameStore.class);
+		
+		scene = loader.loadScene(Gdx.files.internal("data/documentA.json"));
+		
+		BodiesByNameStore store = scene.getStore(BodiesByNameStore.class);
+		
+		if(store != null)
+		{
+			Body body = store.get("body1");
+		}
 		
 		renderer = new Box2DDebugRenderer();
 	}

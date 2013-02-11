@@ -1,25 +1,28 @@
-package com.mangecailloux.rube.loader.serializers;
+package com.badlogic.gdx.rube.loader.serializer;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.rube.loader.RubeDefaults;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
-import com.mangecailloux.rube.RubeDefaults;
 
 public class WorldSerializer extends ReadOnlySerializer<World>
 {
+	private final RubeSceneSerializerListeners listeners;
 	private final BodySerializer 	bodySerializer;
 	private final JointSerializer 	jointSerializer;
 	
-	public WorldSerializer(Json _json)
+	public WorldSerializer(Json _json, RubeSceneSerializerListeners _listeners)
 	{
-		bodySerializer = new BodySerializer(_json);
+		listeners = _listeners;
+		
+		bodySerializer = new BodySerializer(_json, listeners);
 		_json.setSerializer(Body.class, bodySerializer);
 		
-		jointSerializer = new JointSerializer(_json);
+		jointSerializer = new JointSerializer(_json, listeners);
 		_json.setSerializer(Joint.class, jointSerializer);
 	}
 	
@@ -51,6 +54,8 @@ public class WorldSerializer extends ReadOnlySerializer<World>
 		// Second joint pass
 		jointSerializer.init(world, bodies, joints);
 		joints = json.readValue("joint", Array.class, Joint.class, jsonData);
+		
+		listeners.onRead(World.class, world, null);
 		
 		return world;
 	}

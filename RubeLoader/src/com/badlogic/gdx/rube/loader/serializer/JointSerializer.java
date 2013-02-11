@@ -1,7 +1,8 @@
-package com.mangecailloux.rube.loader.serializers;
+package com.badlogic.gdx.rube.loader.serializer;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.JointDef;
 import com.badlogic.gdx.physics.box2d.World;
@@ -16,21 +17,24 @@ import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.physics.box2d.joints.WheelJointDef;
+import com.badlogic.gdx.rube.loader.RubeDefaults;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
-import com.mangecailloux.rube.RubeDefaults;
 
 public class JointSerializer extends ReadOnlySerializer<Joint>
 {
+	private final RubeSceneSerializerListeners listeners;
 	World			world;
 	Array<Body> 	bodies;
 	Array<Joint> 	joints;
 	
 	private final MouseJointDefSerializer mouseJointDefSerializer;
 	
-	public JointSerializer(Json _json)
+	public JointSerializer(Json _json, RubeSceneSerializerListeners _listeners)
 	{
+		listeners = _listeners;
+		
 		_json.setSerializer(RevoluteJointDef.class, 	new RevoluteJointDefSerializer());
 		_json.setSerializer(PrismaticJointDef.class, 	new PrismaticJointDefSerializer());
 		_json.setSerializer(PulleyJointDef.class, 		new PulleyJointDefSerializer());
@@ -131,6 +135,11 @@ public class JointSerializer extends ReadOnlySerializer<Joint>
 				((MouseJoint) joint).setTarget(mouseJointDefSerializer.target);
 			}
 		}
+		
+		String name = json.readValue("name", String.class, jsonData);
+		
+		listeners.onRead(Joint.class, joint, name);
+		
 		return joint;
 	}
 	

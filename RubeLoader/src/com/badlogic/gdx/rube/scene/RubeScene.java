@@ -1,6 +1,9 @@
-package com.mangecailloux.rube;
+package com.badlogic.gdx.rube.scene;
 
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.rube.loader.RubeDefaults;
+import com.badlogic.gdx.rube.scene.store.RubeSceneStore;
+import com.badlogic.gdx.rube.scene.store.RubeSceneStores;
 
 /**
  * A simple encapsulation of a {@link World}. Plus the data needed to run the simulation.
@@ -19,8 +22,11 @@ public class RubeScene
 	/** Iteration steps done in the simulation to calculates velocities */
 	public int   velocityIterations;
 	
+	private final RubeSceneStores		   stores;
+	
 	public RubeScene()
 	{
+		stores 				= new RubeSceneStores();
 		stepsPerSecond 		= RubeDefaults.World.stepsPerSecond;
 		positionIterations 	= RubeDefaults.World.positionIterations;
 		velocityIterations 	= RubeDefaults.World.velocityIterations;
@@ -36,5 +42,15 @@ public class RubeScene
 			float dt = 1.0f/stepsPerSecond;
 			world.step(dt, velocityIterations, positionIterations);
 		}
+	}
+	
+	public void addStore(RubeSceneStore<?> _store)
+	{
+		stores.addStore(_store);
+	}
+	
+	public <T extends RubeSceneStore<?>> T getStore(Class<T> _type)
+	{
+		return stores.getStore(_type);
 	}
 }

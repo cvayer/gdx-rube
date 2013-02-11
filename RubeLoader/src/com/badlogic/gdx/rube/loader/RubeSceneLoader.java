@@ -1,10 +1,13 @@
-package com.mangecailloux.rube.loader;
+package com.badlogic.gdx.rube.loader;
 
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.SerializationException;
-import com.mangecailloux.rube.RubeScene;
-import com.mangecailloux.rube.loader.serializers.RubeWorldSerializer;
+import com.badlogic.gdx.rube.loader.serializer.RubeSceneSerializer;
+import com.badlogic.gdx.rube.scene.RubeScene;
+import com.badlogic.gdx.rube.scene.store.RubeSceneStore;
+import com.badlogic.gdx.rube.scene.store.RubeSceneStore.RubeSceneStoreDefinition;
 
 /**
  * Loads a json file and returns a {@link RubeScene}.
@@ -14,6 +17,7 @@ import com.mangecailloux.rube.loader.serializers.RubeWorldSerializer;
 public class RubeSceneLoader 
 {
 	private final Json json;
+	private final Array<RubeSceneStoreDefinition> storesDef;
 	
 	public RubeSceneLoader()
 	{
@@ -21,7 +25,9 @@ public class RubeSceneLoader
 		json.setTypeName(null);
 		json.setUsePrototypes(false);
 		
-		json.setSerializer(RubeScene.class, new RubeWorldSerializer(json));
+		storesDef = new Array<RubeSceneStoreDefinition>(false, 2);
+
+		json.setSerializer(RubeScene.class, new RubeSceneSerializer(json, storesDef));
 	}
 	
 	/**
@@ -41,5 +47,10 @@ public class RubeSceneLoader
 			throw new SerializationException("Error reading file: " + _file, ex);
 		}
 		return scene;
+	}
+	
+	public <T extends RubeSceneStore<?>> void addStore(Class<?> _type, Class<T> _storeType)
+	{
+		storesDef.add(new RubeSceneStoreDefinition(_type, _storeType));
 	}
 }

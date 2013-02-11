@@ -1,4 +1,4 @@
-package com.mangecailloux.rube.loader.serializers.utils;
+package com.badlogic.gdx.rube.loader.serializer.utils;
 
 import com.badlogic.gdx.math.Vector2;
 

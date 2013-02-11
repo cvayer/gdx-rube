@@ -1,4 +1,4 @@
-package com.mangecailloux.rube.loader.serializers;
+package com.badlogic.gdx.rube.loader.serializer;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -8,18 +8,21 @@ import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.rube.loader.RubeDefaults;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
-import com.mangecailloux.rube.RubeDefaults;
-import com.mangecailloux.rube.loader.serializers.utils.RubeVertexArray;
+import com.badlogic.gdx.rube.loader.serializer.utils.RubeVertexArray;
 
 public class FixtureSerializer extends ReadOnlySerializer<Fixture>
 {
+	private final RubeSceneSerializerListeners listeners;
 	private Body body;
 	private final ChainShapeSerializer 	 chainShapeSerializer;
 	
-	public FixtureSerializer(Json json)
-	{		
+	public FixtureSerializer(Json json, RubeSceneSerializerListeners _listeners)
+	{
+		listeners = _listeners;
+		
 		chainShapeSerializer	= new ChainShapeSerializer();
 		
 		json.setSerializer(PolygonShape.class, new PolygonShapeSerializer());
@@ -97,6 +100,8 @@ public class FixtureSerializer extends ReadOnlySerializer<Fixture>
 		
 		Fixture fixture = body.createFixture(def);
 		def.shape.dispose();
+		String name = json.readValue("name", String.class, jsonData);
+		listeners.onRead(Fixture.class, fixture, name);
 		return fixture;
 	}
 	
