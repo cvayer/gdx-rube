@@ -21,6 +21,8 @@ import com.badlogic.gdx.physics.box2d.joints.WheelJointDef;
  */
 public class RubeDefaults 
 {
+	private static Fixture fixture = new Fixture(); // done to call ctor of fixture and init default values
+	
 	public static class World
 	{
 		public static final Vector2 			gravity 			= new Vector2(0.0f, -9.81f);
@@ -40,6 +42,11 @@ public class RubeDefaults
 	public static class Fixture
 	{
 		public static final FixtureDef 			definition 		= new FixtureDef();
+		
+		Fixture()
+		{
+			definition.friction = 0.0f;
+		}
 	}
 	public static class Joint
 	{

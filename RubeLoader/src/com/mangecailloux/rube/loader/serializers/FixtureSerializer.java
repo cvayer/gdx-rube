@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
+import com.mangecailloux.rube.RubeDefaults;
 import com.mangecailloux.rube.loader.serializers.utils.RubeVertexArray;
 
 public class FixtureSerializer extends ReadOnlySerializer<Fixture>
@@ -37,12 +38,13 @@ public class FixtureSerializer extends ReadOnlySerializer<Fixture>
 	{
 		if(body == null)
 			return null;
-			
-		json.setIgnoreUnknownFields(true);
+		
+		FixtureDef defaults = RubeDefaults.Fixture.definition;
 		
 		FixtureDef def = new FixtureDef();
+		def.friction = defaults.friction;
 		json.readFields(def, jsonData);
-		
+		def.isSensor = json.readValue("sensor", boolean.class, defaults.isSensor, jsonData);
 		CircleShape circle = json.readValue("circle", CircleShape.class, jsonData);
 		
 		if(circle != null)
@@ -94,6 +96,7 @@ public class FixtureSerializer extends ReadOnlySerializer<Fixture>
 		}
 		
 		Fixture fixture = body.createFixture(def);
+		def.shape.dispose();
 		return fixture;
 	}
 	
