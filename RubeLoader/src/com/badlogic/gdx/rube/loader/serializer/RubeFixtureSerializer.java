@@ -12,23 +12,24 @@ import com.badlogic.gdx.rube.loader.RubeDefaults;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
 import com.badlogic.gdx.rube.loader.serializer.utils.RubeVertexArray;
+import com.badlogic.gdx.scenes.box2d.loader.serializer.BaseBox2DSceneSerializer;
 
-public class FixtureSerializer extends ReadOnlySerializer<Fixture>
+@SuppressWarnings("rawtypes")
+public class RubeFixtureSerializer extends BaseBox2DSceneSerializer<Fixture>
 {
-	private final RubeSceneSerializerListeners listeners;
 	private Body body;
 	private final ChainShapeSerializer 	 chainShapeSerializer;
 	
-	public FixtureSerializer(Json json, RubeSceneSerializerListeners _listeners)
+	public RubeFixtureSerializer(Json _json, Box2DSceneSerializerListeners _listeners)
 	{
-		listeners = _listeners;
+		super(_json, _listeners);
 		
 		chainShapeSerializer	= new ChainShapeSerializer();
 		
-		json.setSerializer(PolygonShape.class, new PolygonShapeSerializer());
-		json.setSerializer(EdgeShape.class, new EdgeShapeSerializer());
-		json.setSerializer(CircleShape.class, new CircleShapeSerializer());
-		json.setSerializer(ChainShape.class, chainShapeSerializer);
+		_json.setSerializer(PolygonShape.class, new PolygonShapeSerializer());
+		_json.setSerializer(EdgeShape.class, new EdgeShapeSerializer());
+		_json.setSerializer(CircleShape.class, new CircleShapeSerializer());
+		_json.setSerializer(ChainShape.class, chainShapeSerializer);
 	}
 	
 	void setBody(Body _body)
@@ -101,7 +102,7 @@ public class FixtureSerializer extends ReadOnlySerializer<Fixture>
 		Fixture fixture = body.createFixture(def);
 		def.shape.dispose();
 		String name = json.readValue("name", String.class, jsonData);
-		listeners.onRead(Fixture.class, fixture, name);
+		onAddFixture(fixture, name);
 		return fixture;
 	}
 	

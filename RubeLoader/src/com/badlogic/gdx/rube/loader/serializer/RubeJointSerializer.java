@@ -2,7 +2,6 @@ package com.badlogic.gdx.rube.loader.serializer;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.JointDef;
 import com.badlogic.gdx.physics.box2d.World;
@@ -18,22 +17,23 @@ import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.physics.box2d.joints.WheelJointDef;
 import com.badlogic.gdx.rube.loader.RubeDefaults;
+import com.badlogic.gdx.scenes.box2d.loader.serializer.BaseBox2DSceneSerializer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
 
-public class JointSerializer extends ReadOnlySerializer<Joint>
+@SuppressWarnings("rawtypes")
+public class RubeJointSerializer extends BaseBox2DSceneSerializer<Joint>
 {
-	private final RubeSceneSerializerListeners listeners;
 	World			world;
 	Array<Body> 	bodies;
 	Array<Joint> 	joints;
 	
 	private final MouseJointDefSerializer mouseJointDefSerializer;
 	
-	public JointSerializer(Json _json, RubeSceneSerializerListeners _listeners)
+	public RubeJointSerializer(Json _json, Box2DSceneSerializerListeners _listeners)
 	{
-		listeners = _listeners;
+		super(_json, _listeners);
 		
 		_json.setSerializer(RevoluteJointDef.class, 	new RevoluteJointDefSerializer());
 		_json.setSerializer(PrismaticJointDef.class, 	new PrismaticJointDefSerializer());
@@ -138,7 +138,7 @@ public class JointSerializer extends ReadOnlySerializer<Joint>
 		
 		String name = json.readValue("name", String.class, jsonData);
 		
-		listeners.onRead(Joint.class, joint, name);
+		onAddJoint(joint, name);
 		
 		return joint;
 	}

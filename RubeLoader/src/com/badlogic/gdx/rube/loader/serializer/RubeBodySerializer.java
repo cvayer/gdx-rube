@@ -8,27 +8,27 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.rube.loader.RubeDefaults;
+import com.badlogic.gdx.scenes.box2d.loader.serializer.BaseBox2DSceneSerializer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
 
-public class BodySerializer extends ReadOnlySerializer<Body>
+@SuppressWarnings("rawtypes")
+public class RubeBodySerializer extends BaseBox2DSceneSerializer<Body>
 {
-	private final RubeSceneSerializerListeners listeners;
 	private 	  World world;
 	private final BodyDef def = new BodyDef();
-	private final FixtureSerializer fixtureSerializer;
+	private final RubeFixtureSerializer fixtureSerializer;
 
-	public BodySerializer(Json json, RubeSceneSerializerListeners _listeners)
+	public RubeBodySerializer(Json _json, Box2DSceneSerializerListeners _listeners)
 	{
-		listeners = _listeners;
+		super(_json, _listeners);
 		
-		fixtureSerializer = new FixtureSerializer(json, listeners);
+		fixtureSerializer = new RubeFixtureSerializer(_json, _listeners);
 		
 		// as some Vector2 can be stored as a float we need a custom Vector2 Serializer :(
-		json.setSerializer(Vector2.class, new Vector2Serializer());
+		_json.setSerializer(Vector2.class, new Vector2Serializer());
 		
-		json.setSerializer(Fixture.class, fixtureSerializer);
+		_json.setSerializer(Fixture.class, fixtureSerializer);
 	}
 	
 	public void setWorld(World _world)
@@ -93,7 +93,7 @@ public class BodySerializer extends ReadOnlySerializer<Body>
 		
 		String name = json.readValue("name", String.class, jsonData);
 	
-		listeners.onRead(Body.class, body, name);
+		onAddBody(body, name);
 		
 		return body;
 	}

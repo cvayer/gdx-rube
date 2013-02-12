@@ -7,14 +7,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.rube.loader.RubeSceneLoader;
-import com.badlogic.gdx.rube.scene.RubeScene;
-import com.badlogic.gdx.rube.scene.store.ByNameStore.BodiesByNameStore;
+import com.badlogic.gdx.scenes.box2d.Box2DScene;
+import com.badlogic.gdx.scenes.box2d.store.ByNameStore;
 
 
 public class RubeLoaderTest implements ApplicationListener {
 	private OrthographicCamera camera;
 	private RubeSceneLoader	loader;
-	private RubeScene	scene;
+	private Box2DScene	scene;
 	private Box2DDebugRenderer renderer;
 	
 	@Override
@@ -26,15 +26,15 @@ public class RubeLoaderTest implements ApplicationListener {
 		
 		loader = new RubeSceneLoader();
 		
-		loader.addStore(Body.class, BodiesByNameStore.class);
+		loader.addStore(ByNameStore.class);
 		
 		scene = loader.loadScene(Gdx.files.internal("data/documentA.json"));
 		
-		BodiesByNameStore store = scene.getStore(BodiesByNameStore.class);
+		ByNameStore store = scene.getStore(ByNameStore.class);
 		
 		if(store != null)
 		{
-			Body body = store.get("body1");
+			Body body = store.get(Body.class, "body1");
 		}
 		
 		renderer = new Box2DDebugRenderer();

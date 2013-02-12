@@ -1,16 +1,16 @@
-package com.badlogic.gdx.rube.scene;
+package com.badlogic.gdx.scenes.box2d;
 
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.rube.loader.RubeDefaults;
-import com.badlogic.gdx.rube.scene.store.RubeSceneStore;
-import com.badlogic.gdx.rube.scene.store.RubeSceneStores;
+import com.badlogic.gdx.scenes.box2d.store.Box2DSceneStore;
+import com.badlogic.gdx.utils.ObjectMap;
 
 /**
  * A simple encapsulation of a {@link World}. Plus the data needed to run the simulation.
  * @author clement.vayer
  *
  */
-public class RubeScene 
+public class Box2DScene 
 {
 	/** Box2D {@link World} */
 	public World world;
@@ -22,11 +22,11 @@ public class RubeScene
 	/** Iteration steps done in the simulation to calculates velocities */
 	public int   velocityIterations;
 	
-	private final RubeSceneStores		   stores;
+	private final Box2DSceneStores		   stores;
 	
-	public RubeScene(RubeSceneStores _stores)
+	public Box2DScene(Box2DSceneStores _stores)
 	{
-		stores 				= new RubeSceneStores();
+		stores 				= new Box2DSceneStores();
 		stepsPerSecond 		= RubeDefaults.World.stepsPerSecond;
 		positionIterations 	= RubeDefaults.World.positionIterations;
 		velocityIterations 	= RubeDefaults.World.velocityIterations;
@@ -44,8 +44,28 @@ public class RubeScene
 		}
 	}
 	
-	public <T extends RubeSceneStore<?>> T getStore(Class<T> _type)
+	public <T extends Box2DSceneStore> T getStore(Class<T> _type)
 	{
 		return stores.getStore(_type);
+	}
+	
+	static public class Box2DSceneStores 
+	{
+		private final ObjectMap<Class<?>, Box2DSceneStore> stores;
+		
+		public Box2DSceneStores()
+		{
+			stores = new ObjectMap<Class<?>, Box2DSceneStore>(2);
+		}
+		
+		public void addStore(Box2DSceneStore _store)
+		{
+			stores.put(_store.getClass(), _store);
+		}
+		
+		public <T extends Box2DSceneStore> T getStore(Class<T > _type)
+		{
+			return _type.cast(stores.get(_type));
+		}
 	}
 }

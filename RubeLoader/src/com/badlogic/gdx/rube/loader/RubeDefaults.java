@@ -13,11 +13,10 @@ import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.physics.box2d.joints.WheelJointDef;
-import com.badlogic.gdx.rube.scene.RubeScene;
 
 /**
  * Static data that give the default values to use for a bunch of parameters.
- * Default values can be changed if done before the loading of a {@link RubeScene}.
+ * Default values can be changed if done before the loading of a {@link Box2DScene}.
  * @author clement.vayer
  */
 public class RubeDefaults 

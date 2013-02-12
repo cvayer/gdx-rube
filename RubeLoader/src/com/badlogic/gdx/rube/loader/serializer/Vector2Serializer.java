@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
 import com.badlogic.gdx.utils.SerializationException;
 
+@SuppressWarnings("rawtypes")
 public class Vector2Serializer extends ReadOnlySerializer<Vector2>
 {
 	@Override
