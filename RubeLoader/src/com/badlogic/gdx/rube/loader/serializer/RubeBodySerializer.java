@@ -8,7 +8,9 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.rube.loader.RubeDefaults;
-import com.badlogic.gdx.scenes.box2d.loader.serializer.BaseBox2DSceneSerializer;
+import com.badlogic.gdx.scenes.box2d.Box2DScene;
+import com.badlogic.gdx.scenes.box2d.loader.BaseBox2DSceneSerializer;
+import com.badlogic.gdx.scenes.box2d.property.Box2DSceneCustomProperty;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 
@@ -19,11 +21,11 @@ public class RubeBodySerializer extends BaseBox2DSceneSerializer<Body>
 	private final BodyDef def = new BodyDef();
 	private final RubeFixtureSerializer fixtureSerializer;
 
-	public RubeBodySerializer(Json _json, Box2DSceneSerializerListeners _listeners)
+	public RubeBodySerializer(Json _json, Box2DScene _scene)
 	{
-		super(_json, _listeners);
+		super(_scene);
 		
-		fixtureSerializer = new RubeFixtureSerializer(_json, _listeners);
+		fixtureSerializer = new RubeFixtureSerializer(_json, _scene);
 		
 		// as some Vector2 can be stored as a float we need a custom Vector2 Serializer :(
 		_json.setSerializer(Vector2.class, new Vector2Serializer());
@@ -92,8 +94,12 @@ public class RubeBodySerializer extends BaseBox2DSceneSerializer<Body>
 		json.readValue("fixture", Array.class, Fixture.class, jsonData);
 		
 		String name = json.readValue("name", String.class, jsonData);
+		
+		Box2DSceneCustomProperty customProperty = null;
+		if(json.getSerializer(Box2DSceneCustomProperty.class) != null)
+			customProperty = json.readValue("customProperties", Box2DSceneCustomProperty.class, jsonData);
 	
-		onAddBody(body, name);
+		onAddBody(body, name, customProperty);
 		
 		return body;
 	}

@@ -5,7 +5,9 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.rube.loader.RubeDefaults;
-import com.badlogic.gdx.scenes.box2d.loader.serializer.BaseBox2DSceneSerializer;
+import com.badlogic.gdx.scenes.box2d.Box2DScene;
+import com.badlogic.gdx.scenes.box2d.loader.BaseBox2DSceneSerializer;
+import com.badlogic.gdx.scenes.box2d.property.Box2DSceneCustomProperty;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 
@@ -14,14 +16,14 @@ public class RubeWorldSerializer extends BaseBox2DSceneSerializer<World>
 	private final RubeBodySerializer 	bodySerializer;
 	private final RubeJointSerializer 	jointSerializer;
 	
-	public RubeWorldSerializer(Json _json, Box2DSceneSerializerListeners _listeners)
+	public RubeWorldSerializer(Json _json, Box2DScene _scene)
 	{
-		super(_json, _listeners);
+		super(_scene);
 	
-		bodySerializer = new RubeBodySerializer(_json, _listeners);
+		bodySerializer = new RubeBodySerializer(_json, _scene);
 		_json.setSerializer(Body.class, bodySerializer);
 		
-		jointSerializer = new RubeJointSerializer(_json, _listeners);
+		jointSerializer = new RubeJointSerializer(_json, _scene);
 		_json.setSerializer(Joint.class, jointSerializer);
 	}
 	
@@ -54,7 +56,11 @@ public class RubeWorldSerializer extends BaseBox2DSceneSerializer<World>
 		jointSerializer.init(world, bodies, joints);
 		joints = json.readValue("joint", Array.class, Joint.class, jsonData);
 		
-		onAddWorld(world);
+		Box2DSceneCustomProperty customProperty = null;
+		if(json.getSerializer(Box2DSceneCustomProperty.class) != null)
+			customProperty = json.readValue("customProperties", Box2DSceneCustomProperty.class, jsonData);
+		
+		onAddWorld(world, customProperty);
 		
 		return world;
 	}

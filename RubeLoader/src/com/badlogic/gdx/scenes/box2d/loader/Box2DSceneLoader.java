@@ -1,12 +1,11 @@
 package com.badlogic.gdx.scenes.box2d.loader;
 
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.SerializationException;
 import com.badlogic.gdx.scenes.box2d.Box2DScene;
-import com.badlogic.gdx.scenes.box2d.loader.serializer.Box2DSceneSerializer;
 import com.badlogic.gdx.scenes.box2d.store.Box2DSceneStore;
+import com.badlogic.gdx.scenes.box2d.store.Box2DSceneStores.Box2DSceneStoresDefinition;
 
 /**
  * Loads a json file and returns a {@link Box2DScene}.
@@ -16,17 +15,25 @@ import com.badlogic.gdx.scenes.box2d.store.Box2DSceneStore;
 public abstract class Box2DSceneLoader 
 {
 	protected final Json json;
-	protected final Array<Class<? extends Box2DSceneStore>> storesDef;
+	protected final Box2DSceneStoresDefinition definitions;
 	
-	public Box2DSceneLoader()
+	public Box2DSceneLoader(Box2DSceneStoresDefinition _definitions, Box2DSceneCustomPropertySerializer _customPropertiesSerializer)
 	{
 		json = new Json();
 		json.setTypeName(null);
 		json.setUsePrototypes(false);
-		
-		storesDef = new Array<Class<? extends Box2DSceneStore>>(false, 2);
-
-		json.setSerializer(Box2DScene.class, getSceneSerializer());
+		definitions = _definitions;
+		json.setSerializer(Box2DScene.class, getSceneSerializer(_definitions, _customPropertiesSerializer));
+	}
+	
+	public Box2DSceneLoader(Box2DSceneCustomPropertySerializer _customPropertiesSerializer)
+	{
+		this(new Box2DSceneStoresDefinition(), _customPropertiesSerializer);
+	}
+	
+	public Box2DSceneLoader()
+	{
+		this(new Box2DSceneStoresDefinition(), null);
 	}
 	
 	/**
@@ -50,8 +57,8 @@ public abstract class Box2DSceneLoader
 	
 	public <T extends Box2DSceneStore> void addStore(Class<T> _type)
 	{
-		storesDef.add(_type);
+		definitions.addStore(_type);
 	}
 	
-	public abstract Box2DSceneSerializer getSceneSerializer();
+	public abstract Box2DSceneSerializer getSceneSerializer(Box2DSceneStoresDefinition _definitions, Box2DSceneCustomPropertySerializer _customPropertiesSerializer);
 }

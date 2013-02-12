@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.rube.loader.RubeSceneLoader;
 import com.badlogic.gdx.scenes.box2d.Box2DScene;
+import com.badlogic.gdx.scenes.box2d.loader.Box2DSceneMapCustomPropertySerializer;
 import com.badlogic.gdx.scenes.box2d.store.ByNameStore;
 
 
@@ -22,9 +23,9 @@ public class RubeLoaderTest implements ApplicationListener {
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
 		
-		camera = new OrthographicCamera(50, 50*h/w);
+		camera = new OrthographicCamera(15, 15*h/w);
 		
-		loader = new RubeSceneLoader();
+		loader = new RubeSceneLoader(new Box2DSceneMapCustomPropertySerializer());
 		
 		loader.addStore(ByNameStore.class);
 		

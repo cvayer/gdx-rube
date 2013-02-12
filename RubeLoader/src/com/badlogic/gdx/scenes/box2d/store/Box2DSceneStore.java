@@ -1,9 +1,8 @@
 package com.badlogic.gdx.scenes.box2d.store;
 
-import com.badlogic.gdx.scenes.box2d.loader.serializer.Box2DSceneSerializerListener;
+import com.badlogic.gdx.scenes.box2d.IBox2DSceneListener;
 
 
-public abstract class  Box2DSceneStore implements Box2DSceneSerializerListener
+public abstract class  Box2DSceneStore implements IBox2DSceneListener
 {
-	
 }

@@ -3,17 +3,18 @@ package com.badlogic.gdx.rube.loader.serializer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.rube.loader.RubeDefaults;
 import com.badlogic.gdx.scenes.box2d.Box2DScene;
-import com.badlogic.gdx.scenes.box2d.loader.serializer.Box2DSceneSerializer;
-import com.badlogic.gdx.scenes.box2d.store.Box2DSceneStore;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.scenes.box2d.loader.Box2DSceneCustomPropertySerializer;
+import com.badlogic.gdx.scenes.box2d.loader.Box2DSceneSerializer;
+import com.badlogic.gdx.scenes.box2d.store.Box2DSceneStores.Box2DSceneStoresDefinition;
 import com.badlogic.gdx.utils.Json;
 
 public class RubeSceneSerializer extends Box2DSceneSerializer
 {
-	public RubeSceneSerializer(Json json, Array<Class<? extends Box2DSceneStore>> _storesDef)
+	public RubeSceneSerializer(Json _json, Box2DSceneStoresDefinition _definitions, Box2DSceneCustomPropertySerializer _customPropertiesSerializer)
 	{
-		super(json, _storesDef);
-		json.setSerializer(World.class, new RubeWorldSerializer(json, listeners));
+		super(_json, _definitions, _customPropertiesSerializer);
+		_json.setIgnoreUnknownFields(true);
+		_json.setSerializer(World.class, new RubeWorldSerializer(_json, scene));
 	}
 
 	@Override
