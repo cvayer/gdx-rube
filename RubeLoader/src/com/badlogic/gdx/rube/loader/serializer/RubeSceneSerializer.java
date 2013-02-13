@@ -10,11 +10,15 @@ import com.badlogic.gdx.utils.Json;
 
 public class RubeSceneSerializer extends Box2DSceneSerializer
 {
+	private final RubeWorldSerializer worldSerializer;
 	public RubeSceneSerializer(Json _json, Box2DSceneStoresDefinition _definitions, Box2DSceneCustomPropertySerializer _customPropertiesSerializer)
 	{
 		super(_json, _definitions, _customPropertiesSerializer);
 		_json.setIgnoreUnknownFields(true);
-		_json.setSerializer(World.class, new RubeWorldSerializer(_json, scene));
+		
+		worldSerializer = new RubeWorldSerializer(_json, scene);
+		
+		_json.setSerializer(World.class, worldSerializer);
 	}
 
 	@Override
@@ -26,4 +30,9 @@ public class RubeSceneSerializer extends Box2DSceneSerializer
 		scene.world					= json.readValue(World.class,	jsonData);
 	}
 
+	@Override
+	public void onRead(World world, Json json, Object jsonData, Class<?> type) 
+	{
+		worldSerializer.onReadWorldContent(world, json, jsonData, type);
+	}
 }

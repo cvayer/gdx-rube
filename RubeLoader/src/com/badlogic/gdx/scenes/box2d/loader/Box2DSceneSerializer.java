@@ -1,5 +1,6 @@
 package com.badlogic.gdx.scenes.box2d.loader;
 
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.box2d.Box2DScene;
 import com.badlogic.gdx.scenes.box2d.property.Box2DSceneCustomProperty;
 import com.badlogic.gdx.scenes.box2d.store.Box2DSceneStores.Box2DSceneStoresDefinition;
@@ -28,9 +29,14 @@ public abstract class Box2DSceneSerializer extends ReadOnlySerializer<Box2DScene
 	@Override
 	public Box2DScene read(Json json, Object jsonData, Class type) 
 	{
-		onRead(scene, json, jsonData, type);
+		if(scene.world == null)
+			onRead(scene, json, jsonData, type);
+		else
+			onRead(scene.world, json, jsonData, type);
+			
 		return scene;
 	}
 	
 	public abstract void onRead(Box2DScene scene, Json json, Object jsonData, Class<?> type);
+	public abstract void onRead(World world, Json json, Object jsonData, Class<?> type);
 }

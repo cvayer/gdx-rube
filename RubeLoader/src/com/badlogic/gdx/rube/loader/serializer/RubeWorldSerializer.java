@@ -65,4 +65,19 @@ public class RubeWorldSerializer extends BaseBox2DSceneSerializer<World>
 		return world;
 	}
 
+	public void onReadWorldContent(World _world, Json _json, Object _jsonData, Class<?> _type) 
+	{
+		// Bodies
+		bodySerializer.setWorld(_world);
+		Array<Body> bodies = _json.readValue("body", Array.class, Body.class, _jsonData);
+		// Joints
+		// joints are done in two passes because gear joints reference other joints
+		// First joint pass
+		jointSerializer.init(_world, bodies, null);
+		Array<Joint> joints = _json.readValue("joint", Array.class, Joint.class, _jsonData);
+		// Second joint pass
+		jointSerializer.init(_world, bodies, joints);
+		joints = _json.readValue("joint", Array.class, Joint.class, _jsonData);
+	}
+
 }

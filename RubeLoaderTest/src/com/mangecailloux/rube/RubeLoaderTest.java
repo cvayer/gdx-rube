@@ -30,6 +30,7 @@ public class RubeLoaderTest implements ApplicationListener {
 		loader.addStore(ByNameStore.class);
 		
 		scene = loader.loadScene(Gdx.files.internal("data/documentA.json"));
+		loader.loadScene(Gdx.files.internal("data/documentA2.json"));
 		
 		ByNameStore store = scene.getStore(ByNameStore.class);
 		
