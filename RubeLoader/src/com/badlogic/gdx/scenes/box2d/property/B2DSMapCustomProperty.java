@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ObjectIntMap;
 import com.badlogic.gdx.utils.ObjectMap;
 
-public class Box2DSceneMapCustomProperty extends Box2DSceneCustomProperty
+public class B2DSMapCustomProperty extends B2DSCustomProperty
 {
 	 private final ObjectIntMap<String> 		ints;
 	 private final ObjectMap<String, Float> 	floats;
@@ -13,7 +13,7 @@ public class Box2DSceneMapCustomProperty extends Box2DSceneCustomProperty
 	 private final ObjectMap<String, Boolean> 	booleans;
 	 
 	 
-	 public Box2DSceneMapCustomProperty()
+	 public B2DSMapCustomProperty()
 	 {
 		 ints = new ObjectIntMap<String>(2);
 		 floats = new ObjectMap<String, Float>(2);

@@ -1,37 +1,37 @@
-package com.badlogic.gdx.scenes.box2d.loader;
+package com.badlogic.gdx.scenes.box2d.loader.serializer;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.box2d.Box2DScene;
-import com.badlogic.gdx.scenes.box2d.property.Box2DSceneCustomProperty;
-import com.badlogic.gdx.scenes.box2d.property.Box2DSceneMapCustomProperty;
+import com.badlogic.gdx.scenes.box2d.property.B2DSCustomProperty;
+import com.badlogic.gdx.scenes.box2d.property.B2DSMapCustomProperty;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.ObjectMap;
 
 @SuppressWarnings("rawtypes")
-public class Box2DSceneMapCustomPropertySerializer extends Box2DSceneCustomPropertySerializer
+public class B2DSMapCustomPropertySerializer extends B2DSCustomPropertySerializer
 {
-	public Box2DSceneMapCustomPropertySerializer() 
+	public B2DSMapCustomPropertySerializer() 
 	{
 		super();
 	}
 	
-	public Box2DSceneMapCustomPropertySerializer(Box2DScene _scene) 
+	public B2DSMapCustomPropertySerializer(Box2DScene _scene) 
 	{
 		super(_scene);
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public Box2DSceneCustomProperty read(Json json, Object jsonData, Class type) 
+	public B2DSCustomProperty read(Json json, Object jsonData, Class type) 
 	{
-		Box2DSceneMapCustomProperty custom = null;
+		B2DSMapCustomProperty custom = null;
 		
 		Array<ObjectMap<String,?>> customProperties = json.readValue(Array.class, ObjectMap.class, jsonData);
 		
 	    if (customProperties != null)
 	    {
-	    	custom = new Box2DSceneMapCustomProperty();
+	    	custom = new B2DSMapCustomProperty();
 	    	
 		    for (int i = 0; i < customProperties.size; i++)
 		    {

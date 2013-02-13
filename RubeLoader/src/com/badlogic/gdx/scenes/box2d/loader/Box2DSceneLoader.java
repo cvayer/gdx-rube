@@ -4,8 +4,10 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.SerializationException;
 import com.badlogic.gdx.scenes.box2d.Box2DScene;
-import com.badlogic.gdx.scenes.box2d.store.Box2DSceneStore;
-import com.badlogic.gdx.scenes.box2d.store.Box2DSceneStores.Box2DSceneStoresDefinition;
+import com.badlogic.gdx.scenes.box2d.loader.serializer.B2DSCustomPropertySerializer;
+import com.badlogic.gdx.scenes.box2d.loader.serializer.Box2DSceneSerializer;
+import com.badlogic.gdx.scenes.box2d.store.B2DSProcessor;
+import com.badlogic.gdx.scenes.box2d.store.B2DSProcessors.B2DSProcessorsDefinition;
 
 /**
  * Loads a json file and returns a {@link Box2DScene}.
@@ -15,25 +17,15 @@ import com.badlogic.gdx.scenes.box2d.store.Box2DSceneStores.Box2DSceneStoresDefi
 public abstract class Box2DSceneLoader 
 {
 	protected final Json json;
-	protected final Box2DSceneStoresDefinition definitions;
+	protected final Box2DSceneLoaderParameters parameters;
 	
-	public Box2DSceneLoader(Box2DSceneStoresDefinition _definitions, Box2DSceneCustomPropertySerializer _customPropertiesSerializer)
+	public Box2DSceneLoader(Box2DSceneLoaderParameters _parameters)
 	{
 		json = new Json();
 		json.setTypeName(null);
 		json.setUsePrototypes(false);
-		definitions = _definitions;
-		json.setSerializer(Box2DScene.class, getSceneSerializer(_definitions, _customPropertiesSerializer));
-	}
-	
-	public Box2DSceneLoader(Box2DSceneCustomPropertySerializer _customPropertiesSerializer)
-	{
-		this(new Box2DSceneStoresDefinition(), _customPropertiesSerializer);
-	}
-	
-	public Box2DSceneLoader()
-	{
-		this(new Box2DSceneStoresDefinition(), null);
+		parameters = _parameters;
+		json.setSerializer(Box2DScene.class, getSceneSerializer(parameters));
 	}
 	
 	/**
@@ -55,10 +47,5 @@ public abstract class Box2DSceneLoader
 		return scene;
 	}
 	
-	public <T extends Box2DSceneStore> void addStore(Class<T> _type)
-	{
-		definitions.addStore(_type);
-	}
-	
-	public abstract Box2DSceneSerializer getSceneSerializer(Box2DSceneStoresDefinition _definitions, Box2DSceneCustomPropertySerializer _customPropertiesSerializer);
+	public abstract Box2DSceneSerializer getSceneSerializer(Box2DSceneLoaderParameters _parameters);
 }

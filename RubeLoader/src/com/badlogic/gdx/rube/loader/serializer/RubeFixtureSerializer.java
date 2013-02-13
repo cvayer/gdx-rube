@@ -13,11 +13,11 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
 import com.badlogic.gdx.rube.loader.serializer.utils.RubeVertexArray;
 import com.badlogic.gdx.scenes.box2d.Box2DScene;
-import com.badlogic.gdx.scenes.box2d.loader.BaseBox2DSceneSerializer;
-import com.badlogic.gdx.scenes.box2d.property.Box2DSceneCustomProperty;
+import com.badlogic.gdx.scenes.box2d.loader.serializer.B2DSSerializer;
+import com.badlogic.gdx.scenes.box2d.property.B2DSCustomProperty;
 
 @SuppressWarnings("rawtypes")
-public class RubeFixtureSerializer extends BaseBox2DSceneSerializer<Fixture>
+public class RubeFixtureSerializer extends B2DSSerializer<Fixture>
 {
 	private Body body;
 	private final ChainShapeSerializer 	 chainShapeSerializer;
@@ -105,9 +105,9 @@ public class RubeFixtureSerializer extends BaseBox2DSceneSerializer<Fixture>
 		def.shape.dispose();
 		String name = json.readValue("name", String.class, jsonData);
 		
-		Box2DSceneCustomProperty customProperty = null;
-		if(json.getSerializer(Box2DSceneCustomProperty.class) != null)
-			customProperty = json.readValue("customProperties", Box2DSceneCustomProperty.class, jsonData);
+		B2DSCustomProperty customProperty = null;
+		if(json.getSerializer(B2DSCustomProperty.class) != null)
+			customProperty = json.readValue("customProperties", B2DSCustomProperty.class, jsonData);
 		
 		onAddFixture(fixture, name, customProperty);
 		return fixture;

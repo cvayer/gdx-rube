@@ -1,32 +1,23 @@
 package com.badlogic.gdx.rube.loader;
 
 import com.badlogic.gdx.rube.loader.serializer.RubeSceneSerializer;
-import com.badlogic.gdx.scenes.box2d.loader.Box2DSceneCustomPropertySerializer;
 import com.badlogic.gdx.scenes.box2d.loader.Box2DSceneLoader;
-import com.badlogic.gdx.scenes.box2d.loader.Box2DSceneSerializer;
-import com.badlogic.gdx.scenes.box2d.store.Box2DSceneStores.Box2DSceneStoresDefinition;
+import com.badlogic.gdx.scenes.box2d.loader.Box2DSceneLoaderParameters;
+import com.badlogic.gdx.scenes.box2d.loader.serializer.B2DSCustomPropertySerializer;
+import com.badlogic.gdx.scenes.box2d.loader.serializer.Box2DSceneSerializer;
+import com.badlogic.gdx.scenes.box2d.store.B2DSProcessors.B2DSProcessorsDefinition;
 
 public class RubeSceneLoader extends Box2DSceneLoader
 {
-	public RubeSceneLoader(Box2DSceneStoresDefinition _definitions, Box2DSceneCustomPropertySerializer _customPropertiesSerializer)
+	public RubeSceneLoader(Box2DSceneLoaderParameters _parameters)
 	{
-		super(_definitions, _customPropertiesSerializer);
-	}
-	
-	public RubeSceneLoader(Box2DSceneCustomPropertySerializer _customPropertiesSerializer)
-	{
-		super(_customPropertiesSerializer);
-	}
-	
-	public RubeSceneLoader()
-	{
-		super();
+		super(_parameters);
 	}
 	
 	@Override
-	public Box2DSceneSerializer getSceneSerializer(Box2DSceneStoresDefinition _definitions, Box2DSceneCustomPropertySerializer _customPropertiesSerializer) 
+	public Box2DSceneSerializer getSceneSerializer(Box2DSceneLoaderParameters _parameters) 
 	{
-		return new RubeSceneSerializer(json, _definitions, _customPropertiesSerializer);
+		return new RubeSceneSerializer(json, _parameters);
 	}
 
 }

@@ -8,8 +8,10 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.rube.loader.RubeSceneLoader;
 import com.badlogic.gdx.scenes.box2d.Box2DScene;
-import com.badlogic.gdx.scenes.box2d.loader.Box2DSceneMapCustomPropertySerializer;
-import com.badlogic.gdx.scenes.box2d.store.ByNameStore;
+import com.badlogic.gdx.scenes.box2d.loader.Box2DSceneLoaderParameters;
+import com.badlogic.gdx.scenes.box2d.loader.serializer.B2DSMapCustomPropertySerializer;
+import com.badlogic.gdx.scenes.box2d.store.B2DSByNameStore;
+import com.badlogic.gdx.scenes.box2d.store.B2DSProcessors.B2DSProcessorsDefinition;
 
 
 public class RubeLoaderTest implements ApplicationListener {
@@ -25,14 +27,18 @@ public class RubeLoaderTest implements ApplicationListener {
 		
 		camera = new OrthographicCamera(15, 15*h/w);
 		
-		loader = new RubeSceneLoader(new Box2DSceneMapCustomPropertySerializer());
+		Box2DSceneLoaderParameters params = new Box2DSceneLoaderParameters();
 		
-		loader.addStore(ByNameStore.class);
+		params.customPropertiesSerializer = new B2DSMapCustomPropertySerializer();
+		params.definitions = new B2DSProcessorsDefinition();
+		params.definitions.addProcessor(B2DSByNameStore.class);
 		
+		loader = new RubeSceneLoader(params);
+	
 		scene = loader.loadScene(Gdx.files.internal("data/documentA.json"));
 		loader.loadScene(Gdx.files.internal("data/documentA2.json"));
 		
-		ByNameStore store = scene.getStore(ByNameStore.class);
+		B2DSByNameStore store = scene.getStore(B2DSByNameStore.class);
 		
 		if(store != null)
 		{

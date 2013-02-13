@@ -5,17 +5,17 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.rube.loader.RubeDefaults;
-import com.badlogic.gdx.scenes.box2d.property.Box2DSceneCustomProperty;
-import com.badlogic.gdx.scenes.box2d.store.Box2DSceneStore;
-import com.badlogic.gdx.scenes.box2d.store.Box2DSceneStores;
-import com.badlogic.gdx.scenes.box2d.store.Box2DSceneStores.Box2DSceneStoresDefinition;
+import com.badlogic.gdx.scenes.box2d.property.B2DSCustomProperty;
+import com.badlogic.gdx.scenes.box2d.store.B2DSProcessor;
+import com.badlogic.gdx.scenes.box2d.store.B2DSProcessors;
+import com.badlogic.gdx.scenes.box2d.store.B2DSProcessors.B2DSProcessorsDefinition;
 
 /**
  * A simple encapsulation of a {@link World}. Plus the data needed to run the simulation.
  * @author clement.vayer
  *
  */
-public class Box2DScene implements IBox2DSceneListener
+public class Box2DScene implements IB2DSListener
 {
 	/** Box2D {@link World} */
 	public World world;
@@ -27,11 +27,11 @@ public class Box2DScene implements IBox2DSceneListener
 	/** Iteration steps done in the simulation to calculates velocities */
 	public int   velocityIterations;
 	
-	private final Box2DSceneStores		   stores;
+	private final B2DSProcessors		   processors;
 	
-	public Box2DScene(Box2DSceneStoresDefinition _definition)
+	public Box2DScene(B2DSProcessorsDefinition _definition)
 	{
-		stores 				= new Box2DSceneStores(_definition);
+		processors 				= new B2DSProcessors(_definition);
 		stepsPerSecond 		= RubeDefaults.World.stepsPerSecond;
 		positionIterations 	= RubeDefaults.World.positionIterations;
 		velocityIterations 	= RubeDefaults.World.velocityIterations;
@@ -49,32 +49,32 @@ public class Box2DScene implements IBox2DSceneListener
 		}
 	}
 	
-	public <T extends Box2DSceneStore> T getStore(Class<T> _type)
+	public <T extends B2DSProcessor> T getStore(Class<T> _type)
 	{
-		return stores.getStore(_type);
+		return processors.getStore(_type);
 	}
 
 	@Override
-	public void onAddWorld(World _world, Box2DSceneCustomProperty _customProperty) 
+	public void onAddWorld(World _world, B2DSCustomProperty _customProperty) 
 	{
-		stores.onAddWorld(_world, _customProperty);
+		processors.onAddWorld(_world, _customProperty);
 	}
 
 	@Override
-	public void onAddBody(Body _body, String _name, Box2DSceneCustomProperty _customProperty) 
+	public void onAddBody(Body _body, String _name, B2DSCustomProperty _customProperty) 
 	{
-		stores.onAddBody(_body, _name, _customProperty);
+		processors.onAddBody(_body, _name, _customProperty);
 	}
 
 	@Override
-	public void onAddFixture(Fixture _fixture, String _name, Box2DSceneCustomProperty _customProperty) 
+	public void onAddFixture(Fixture _fixture, String _name, B2DSCustomProperty _customProperty) 
 	{
-		stores.onAddFixture(_fixture, _name, _customProperty);
+		processors.onAddFixture(_fixture, _name, _customProperty);
 	}
 
 	@Override
-	public void onAddJoint(Joint _joint, String _name, Box2DSceneCustomProperty _customProperty) 
+	public void onAddJoint(Joint _joint, String _name, B2DSCustomProperty _customProperty) 
 	{
-		stores.onAddJoint(_joint, _name, _customProperty);
+		processors.onAddJoint(_joint, _name, _customProperty);
 	}
 }

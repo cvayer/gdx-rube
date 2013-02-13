@@ -18,14 +18,14 @@ import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.physics.box2d.joints.WheelJointDef;
 import com.badlogic.gdx.rube.loader.RubeDefaults;
 import com.badlogic.gdx.scenes.box2d.Box2DScene;
-import com.badlogic.gdx.scenes.box2d.loader.BaseBox2DSceneSerializer;
-import com.badlogic.gdx.scenes.box2d.property.Box2DSceneCustomProperty;
+import com.badlogic.gdx.scenes.box2d.loader.serializer.B2DSSerializer;
+import com.badlogic.gdx.scenes.box2d.property.B2DSCustomProperty;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
 
 @SuppressWarnings("rawtypes")
-public class RubeJointSerializer extends BaseBox2DSceneSerializer<Joint>
+public class RubeJointSerializer extends B2DSSerializer<Joint>
 {
 	World			world;
 	Array<Body> 	bodies;
@@ -139,9 +139,9 @@ public class RubeJointSerializer extends BaseBox2DSceneSerializer<Joint>
 			
 			String name = json.readValue("name", String.class, jsonData);
 			
-			Box2DSceneCustomProperty customProperty = null;
-			if(json.getSerializer(Box2DSceneCustomProperty.class) != null)
-				customProperty = json.readValue("customProperties", Box2DSceneCustomProperty.class, jsonData);
+			B2DSCustomProperty customProperty = null;
+			if(json.getSerializer(B2DSCustomProperty.class) != null)
+				customProperty = json.readValue("customProperties", B2DSCustomProperty.class, jsonData);
 			
 			onAddJoint(joint, name, customProperty);
 		}

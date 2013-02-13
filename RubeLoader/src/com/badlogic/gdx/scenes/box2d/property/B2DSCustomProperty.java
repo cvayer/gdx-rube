@@ -1,6 +1,6 @@
 package com.badlogic.gdx.scenes.box2d.property;
 
-public class Box2DSceneCustomProperty 
+public class B2DSCustomProperty 
 {
 
 }

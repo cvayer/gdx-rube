@@ -6,12 +6,12 @@ import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.rube.loader.RubeDefaults;
 import com.badlogic.gdx.scenes.box2d.Box2DScene;
-import com.badlogic.gdx.scenes.box2d.loader.BaseBox2DSceneSerializer;
-import com.badlogic.gdx.scenes.box2d.property.Box2DSceneCustomProperty;
+import com.badlogic.gdx.scenes.box2d.loader.serializer.B2DSWorldSerializer;
+import com.badlogic.gdx.scenes.box2d.property.B2DSCustomProperty;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 
-public class RubeWorldSerializer extends BaseBox2DSceneSerializer<World>
+public class RubeWorldSerializer extends B2DSWorldSerializer
 {
 	private final RubeBodySerializer 	bodySerializer;
 	private final RubeJointSerializer 	jointSerializer;
@@ -56,15 +56,16 @@ public class RubeWorldSerializer extends BaseBox2DSceneSerializer<World>
 		jointSerializer.init(world, bodies, joints);
 		joints = json.readValue("joint", Array.class, Joint.class, jsonData);
 		
-		Box2DSceneCustomProperty customProperty = null;
-		if(json.getSerializer(Box2DSceneCustomProperty.class) != null)
-			customProperty = json.readValue("customProperties", Box2DSceneCustomProperty.class, jsonData);
+		B2DSCustomProperty customProperty = null;
+		if(json.getSerializer(B2DSCustomProperty.class) != null)
+			customProperty = json.readValue("customProperties", B2DSCustomProperty.class, jsonData);
 		
 		onAddWorld(world, customProperty);
 		
 		return world;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void onReadWorldContent(World _world, Json _json, Object _jsonData, Class<?> _type) 
 	{
 		// Bodies
