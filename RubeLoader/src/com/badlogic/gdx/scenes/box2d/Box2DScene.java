@@ -1,11 +1,11 @@
 package com.badlogic.gdx.scenes.box2d;
 
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.DestructionListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.rube.loader.RubeDefaults;
+import com.badlogic.gdx.scenes.box2d.IB2DSListener.IB2DSAddListener;
 import com.badlogic.gdx.scenes.box2d.processor.B2DSProcessor;
 import com.badlogic.gdx.scenes.box2d.processor.B2DSProcessors;
 import com.badlogic.gdx.scenes.box2d.processor.B2DSProcessorsDefinition;
@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.box2d.property.B2DSCustomProperty;
  * @author clement.vayer
  *
  */
-public class Box2DScene implements IB2DSListener
+public class Box2DScene implements IB2DSAddListener
 {
 	/** Box2D {@link World} */
 	public World world;

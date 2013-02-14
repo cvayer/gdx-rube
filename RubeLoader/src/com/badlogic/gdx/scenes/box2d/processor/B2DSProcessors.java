@@ -4,12 +4,12 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.box2d.IB2DSListener;
+import com.badlogic.gdx.scenes.box2d.IB2DSListener.IB2DSAddListener;
 import com.badlogic.gdx.scenes.box2d.property.B2DSCustomProperty;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
-public class B2DSProcessors implements IB2DSListener
+public class B2DSProcessors implements IB2DSAddListener
 {
 	private final ObjectMap<Class<?>, B2DSProcessor> processorsByType;
 	private final Array<B2DSProcessor> processors;

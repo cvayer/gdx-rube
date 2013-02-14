@@ -24,6 +24,12 @@ public class B2DSByNameProcessor extends B2DSProcessor
 	}
 	
 	@Override
+	public void dispose()
+	{
+		objects.clear();
+	}
+	
+	@Override
 	public void onAddWorld(World _world, B2DSCustomProperty _customProperty) 
 	{
 		
