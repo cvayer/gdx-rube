@@ -1,4 +1,4 @@
-package com.badlogic.gdx.scenes.box2d.store;
+package com.badlogic.gdx.scenes.box2d.processor;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -25,7 +25,16 @@ public class B2DSProcessors implements IB2DSListener
 			if(store != null)
 				addStore(store);
 		}
-		
+	}
+	
+	public void dispose()
+	{
+		for(int i=0; i< processors.size; ++i)
+		{
+			processors.get(i).dispose();
+		}
+		processors.clear();
+		processorsByType.clear();
 	}
 	
 	public void addStore(B2DSProcessor _store)
@@ -74,42 +83,6 @@ public class B2DSProcessors implements IB2DSListener
 		for(int i=0; i< processors.size; ++i)
 		{
 			processors.get(i).onAddJoint(_joint, _name, _customProperty);
-		}
-	}
-	
-	public static class B2DSProcessorsDefinition
-	{
-		protected final Array<Class<? extends B2DSProcessor>> definitions;
-		
-		public B2DSProcessorsDefinition()
-		{
-			definitions = new Array<Class<? extends B2DSProcessor>>(false, 2);
-		}
-		
-		public <T extends B2DSProcessor> void addProcessor(Class<T> _type)
-		{
-			definitions.add(_type);
-		}
-		
-		public int getProcessorsCount()
-		{
-			return definitions.size;
-		}
-		
-		public B2DSProcessor createProcessors(int _index)
-		{
-			if(_index < definitions.size)
-			{
-				try 
-				{
-					return definitions.get(_index).newInstance();		
-				} catch (InstantiationException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				}
-			}
-			return null;
 		}
 	}
 }

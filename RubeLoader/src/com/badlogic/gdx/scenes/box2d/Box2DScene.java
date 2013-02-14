@@ -1,14 +1,15 @@
 package com.badlogic.gdx.scenes.box2d;
 
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.DestructionListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.rube.loader.RubeDefaults;
+import com.badlogic.gdx.scenes.box2d.processor.B2DSProcessor;
+import com.badlogic.gdx.scenes.box2d.processor.B2DSProcessors;
+import com.badlogic.gdx.scenes.box2d.processor.B2DSProcessorsDefinition;
 import com.badlogic.gdx.scenes.box2d.property.B2DSCustomProperty;
-import com.badlogic.gdx.scenes.box2d.store.B2DSProcessor;
-import com.badlogic.gdx.scenes.box2d.store.B2DSProcessors;
-import com.badlogic.gdx.scenes.box2d.store.B2DSProcessors.B2DSProcessorsDefinition;
 
 /**
  * A simple encapsulation of a {@link World}. Plus the data needed to run the simulation.
@@ -31,10 +32,15 @@ public class Box2DScene implements IB2DSListener
 	
 	public Box2DScene(B2DSProcessorsDefinition _definition)
 	{
-		processors 				= new B2DSProcessors(_definition);
+		processors 			= new B2DSProcessors(_definition);
 		stepsPerSecond 		= RubeDefaults.World.stepsPerSecond;
 		positionIterations 	= RubeDefaults.World.positionIterations;
 		velocityIterations 	= RubeDefaults.World.velocityIterations;
+	}
+	
+	public void dispose()
+	{
+		world.dispose();
 	}
 	
 	/**

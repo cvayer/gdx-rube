@@ -4,10 +4,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.SerializationException;
 import com.badlogic.gdx.scenes.box2d.Box2DScene;
-import com.badlogic.gdx.scenes.box2d.loader.serializer.B2DSCustomPropertySerializer;
 import com.badlogic.gdx.scenes.box2d.loader.serializer.Box2DSceneSerializer;
-import com.badlogic.gdx.scenes.box2d.store.B2DSProcessor;
-import com.badlogic.gdx.scenes.box2d.store.B2DSProcessors.B2DSProcessorsDefinition;
 
 /**
  * Loads a json file and returns a {@link Box2DScene}.

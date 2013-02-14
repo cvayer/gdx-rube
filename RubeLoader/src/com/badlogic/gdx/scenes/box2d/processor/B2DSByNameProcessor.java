@@ -1,4 +1,4 @@
-package com.badlogic.gdx.scenes.box2d.store;
+package com.badlogic.gdx.scenes.box2d.processor;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -7,11 +7,11 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.box2d.property.B2DSCustomProperty;
 import com.badlogic.gdx.utils.ObjectMap;
 
-public class B2DSByNameStore extends B2DSProcessor
+public class B2DSByNameProcessor extends B2DSProcessor
 {
 	ObjectMap<String, Object> objects;
 	
-	public B2DSByNameStore()
+	public B2DSByNameProcessor()
 	{
 		objects = new ObjectMap<String, Object>();
 	}

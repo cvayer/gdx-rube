@@ -1,7 +1,7 @@
 package com.badlogic.gdx.scenes.box2d.loader;
 
 import com.badlogic.gdx.scenes.box2d.loader.serializer.B2DSCustomPropertySerializer;
-import com.badlogic.gdx.scenes.box2d.store.B2DSProcessors.B2DSProcessorsDefinition;
+import com.badlogic.gdx.scenes.box2d.processor.B2DSProcessorsDefinition;
 
 public class Box2DSceneLoaderParameters 
 {
