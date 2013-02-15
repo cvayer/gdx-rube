@@ -147,7 +147,6 @@ public class RubeFixtureSerializer extends B2DSSerializer<Fixture>
 			
 			PolygonShape shape = new PolygonShape();
 			shape.set(vertices.toVector2());
-
 			return shape; 
 		}
 	}

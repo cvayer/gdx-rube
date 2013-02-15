@@ -15,7 +15,7 @@ public class RubeSceneSerializer extends Box2DSceneSerializer
 		super(_json, _parameters);
 		_json.setIgnoreUnknownFields(true);
 		
-		worldSerializer = new RubeWorldSerializer(_json, scene);
+		worldSerializer = new RubeWorldSerializer(_json, scene, _parameters);
 		
 		_json.setSerializer(World.class, worldSerializer);
 	}

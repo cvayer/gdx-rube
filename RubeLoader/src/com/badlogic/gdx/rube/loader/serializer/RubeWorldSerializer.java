@@ -6,6 +6,9 @@ import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.rube.loader.RubeDefaults;
 import com.badlogic.gdx.scenes.box2d.Box2DScene;
+import com.badlogic.gdx.scenes.box2d.image.B2DSImage;
+import com.badlogic.gdx.scenes.box2d.loader.Box2DSceneLoaderParameters;
+import com.badlogic.gdx.scenes.box2d.loader.serializer.B2DSImageSerializer;
 import com.badlogic.gdx.scenes.box2d.loader.serializer.B2DSWorldSerializer;
 import com.badlogic.gdx.scenes.box2d.property.B2DSCustomProperty;
 import com.badlogic.gdx.utils.Array;
@@ -15,8 +18,9 @@ public class RubeWorldSerializer extends B2DSWorldSerializer
 {
 	private final RubeBodySerializer 	bodySerializer;
 	private final RubeJointSerializer 	jointSerializer;
+	private final B2DSImageSerializer	imageSerializer;
 	
-	public RubeWorldSerializer(Json _json, Box2DScene _scene)
+	public RubeWorldSerializer(Json _json, Box2DScene _scene, Box2DSceneLoaderParameters _parameters)
 	{
 		super(_scene);
 	
@@ -25,6 +29,8 @@ public class RubeWorldSerializer extends B2DSWorldSerializer
 		
 		jointSerializer = new RubeJointSerializer(_json, _scene);
 		_json.setSerializer(Joint.class, jointSerializer);
+		
+		imageSerializer = _parameters.imageSerializer;
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -55,6 +61,9 @@ public class RubeWorldSerializer extends B2DSWorldSerializer
 		// Second joint pass
 		jointSerializer.init(world, bodies, joints);
 		joints = json.readValue("joint", Array.class, Joint.class, jsonData);
+		
+		imageSerializer.setBodies(bodies);
+		Array<B2DSImage> images = json.readValue("image", Array.class, B2DSImage.class, jsonData);
 		
 		B2DSCustomProperty customProperty = null;
 		if(json.getSerializer(B2DSCustomProperty.class) != null)

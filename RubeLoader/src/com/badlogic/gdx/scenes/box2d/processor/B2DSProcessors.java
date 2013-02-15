@@ -5,11 +5,13 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.box2d.IB2DSListener.IB2DSAddListener;
+import com.badlogic.gdx.scenes.box2d.IB2DSListener.IB2DSRemoveListener;
+import com.badlogic.gdx.scenes.box2d.image.B2DSImage;
 import com.badlogic.gdx.scenes.box2d.property.B2DSCustomProperty;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
-public class B2DSProcessors implements IB2DSAddListener
+public class B2DSProcessors implements IB2DSAddListener, IB2DSRemoveListener
 {
 	private final ObjectMap<Class<?>, B2DSProcessor> processorsByType;
 	private final Array<B2DSProcessor> processors;
@@ -83,6 +85,54 @@ public class B2DSProcessors implements IB2DSAddListener
 		for(int i=0; i< processors.size; ++i)
 		{
 			processors.get(i).onAddJoint(_joint, _name, _customProperty);
+		}
+	}
+	
+	@Override
+	public void onAddImage(B2DSImage _image, String _name, Body _body, B2DSCustomProperty _customProperty) 
+	{
+		for(int i=0; i< processors.size; ++i)
+		{
+			processors.get(i).onAddImage(_image, _name, _body,  _customProperty);
+		}	
+	}
+
+	@Override
+	public void onRemoveWorld(World _world) 
+	{
+		for(int i=0; i< processors.size; ++i)
+		{
+			processors.get(i).onRemoveWorld(_world);
+		}
+		
+	}
+
+	@Override
+	public void onRemoveBody(Body _body) 
+	{
+		for(int i=0; i< processors.size; ++i)
+		{
+			processors.get(i).onRemoveBody(_body);
+		}
+		
+	}
+
+	@Override
+	public void onRemoveFixture(Fixture _fixture) 
+	{
+		for(int i=0; i< processors.size; ++i)
+		{
+			processors.get(i).onRemoveFixture(_fixture);
+		}
+		
+	}
+
+	@Override
+	public void onRemoveJoint(Joint _joint) 
+	{
+		for(int i=0; i< processors.size; ++i)
+		{
+			processors.get(i).onRemoveJoint(_joint);
 		}
 	}
 }

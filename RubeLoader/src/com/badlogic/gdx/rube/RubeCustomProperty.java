@@ -1,10 +1,11 @@
-package com.badlogic.gdx.scenes.box2d.property;
+package com.badlogic.gdx.rube;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.box2d.property.B2DSCustomProperty;
 import com.badlogic.gdx.utils.ObjectIntMap;
 import com.badlogic.gdx.utils.ObjectMap;
 
-public class B2DSMapCustomProperty extends B2DSCustomProperty
+public class RubeCustomProperty extends B2DSCustomProperty
 {
 	 private final ObjectIntMap<String> 		ints;
 	 private final ObjectMap<String, Float> 	floats;
@@ -13,7 +14,7 @@ public class B2DSMapCustomProperty extends B2DSCustomProperty
 	 private final ObjectMap<String, Boolean> 	booleans;
 	 
 	 
-	 public B2DSMapCustomProperty()
+	 public RubeCustomProperty()
 	 {
 		 ints = new ObjectIntMap<String>(2);
 		 floats = new ObjectMap<String, Float>(2);

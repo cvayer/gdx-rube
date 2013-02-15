@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.box2d.Box2DScene;
 import com.badlogic.gdx.scenes.box2d.IB2DSListener.IB2DSAddListener;
+import com.badlogic.gdx.scenes.box2d.image.B2DSImage;
 import com.badlogic.gdx.scenes.box2d.property.B2DSCustomProperty;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
 
@@ -60,4 +61,12 @@ public abstract class B2DSSerializer<T> extends ReadOnlySerializer<T> implements
 		if(scene != null)
 			scene.onAddJoint(_joint, _name, _customProperty);
 	}
+
+	@Override
+	public void onAddImage(B2DSImage _image, String _name, Body _body, B2DSCustomProperty _customProperty) 
+	{
+		if(scene != null)
+			scene.onAddImage(_image, _name, _body, _customProperty);
+	}
+
 }

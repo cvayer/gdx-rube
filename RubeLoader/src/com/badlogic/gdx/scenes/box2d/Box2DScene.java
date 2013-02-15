@@ -6,6 +6,8 @@ import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.rube.loader.RubeDefaults;
 import com.badlogic.gdx.scenes.box2d.IB2DSListener.IB2DSAddListener;
+import com.badlogic.gdx.scenes.box2d.IB2DSListener.IB2DSRemoveListener;
+import com.badlogic.gdx.scenes.box2d.image.B2DSImage;
 import com.badlogic.gdx.scenes.box2d.processor.B2DSProcessor;
 import com.badlogic.gdx.scenes.box2d.processor.B2DSProcessors;
 import com.badlogic.gdx.scenes.box2d.processor.B2DSProcessorsDefinition;
@@ -16,7 +18,7 @@ import com.badlogic.gdx.scenes.box2d.property.B2DSCustomProperty;
  * @author clement.vayer
  *
  */
-public class Box2DScene implements IB2DSAddListener
+public class Box2DScene implements IB2DSAddListener, IB2DSRemoveListener
 {
 	/** Box2D {@link World} */
 	public World world;
@@ -82,5 +84,35 @@ public class Box2DScene implements IB2DSAddListener
 	public void onAddJoint(Joint _joint, String _name, B2DSCustomProperty _customProperty) 
 	{
 		processors.onAddJoint(_joint, _name, _customProperty);
+	}
+	
+	@Override
+	public void onAddImage(B2DSImage _image, String _name, Body _body,	B2DSCustomProperty _customProperty) 
+	{
+		processors.onAddImage(_image, _name, _body, _customProperty);
+	}
+
+	@Override
+	public void onRemoveWorld(World _world) 
+	{
+		processors.onRemoveWorld(_world);
+	}
+
+	@Override
+	public void onRemoveBody(Body _body) {
+		processors.onRemoveBody(_body);
+		
+	}
+
+	@Override
+	public void onRemoveFixture(Fixture _fixture) {
+		processors.onRemoveFixture(_fixture);
+		
+	}
+
+	@Override
+	public void onRemoveJoint(Joint _joint) 
+	{
+		processors.onRemoveJoint(_joint);
 	}
 }

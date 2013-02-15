@@ -1,22 +1,23 @@
-package com.badlogic.gdx.scenes.box2d.loader.serializer;
+package com.badlogic.gdx.rube.loader.serializer;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.rube.RubeCustomProperty;
 import com.badlogic.gdx.scenes.box2d.Box2DScene;
+import com.badlogic.gdx.scenes.box2d.loader.serializer.B2DSCustomPropertySerializer;
 import com.badlogic.gdx.scenes.box2d.property.B2DSCustomProperty;
-import com.badlogic.gdx.scenes.box2d.property.B2DSMapCustomProperty;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.ObjectMap;
 
 @SuppressWarnings("rawtypes")
-public class B2DSMapCustomPropertySerializer extends B2DSCustomPropertySerializer
+public class RubeCustomPropertySerializer extends B2DSCustomPropertySerializer
 {
-	public B2DSMapCustomPropertySerializer() 
+	public RubeCustomPropertySerializer() 
 	{
 		super();
 	}
 	
-	public B2DSMapCustomPropertySerializer(Box2DScene _scene) 
+	public RubeCustomPropertySerializer(Box2DScene _scene) 
 	{
 		super(_scene);
 	}
@@ -25,13 +26,13 @@ public class B2DSMapCustomPropertySerializer extends B2DSCustomPropertySerialize
 	@Override
 	public B2DSCustomProperty read(Json json, Object jsonData, Class type) 
 	{
-		B2DSMapCustomProperty custom = null;
+		RubeCustomProperty custom = null;
 		
 		Array<ObjectMap<String,?>> customProperties = json.readValue(Array.class, ObjectMap.class, jsonData);
 		
 	    if (customProperties != null)
 	    {
-	    	custom = new B2DSMapCustomProperty();
+	    	custom = new RubeCustomProperty();
 	    	
 		    for (int i = 0; i < customProperties.size; i++)
 		    {

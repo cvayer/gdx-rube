@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.physics.box2d.joints.WheelJointDef;
+import com.badlogic.gdx.rube.RubeImage;
 
 /**
  * Static data that give the default values to use for a bunch of parameters.
@@ -62,5 +63,10 @@ public class RubeDefaults
 		public static final WeldJointDef 		weldDef 		= new WeldJointDef();
 		public static final FrictionJointDef 	frictionDef 	= new FrictionJointDef();
 		public static final RopeJointDef 		ropeDef 		= new RopeJointDef();
+	}
+	
+	public static class Image
+	{
+		public static final RubeImage image = new RubeImage();
 	}
 }
