@@ -57,7 +57,7 @@ public class Box2DScene implements IB2DSAddListener, IB2DSRemoveListener
 		}
 	}
 	
-	public <T extends B2DSProcessor> T getStore(Class<T> _type)
+	public <T extends B2DSProcessor> T getProcessor(Class<T> _type)
 	{
 		return processors.getStore(_type);
 	}

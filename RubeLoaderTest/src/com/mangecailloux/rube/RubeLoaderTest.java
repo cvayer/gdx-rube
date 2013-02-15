@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.rube.loader.RubeSceneLoader;
@@ -20,13 +21,16 @@ public class RubeLoaderTest implements ApplicationListener {
 	private RubeSceneLoader	loader;
 	private Box2DScene	scene;
 	private Box2DDebugRenderer renderer;
+	private SpriteProcessor		render;
+	private SpriteBatch       batch;
 	
 	@Override
 	public void create() {		
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
 		
-		camera = new OrthographicCamera(15, 15*h/w);
+		float cameraViewportWidth = 40.0f;
+		camera = new OrthographicCamera(cameraViewportWidth, cameraViewportWidth*h/w);
 		
 		Box2DSceneLoaderParameters params = new Box2DSceneLoaderParameters();
 		
@@ -34,20 +38,25 @@ public class RubeLoaderTest implements ApplicationListener {
 		params.imageSerializer = new RubeImageSerializer();
 		params.definitions = new B2DSProcessorsDefinition();
 		params.definitions.addProcessor(B2DSByNameProcessor.class);
+		params.definitions.addProcessor(SpriteProcessor.class);
 		
 		loader = new RubeSceneLoader(params);
 	
 		scene = loader.loadScene(Gdx.files.internal("data/images.json"));
 	//	loader.loadScene(Gdx.files.internal("data/documentA2.json"));
 		
-		B2DSByNameProcessor store = scene.getStore(B2DSByNameProcessor.class);
+		B2DSByNameProcessor store = scene.getProcessor(B2DSByNameProcessor.class);
 		
 		if(store != null)
 		{
 			Body body = store.get(Body.class, "body1");
 		}
 		
+		render = scene.getProcessor(SpriteProcessor.class);
+		
 		renderer = new Box2DDebugRenderer();
+		
+		batch = new SpriteBatch();
 	}
 
 	@Override
@@ -55,6 +64,7 @@ public class RubeLoaderTest implements ApplicationListener {
 	{
 		scene.dispose();
 		renderer.dispose();
+		batch.dispose();
 	}
 
 	@Override
@@ -64,6 +74,11 @@ public class RubeLoaderTest implements ApplicationListener {
 		
 		scene.step();
 		
+		batch.setProjectionMatrix(camera.projection);
+		batch.setTransformMatrix(camera.view);
+		batch.begin();
+		render.render(batch);
+		batch.end();
 		
 		renderer.render(scene.world, camera.combined);
 	}
