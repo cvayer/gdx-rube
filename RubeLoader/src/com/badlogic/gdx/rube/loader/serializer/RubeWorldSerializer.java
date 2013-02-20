@@ -5,12 +5,12 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.rube.loader.RubeDefaults;
+import com.badlogic.gdx.scenes.box2d.B2DSCustomProperty;
+import com.badlogic.gdx.scenes.box2d.B2DSImage;
 import com.badlogic.gdx.scenes.box2d.Box2DScene;
-import com.badlogic.gdx.scenes.box2d.image.B2DSImage;
 import com.badlogic.gdx.scenes.box2d.loader.Box2DSceneLoaderParameters;
 import com.badlogic.gdx.scenes.box2d.loader.serializer.B2DSImageSerializer;
 import com.badlogic.gdx.scenes.box2d.loader.serializer.B2DSWorldSerializer;
-import com.badlogic.gdx.scenes.box2d.property.B2DSCustomProperty;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 

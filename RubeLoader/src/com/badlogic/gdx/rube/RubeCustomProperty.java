@@ -1,7 +1,7 @@
 package com.badlogic.gdx.rube;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.box2d.property.B2DSCustomProperty;
+import com.badlogic.gdx.scenes.box2d.B2DSCustomProperty;
 import com.badlogic.gdx.utils.ObjectIntMap;
 import com.badlogic.gdx.utils.ObjectMap;
 

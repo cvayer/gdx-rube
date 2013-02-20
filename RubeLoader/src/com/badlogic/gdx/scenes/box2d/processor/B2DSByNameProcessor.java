@@ -4,8 +4,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.box2d.image.B2DSImage;
-import com.badlogic.gdx.scenes.box2d.property.B2DSCustomProperty;
+import com.badlogic.gdx.scenes.box2d.B2DSCustomProperty;
+import com.badlogic.gdx.scenes.box2d.B2DSImage;
 import com.badlogic.gdx.utils.ObjectMap;
 
 public class B2DSByNameProcessor extends B2DSProcessor

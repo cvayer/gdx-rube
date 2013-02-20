@@ -4,9 +4,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.rube.RubeImage;
 import com.badlogic.gdx.rube.loader.RubeDefaults;
 import com.badlogic.gdx.rube.loader.serializer.utils.RubeVertexArray;
-import com.badlogic.gdx.scenes.box2d.image.B2DSImage;
+import com.badlogic.gdx.scenes.box2d.B2DSCustomProperty;
+import com.badlogic.gdx.scenes.box2d.B2DSImage;
 import com.badlogic.gdx.scenes.box2d.loader.serializer.B2DSImageSerializer;
-import com.badlogic.gdx.scenes.box2d.property.B2DSCustomProperty;
 import com.badlogic.gdx.utils.Json;
 
 @SuppressWarnings("rawtypes")

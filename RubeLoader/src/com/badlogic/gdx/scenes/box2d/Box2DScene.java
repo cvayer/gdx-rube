@@ -7,11 +7,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.rube.loader.RubeDefaults;
 import com.badlogic.gdx.scenes.box2d.IB2DSListener.IB2DSAddListener;
 import com.badlogic.gdx.scenes.box2d.IB2DSListener.IB2DSRemoveListener;
-import com.badlogic.gdx.scenes.box2d.image.B2DSImage;
 import com.badlogic.gdx.scenes.box2d.processor.B2DSProcessor;
 import com.badlogic.gdx.scenes.box2d.processor.B2DSProcessors;
 import com.badlogic.gdx.scenes.box2d.processor.B2DSProcessorsDefinition;
-import com.badlogic.gdx.scenes.box2d.property.B2DSCustomProperty;
 
 /**
  * A simple encapsulation of a {@link World}. Plus the data needed to run the simulation.

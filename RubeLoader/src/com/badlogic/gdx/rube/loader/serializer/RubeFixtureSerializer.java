@@ -12,9 +12,9 @@ import com.badlogic.gdx.rube.loader.RubeDefaults;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
 import com.badlogic.gdx.rube.loader.serializer.utils.RubeVertexArray;
+import com.badlogic.gdx.scenes.box2d.B2DSCustomProperty;
 import com.badlogic.gdx.scenes.box2d.Box2DScene;
 import com.badlogic.gdx.scenes.box2d.loader.serializer.B2DSSerializer;
-import com.badlogic.gdx.scenes.box2d.property.B2DSCustomProperty;
 
 @SuppressWarnings("rawtypes")
 public class RubeFixtureSerializer extends B2DSSerializer<Fixture>

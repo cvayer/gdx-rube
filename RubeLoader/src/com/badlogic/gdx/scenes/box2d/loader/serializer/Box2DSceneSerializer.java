@@ -1,10 +1,10 @@
 package com.badlogic.gdx.scenes.box2d.loader.serializer;
 
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.box2d.B2DSCustomProperty;
+import com.badlogic.gdx.scenes.box2d.B2DSImage;
 import com.badlogic.gdx.scenes.box2d.Box2DScene;
-import com.badlogic.gdx.scenes.box2d.image.B2DSImage;
 import com.badlogic.gdx.scenes.box2d.loader.Box2DSceneLoaderParameters;
-import com.badlogic.gdx.scenes.box2d.property.B2DSCustomProperty;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
 

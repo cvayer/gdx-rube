@@ -2,9 +2,9 @@ package com.badlogic.gdx.rube.loader.serializer;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.rube.RubeCustomProperty;
+import com.badlogic.gdx.scenes.box2d.B2DSCustomProperty;
 import com.badlogic.gdx.scenes.box2d.Box2DScene;
 import com.badlogic.gdx.scenes.box2d.loader.serializer.B2DSCustomPropertySerializer;
-import com.badlogic.gdx.scenes.box2d.property.B2DSCustomProperty;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.ObjectMap;

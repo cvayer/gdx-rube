@@ -1,7 +1,7 @@
 package com.badlogic.gdx.scenes.box2d.loader.serializer;
 
+import com.badlogic.gdx.scenes.box2d.B2DSCustomProperty;
 import com.badlogic.gdx.scenes.box2d.Box2DScene;
-import com.badlogic.gdx.scenes.box2d.property.B2DSCustomProperty;
 
 public abstract class B2DSCustomPropertySerializer extends B2DSSerializer<B2DSCustomProperty> 
 {
