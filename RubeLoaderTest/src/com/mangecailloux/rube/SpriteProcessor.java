@@ -124,12 +124,6 @@ public class SpriteProcessor extends B2DSProcessor
 	}
 
 	@Override
-	public void onRemoveWorld(World _world) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void onRemoveBody(Body _body) {
 		// TODO Auto-generated method stub
 		

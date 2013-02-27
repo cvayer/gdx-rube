@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2011 See AUTHORS file.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 package com.badlogic.gdx.scenes.box2d.processor;
 
 import com.badlogic.gdx.physics.box2d.Body;
@@ -21,11 +36,14 @@ public class B2DSProcessors implements IB2DSAddListener, IB2DSRemoveListener
 		processors = new Array<B2DSProcessor>(false, 2);
 		processorsByType = new ObjectMap<Class<?>, B2DSProcessor>(2);
 		
-		for(int i=0; i < _definition.getProcessorsCount(); ++i)
+		if(_definition != null)
 		{
-			B2DSProcessor store = _definition.createProcessors(i);
-			if(store != null)
-				addStore(store);
+			for(int i=0; i < _definition.getProcessorsCount(); ++i)
+			{
+				B2DSProcessor store = _definition.createProcessors(i);
+				if(store != null)
+					addStore(store);
+			}
 		}
 	}
 	
@@ -45,7 +63,7 @@ public class B2DSProcessors implements IB2DSAddListener, IB2DSRemoveListener
 		processorsByType.put(_store.getClass(), _store);
 	}
 	
-	public <T extends B2DSProcessor> T getStore(Class<T > _type)
+	public <T extends B2DSProcessor> T getProcessor(Class<T > _type)
 	{
 		return _type.cast(processorsByType.get(_type));
 	}
