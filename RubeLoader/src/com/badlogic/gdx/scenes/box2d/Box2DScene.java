@@ -41,6 +41,7 @@ public class Box2DScene implements IB2DSAddListener, IB2DSRemoveListener
 	public void dispose()
 	{
 		world.dispose();
+		world = null;
 	}
 	
 	/**
@@ -88,12 +89,6 @@ public class Box2DScene implements IB2DSAddListener, IB2DSRemoveListener
 	public void onAddImage(B2DSImage _image, String _name, Body _body,	B2DSCustomProperty _customProperty) 
 	{
 		processors.onAddImage(_image, _name, _body, _customProperty);
-	}
-
-	@Override
-	public void onRemoveWorld(World _world) 
-	{
-		processors.onRemoveWorld(_world);
 	}
 
 	@Override

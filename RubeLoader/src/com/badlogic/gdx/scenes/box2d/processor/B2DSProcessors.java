@@ -98,16 +98,6 @@ public class B2DSProcessors implements IB2DSAddListener, IB2DSRemoveListener
 	}
 
 	@Override
-	public void onRemoveWorld(World _world) 
-	{
-		for(int i=0; i< processors.size; ++i)
-		{
-			processors.get(i).onRemoveWorld(_world);
-		}
-		
-	}
-
-	@Override
 	public void onRemoveBody(Body _body) 
 	{
 		for(int i=0; i< processors.size; ++i)

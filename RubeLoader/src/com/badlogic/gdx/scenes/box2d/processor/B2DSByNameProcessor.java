@@ -83,12 +83,6 @@ public class B2DSByNameProcessor extends B2DSProcessor
 	}
 
 	@Override
-	public void onRemoveWorld(World _world) 
-	{
-		
-	}
-
-	@Override
 	public void onRemoveBody(Body _body) 
 	{
 		if(_body != null)
