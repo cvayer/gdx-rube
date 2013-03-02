@@ -32,10 +32,9 @@ public class RubeImageSerializer extends B2DSImageSerializer
 		RubeVertexArray corners = json.readValue("corners", RubeVertexArray.class, jsonData);
 		if(corners != null)
 		{
-			image.corners = corners.toVector2();
+			image.width = corners.x[1] - corners.x[0];
+			image.height = corners.y[2] - corners.y[0];
 		}
-		else
-			return null;
 		
 		image.file = json.readValue("file", String.class, jsonData);
 		image.filter = json.readValue("filter", int.class, defaults.filter, jsonData);

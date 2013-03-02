@@ -69,12 +69,9 @@ public class SpriteProcessor extends B2DSProcessor
 			
 			sprite.setRotation(image.angle);
 			
-			float width = image.corners[1].x - image.corners[0].x;
-			float height = image.corners[2].y - image.corners[0].y;
+			sprite.setSize(image.width, image.height);
 			
-			sprite.setSize(width, height);
-			
-			sprite.setOrigin(image.center.x + width /2, image.center.y + height /2);
+			sprite.setOrigin(image.center.x + image.width /2, image.center.y + image.height /2);
 			
 			sprites.add(sprite);
 			
@@ -91,9 +88,6 @@ public class SpriteProcessor extends B2DSProcessor
 			Body body = bodies.get(sprite);
 			RubeImage image = images.get(sprite);
 			
-			float width = image.corners[1].x - image.corners[0].x;
-			float height = image.corners[2].y - image.corners[0].y;
-			
 			if(body != null)
 			{
 				sprite.setPosition(body.getPosition().x, body.getPosition().y);
@@ -105,7 +99,7 @@ public class SpriteProcessor extends B2DSProcessor
 				sprite.setPosition(0.0f, 0.0f);
 			}
 		
-			sprite.translate(- width /2, - height /2);
+			sprite.translate(- image.width /2, - image.height /2);
 			sprite.translate(image.center.x, image.center.y);
 			
 			

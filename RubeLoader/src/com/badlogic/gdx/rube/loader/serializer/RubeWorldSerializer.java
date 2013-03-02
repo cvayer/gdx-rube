@@ -63,7 +63,7 @@ public class RubeWorldSerializer extends B2DSWorldSerializer
 		joints = json.readValue("joint", Array.class, Joint.class, jsonData);
 		
 		imageSerializer.setBodies(bodies);
-		Array<B2DSImage> images = json.readValue("image", Array.class, B2DSImage.class, jsonData);
+		json.readValue("image", Array.class, B2DSImage.class, jsonData);
 		
 		B2DSCustomProperty customProperty = null;
 		if(json.getSerializer(B2DSCustomProperty.class) != null)
