@@ -15,10 +15,37 @@
  ******************************************************************************/
 package com.badlogic.gdx.scenes.box2d.processor;
 
+import com.badlogic.gdx.scenes.box2d.Box2DScene;
 import com.badlogic.gdx.scenes.box2d.IB2DSListener.IB2DSAddListener;
 import com.badlogic.gdx.scenes.box2d.IB2DSListener.IB2DSRemoveListener;
+import com.badlogic.gdx.utils.Disposable;
 
-public abstract class  B2DSProcessor implements IB2DSAddListener, IB2DSRemoveListener
+/**
+ * Base class for scene processors. <br/>
+ * Processors listen to scene events ( adding/removing an object ) and then can "process" said object. 
+ * Useful for storing objects, or creating new ones (like transforming B2DImage into Sprite)
+ * @author clement.vayer
+ */
+public abstract class  B2DSProcessor implements IB2DSAddListener, IB2DSRemoveListener, Disposable
 {
+	/** {@link Box2DScene} the processor belong to. */
+	protected Box2DScene scene;
+	
+	void setScene(Box2DScene scene){
+		this.scene = scene;
+	}
+	
+	/**
+	 * Return the {@link B2DSProcessor}  matching the Class parameter.
+	 * @param _type Class of the processor your request.
+	 * @return the wanted processor, if found. Can be null.
+	 */
+	public <T extends B2DSProcessor> T getProcessor(Class<T> _type) {
+		if(scene != null)
+			return scene.getProcessor(_type);
+		return null;
+	}
+	
+	@Override
 	public void dispose() {}
 }

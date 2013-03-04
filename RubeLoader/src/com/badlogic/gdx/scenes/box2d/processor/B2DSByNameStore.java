@@ -23,17 +23,29 @@ import com.badlogic.gdx.scenes.box2d.B2DSCustomProperty;
 import com.badlogic.gdx.scenes.box2d.B2DSImage;
 import com.badlogic.gdx.utils.ObjectMap;
 
-public class B2DSByNameProcessor extends B2DSProcessor
+/**
+ * A {@link B2DSProcessor} that allows storing and retrieving of {@link Box2DScene} objects ( Bodies, joints, custom properties, etc.)
+ * by name.
+ * @author clement.vayer
+ */
+public class B2DSByNameStore extends B2DSProcessor
 {
+	// We store the objects two ways
 	ObjectMap<String, Object> objectByName;
-	ObjectMap<Object, String> namesByObjects;
+	ObjectMap<Object, String> namesByObject;
 	
-	public B2DSByNameProcessor()
+	public B2DSByNameStore()
 	{
 		objectByName = new ObjectMap<String, Object>();
-		namesByObjects = new ObjectMap<Object, String>();
+		namesByObject = new ObjectMap<Object, String>();
 	}
 	
+	/**
+	 * Return the object with the wanted name.
+	 * @param _type Class of the object you want to retrieve
+	 * @param _name Name of the object you want to retrieve
+	 * @return the desired casted object, or null if not found.
+	 */
 	public <T> T get(Class<T> _type, String _name)
 	{
 		if(_name != null && _type != null)
@@ -44,7 +56,7 @@ public class B2DSByNameProcessor extends B2DSProcessor
 	public String getName(Object _object)
 	{
 		if(_object != null)
-			return namesByObjects.get(_object);
+			return namesByObject.get(_object, null);
 		return null;
 	}
 	
@@ -52,7 +64,7 @@ public class B2DSByNameProcessor extends B2DSProcessor
 	public void dispose()
 	{
 		objectByName.clear();
-		namesByObjects.clear();
+		namesByObject.clear();
 	}
 	
 	@Override
@@ -67,7 +79,7 @@ public class B2DSByNameProcessor extends B2DSProcessor
 		if(_body != null && _name != null)
 		{
 			objectByName.put(_name, _body);
-			namesByObjects.put(_body, _name);
+			namesByObject.put(_body, _name);
 		}
 	}
 
@@ -77,7 +89,7 @@ public class B2DSByNameProcessor extends B2DSProcessor
 		if(_fixture != null && _name != null)
 		{
 			objectByName.put(_name, _fixture);
-			namesByObjects.put(_fixture, _name);
+			namesByObject.put(_fixture, _name);
 		}
 	}
 
@@ -87,7 +99,7 @@ public class B2DSByNameProcessor extends B2DSProcessor
 		if(_joint != null && _name != null)
 		{
 			objectByName.put(_name, _joint);
-			namesByObjects.put(_joint, _name);
+			namesByObject.put(_joint, _name);
 		}
 	}
 	
@@ -104,7 +116,7 @@ public class B2DSByNameProcessor extends B2DSProcessor
 		{
 			String name = getName(_body);
 			objectByName.remove(name);
-			namesByObjects.remove(_body);
+			namesByObject.remove(_body);
 		}
 	}
 
@@ -115,7 +127,7 @@ public class B2DSByNameProcessor extends B2DSProcessor
 		{
 			String name = getName(_fixture);
 			objectByName.remove(name);
-			namesByObjects.remove(_fixture);
+			namesByObject.remove(_fixture);
 		}
 	}
 
@@ -126,7 +138,7 @@ public class B2DSByNameProcessor extends B2DSProcessor
 		{
 			String name = getName(_joint);
 			objectByName.remove(name);
-			namesByObjects.remove(_joint);
+			namesByObject.remove(_joint);
 		}
 	}
 }

@@ -50,7 +50,7 @@ public class Box2DScene implements IB2DSAddListener, IB2DSRemoveListener, Dispos
 	 * @param _definition {@link B2DSProcessorsDefinition} of the processors. Can be null.
 	 */
 	public Box2DScene(B2DSProcessorsDefinition _definition)	{
-		processors 			= new B2DSProcessors(_definition);
+		processors 			= new B2DSProcessors(this, _definition);
 		stepsPerSecond 		= 60;
 		positionIterations 	= 3;
 		velocityIterations 	= 8;

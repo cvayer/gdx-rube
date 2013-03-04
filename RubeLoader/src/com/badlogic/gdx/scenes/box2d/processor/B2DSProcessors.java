@@ -21,18 +21,23 @@ import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.box2d.B2DSCustomProperty;
 import com.badlogic.gdx.scenes.box2d.B2DSImage;
+import com.badlogic.gdx.scenes.box2d.Box2DScene;
 import com.badlogic.gdx.scenes.box2d.IB2DSListener.IB2DSAddListener;
 import com.badlogic.gdx.scenes.box2d.IB2DSListener.IB2DSRemoveListener;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.ObjectMap;
 
 public class B2DSProcessors implements IB2DSAddListener, IB2DSRemoveListener
 {
 	private final ObjectMap<Class<?>, B2DSProcessor> processorsByType;
 	private final Array<B2DSProcessor> processors;
+	/** {@link Box2DScene} the processors belong to. */
+	private final Box2DScene 		scene;
 	
-	public B2DSProcessors(B2DSProcessorsDefinition _definition)
+	public B2DSProcessors(Box2DScene _scene, B2DSProcessorsDefinition _definition)
 	{
+		scene = _scene;
 		processors = new Array<B2DSProcessor>(false, 2);
 		processorsByType = new ObjectMap<Class<?>, B2DSProcessor>(2);
 		
@@ -42,7 +47,7 @@ public class B2DSProcessors implements IB2DSAddListener, IB2DSRemoveListener
 			{
 				B2DSProcessor store = _definition.createProcessors(i);
 				if(store != null)
-					addStore(store);
+					addProcessor(store);
 			}
 		}
 	}
@@ -57,10 +62,17 @@ public class B2DSProcessors implements IB2DSAddListener, IB2DSRemoveListener
 		processorsByType.clear();
 	}
 	
-	public void addStore(B2DSProcessor _store)
+	public void addProcessor(B2DSProcessor _processor)
 	{
-		processors.add(_store);
-		processorsByType.put(_store.getClass(), _store);
+		if(_processor == null)
+			return;
+		
+		if(processorsByType.get(_processor.getClass()) != null)
+			throw new GdxRuntimeException("addProcessor  : adding a processor with the same class as an existing one, abort.");
+		
+		_processor.setScene(scene);
+		processors.add(_processor);
+		processorsByType.put(_processor.getClass(), _processor);
 	}
 	
 	public <T extends B2DSProcessor> T getProcessor(Class<T > _type)

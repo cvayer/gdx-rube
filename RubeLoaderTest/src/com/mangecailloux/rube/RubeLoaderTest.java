@@ -12,7 +12,7 @@ import com.badlogic.gdx.rube.loader.serializer.RubeCustomPropertySerializer;
 import com.badlogic.gdx.rube.loader.serializer.RubeImageSerializer;
 import com.badlogic.gdx.scenes.box2d.Box2DScene;
 import com.badlogic.gdx.scenes.box2d.loader.Box2DSceneLoaderParameters;
-import com.badlogic.gdx.scenes.box2d.processor.B2DSByNameProcessor;
+import com.badlogic.gdx.scenes.box2d.processor.B2DSByNameStore;
 import com.badlogic.gdx.scenes.box2d.processor.B2DSProcessorsDefinition;
 
 
@@ -37,7 +37,7 @@ public class RubeLoaderTest implements ApplicationListener {
 		params.customPropertiesSerializer = new RubeCustomPropertySerializer();
 		params.imageSerializer = new RubeImageSerializer();
 		params.definitions = new B2DSProcessorsDefinition();
-		params.definitions.addProcessor(B2DSByNameProcessor.class);
+		params.definitions.addProcessor(B2DSByNameStore.class);
 		params.definitions.addProcessor(SpriteProcessor.class);
 		
 		loader = new RubeSceneLoader(params);
@@ -45,7 +45,7 @@ public class RubeLoaderTest implements ApplicationListener {
 		scene = loader.loadScene(Gdx.files.internal("data/images.json"));
 	//	loader.loadScene(Gdx.files.internal("data/documentA2.json"));
 		
-		B2DSByNameProcessor store = scene.getProcessor(B2DSByNameProcessor.class);
+		B2DSByNameStore store = scene.getProcessor(B2DSByNameStore.class);
 		
 		if(store != null)
 		{
