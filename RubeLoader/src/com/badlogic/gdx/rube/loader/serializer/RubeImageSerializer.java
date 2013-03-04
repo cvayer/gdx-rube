@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Json;
 @SuppressWarnings("rawtypes")
 public class RubeImageSerializer extends B2DSImageSerializer
 {
+	private final Vector2 tmp = new Vector2();
 	@Override
 	public B2DSImage read(Json json, Object jsonData, Class type) 
 	{
@@ -31,9 +32,11 @@ public class RubeImageSerializer extends B2DSImageSerializer
 		
 		RubeVertexArray corners = json.readValue("corners", RubeVertexArray.class, jsonData);
 		if(corners != null)
-		{
-			image.width = corners.x[1] - corners.x[0];
-			image.height = corners.y[2] - corners.y[0];
+		{		
+			tmp.set(corners.x[0],corners.y[0]).sub(corners.x[1], corners.y[1]);
+	        image.width = tmp.len();
+	        tmp.set(corners.x[1],corners.y[1]).sub(corners.x[2], corners.y[2]);
+		    image.height = tmp.len();
 		}
 		
 		image.file = json.readValue("file", String.class, jsonData);
