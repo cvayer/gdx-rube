@@ -9,27 +9,14 @@
          "angle" : 0,
          "angularVelocity" : 0,
          "awake" : true,
-         "customProperties" : 
-         [
-            
-            {
-               "name" : "nick",
-               "string" : "superman"
-            }
-         ],
          "fixture" : 
          [
             
             {
-               "customProperties" : 
-               [
-                  
-                  {
-                     "int" : 10,
-                     "name" : "int"
-                  }
-               ],
                "density" : 1,
+               "filter-categoryBits" : 2,
+               "filter-groupIndex" : 4,
+               "filter-maskBits" : 8,
                "friction" : 0.2000000029802322,
                "name" : "fixture1",
                "polygon" : 
@@ -43,15 +30,10 @@
             },
             
             {
-               "customProperties" : 
-               [
-                  
-                  {
-                     "int" : 10,
-                     "name" : "int"
-                  }
-               ],
                "density" : 1,
+               "filter-categoryBits" : 2,
+               "filter-groupIndex" : 4,
+               "filter-maskBits" : 8,
                "friction" : 0.2000000029802322,
                "name" : "fixture1",
                "polygon" : 
@@ -77,15 +59,10 @@
             },
             
             {
-               "customProperties" : 
-               [
-                  
-                  {
-                     "int" : 10,
-                     "name" : "int"
-                  }
-               ],
                "density" : 1,
+               "filter-categoryBits" : 2,
+               "filter-groupIndex" : 4,
+               "filter-maskBits" : 8,
                "friction" : 0.2000000029802322,
                "name" : "fixture1",
                "polygon" : 
@@ -109,118 +86,8 @@
          "name" : "body1",
          "position" : 
          {
-            "x" : -0.5043389797210693,
-            "y" : 4.553304672241211
-         },
-         "type" : 2
-      },
-      
-      {
-         "angle" : 0,
-         "angularVelocity" : 0,
-         "awake" : true,
-         "customProperties" : 
-         [
-            
-            {
-               "name" : "nick",
-               "string" : "batman"
-            }
-         ],
-         "fixture" : 
-         [
-            
-            {
-               "customProperties" : 
-               [
-                  
-                  {
-                     "int" : 50,
-                     "name" : "int"
-                  }
-               ],
-               "density" : 1,
-               "friction" : 0.2000000029802322,
-               "name" : "fixture1",
-               "polygon" : 
-               {
-                  "vertices" : 
-                  {
-                     "x" : [ 1.50, 0.6036767959594727, 0.5428857803344727, 0.7594118118286133 ],
-                     "y" : [ -1.50, 2.293928146362305, -0.5055580139160156, -1.50 ]
-                  }
-               }
-            },
-            
-            {
-               "customProperties" : 
-               [
-                  
-                  {
-                     "int" : 50,
-                     "name" : "int"
-                  }
-               ],
-               "density" : 1,
-               "friction" : 0.2000000029802322,
-               "name" : "fixture1",
-               "polygon" : 
-               {
-                  "vertices" : 
-                  {
-                     "x" : 
-                     [
-                        0.6036767959594727,
-                        -0.6036767959594727,
-                        -0.4856147766113281,
-                        0.5428857803344727
-                     ],
-                     "y" : 
-                     [
-                        2.293928146362305,
-                        2.293928146362305,
-                        -0.5055580139160156,
-                        -0.5055580139160156
-                     ]
-                  }
-               }
-            },
-            
-            {
-               "customProperties" : 
-               [
-                  
-                  {
-                     "int" : 50,
-                     "name" : "int"
-                  }
-               ],
-               "density" : 1,
-               "friction" : 0.2000000029802322,
-               "name" : "fixture1",
-               "polygon" : 
-               {
-                  "vertices" : 
-                  {
-                     "x" : [ -0.4856147766113281, -0.6036767959594727, -1.50, -0.6480083465576172 ],
-                     "y" : [ -0.5055580139160156, 2.293928146362305, -1.50, -1.50 ]
-                  }
-               }
-            }
-         ],
-         "linearVelocity" : 0,
-         "massData-I" : 11.06558895111084,
-         "massData-center" : 
-         {
-            "x" : -0.007669743150472641,
-            "y" : 0.3343821465969086
-         },
-         "massData-mass" : 6.770007610321045,
-         "name" : "body1",
-         "position" : 
-         {
-            "x" : -2.947642564773560,
-            "y" : 2.119291305541992
+            "x" : 0,
+            "y" : 3.099999904632568
          },
          "type" : 2
       },
@@ -253,79 +120,11 @@
       }
    ],
    "continuousPhysics" : true,
-   "customProperties" : 
-   [
-      
-      {
-         "int" : 4,
-         "name" : "int"
-      },
-      
-      {
-         "float" : 0.2000000029802322,
-         "name" : "float"
-      },
-      
-      {
-         "name" : "string",
-         "string" : "toto"
-      },
-      
-      {
-         "bool" : true,
-         "name" : "isCustom"
-      },
-      
-      {
-         "name" : "vec2",
-         "vec2" : 
-         {
-            "x" : 1,
-            "y" : 1
-         }
-      }
-   ],
    "gravity" : 
    {
       "x" : 0,
       "y" : -10.0
    },
-   "joint" : 
-   [
-      
-      {
-         "anchorA" : 
-         {
-            "x" : 0.9220080375671387,
-            "y" : 0.9324488639831543
-         },
-         "anchorB" : 
-         {
-            "x" : -1.521300077438355,
-            "y" : -1.501559972763062
-         },
-         "bodyA" : 1,
-         "bodyB" : 0,
-         "customProperties" : 
-         [
-            
-            {
-               "bool" : true,
-               "name" : "isJoint"
-            }
-         ],
-         "enableLimit" : false,
-         "enableMotor" : false,
-         "jointSpeed" : 0,
-         "lowerLimit" : 0,
-         "maxMotorTorque" : 0,
-         "motorSpeed" : 0,
-         "name" : "joint0",
-         "refAngle" : 0,
-         "type" : "revolute",
-         "upperLimit" : 0
-      }
-   ],
    "positionIterations" : 3,
    "stepsPerSecond" : 60.0,
    "subStepping" : false,

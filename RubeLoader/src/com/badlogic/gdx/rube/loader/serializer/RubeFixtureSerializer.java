@@ -48,9 +48,16 @@ public class RubeFixtureSerializer extends B2DSSerializer<Fixture>
 		FixtureDef defaults = RubeDefaults.Fixture.definition;
 		
 		FixtureDef def = new FixtureDef();
-		def.friction = defaults.friction;
-		json.readFields(def, jsonData);
+		
+		def.friction = json.readValue("friction", float.class, defaults.friction, jsonData);
+		def.density = json.readValue("density", float.class, defaults.density, jsonData);
+		def.restitution = json.readValue("restitution", float.class, defaults.restitution, jsonData);
 		def.isSensor = json.readValue("sensor", boolean.class, defaults.isSensor, jsonData);
+		
+		def.filter.maskBits = json.readValue("filter-maskBits", short.class, defaults.filter.maskBits, jsonData);
+		def.filter.categoryBits = json.readValue("filter-categoryBits", short.class, defaults.filter.categoryBits, jsonData);
+		def.filter.groupIndex = json.readValue("filter-groupIndex", short.class, defaults.filter.groupIndex, jsonData);
+		
 		CircleShape circle = json.readValue("circle", CircleShape.class, jsonData);
 		
 		if(circle != null)
