@@ -61,9 +61,16 @@ public class Box2DScene implements IB2DSAddListener, IB2DSRemoveListener, Dispos
 	 */
 	@Override
 	public void dispose() {
-		processors.dispose();
+		disposeProcessors();
 		world.dispose();
 		world = null;
+	}
+	
+	/**
+	 * Dispose only the processors and not the world
+	 */
+	public void disposeProcessors() {
+		processors.dispose();
 	}
 	
 	/**

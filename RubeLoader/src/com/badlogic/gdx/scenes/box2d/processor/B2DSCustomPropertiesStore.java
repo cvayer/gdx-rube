@@ -24,89 +24,80 @@ import com.badlogic.gdx.scenes.box2d.B2DSImage;
 import com.badlogic.gdx.utils.ObjectMap;
 
 /**
- * A {@link B2DSProcessor} that allows storing and retrieving of {@link Box2DScene} objects ( Bodies, joints, custom properties, etc.)
- * by name.
+ * A {@link B2DSProcessor} that allows storing and retrieving of {@link B2DSCustomProperty} linked to objects ( Bodies, joints, images, etc.).
  * @author clement.vayer
  */
-public class B2DSByNameStore extends B2DSProcessor
+public class B2DSCustomPropertiesStore extends B2DSProcessor
 {
-	// We store the objects two ways
-	ObjectMap<String, Object> objectByName;
-	ObjectMap<Object, String> namesByObject;
+	ObjectMap<Object, B2DSCustomProperty> propertiesByObject;
 	
-	public B2DSByNameStore()
+	public B2DSCustomPropertiesStore()
 	{
-		objectByName = new ObjectMap<String, Object>();
-		namesByObject = new ObjectMap<Object, String>();
+		propertiesByObject = new ObjectMap<Object, B2DSCustomProperty>();
 	}
 	
 	/**
 	 * Return the object with the wanted name.
-	 * @param _type Class of the object you want to retrieve
-	 * @param _name Name of the object you want to retrieve
-	 * @return the desired casted object, or null if not found.
+	 * @param _type Class of the properties you want to retrieve
+	 * @param _object object you want to retrieve the properties of.
+	 * @return the desired casted properties, or null if not found.
 	 */
-	public <T> T get(Class<T> _type, String _name)
+	public <T> T get(Class<T> _type, Object _object)
 	{
-		if(_name != null && _type != null)
-			return _type.cast(objectByName.get(_name));
-		return null;
-	}
-	
-	public String getName(Object _object)
-	{
-		if(_object != null)
-			return namesByObject.get(_object, null);
+		if(_object != null && _type != null)
+			return _type.cast(propertiesByObject.get(_object));
 		return null;
 	}
 	
 	@Override
 	public void dispose()
 	{
-		objectByName.clear();
-		namesByObject.clear();
+		propertiesByObject.clear();
 	}
 	
 	@Override
 	public void onAddWorld(World _world, B2DSCustomProperty _customProperty) 
 	{
-		
+		if(_world != null && _customProperty != null)
+		{
+			propertiesByObject.put(_world, _customProperty);
+		}
 	}
 
 	@Override
 	public void onAddBody(Body _body, String _name, B2DSCustomProperty _customProperty) 
 	{
-		if(_body != null && _name != null)
+		if(_body != null && _customProperty != null)
 		{
-			objectByName.put(_name, _body);
-			namesByObject.put(_body, _name);
+			propertiesByObject.put(_body, _customProperty);
 		}
 	}
 
 	@Override
 	public void onAddFixture(Fixture _fixture, String _name, B2DSCustomProperty _customProperty) 
 	{
-		if(_fixture != null && _name != null)
+		if(_fixture != null && _customProperty != null)
 		{
-			objectByName.put(_name, _fixture);
-			namesByObject.put(_fixture, _name);
+			propertiesByObject.put(_fixture, _customProperty);
 		}
 	}
 
 	@Override
 	public void onAddJoint(Joint _joint, String _name, B2DSCustomProperty _customProperty) 
 	{
-		if(_joint != null && _name != null)
+		if(_joint != null && _customProperty != null)
 		{
-			objectByName.put(_name, _joint);
-			namesByObject.put(_joint, _name);
+			propertiesByObject.put(_joint, _customProperty);
 		}
 	}
 	
 	@Override
 	public void onAddImage(B2DSImage _image, String _name, Body _body, B2DSCustomProperty _customProperty) 
 	{
-		
+		if(_image != null && _name != null)
+		{
+			propertiesByObject.put(_image, _customProperty);
+		}
 	}
 
 	@Override
@@ -114,12 +105,7 @@ public class B2DSByNameStore extends B2DSProcessor
 	{
 		if(_body != null)
 		{
-			String name = getName(_body);
-			if(name != null)
-			{
-				objectByName.remove(name);
-				namesByObject.remove(_body);
-			}
+			propertiesByObject.remove(_body);
 		}
 	}
 
@@ -128,12 +114,7 @@ public class B2DSByNameStore extends B2DSProcessor
 	{
 		if(_fixture != null)
 		{
-			String name = getName(_fixture);
-			if(name != null)
-			{
-				objectByName.remove(name);
-				namesByObject.remove(_fixture);
-			}
+			propertiesByObject.remove(_fixture);
 		}
 	}
 
@@ -142,12 +123,7 @@ public class B2DSByNameStore extends B2DSProcessor
 	{
 		if(_joint != null)
 		{
-			String name = getName(_joint);
-			if(name != null)
-			{
-				objectByName.remove(name);
-				namesByObject.remove(_joint);
-			}
+			propertiesByObject.remove(_joint);
 		}
 	}
 }

@@ -91,7 +91,7 @@ public class SpriteProcessor extends B2DSProcessor
 			if(body != null)
 			{
 				sprite.setPosition(body.getPosition().x, body.getPosition().y);
-				sprite.setRotation(body.getAngle()* 180.0f / 3.14f);
+				sprite.setRotation((body.getAngle() + image.angle)* 180.0f / 3.14f);
 				
 			}
 			else
