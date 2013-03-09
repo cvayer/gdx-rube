@@ -57,9 +57,6 @@ public class RubeScene {
 	 * @param _definition {@link B2DSProcessorsDefinition} of the processors. Can be null.
 	 */
 	public RubeScene()	{
-		stepsPerSecond 		= 60;
-		positionIterations 	= 3;
-		velocityIterations 	= 8;
 		
 		bodies = new Array<Body>(false, 32);
 		fixtures = new Array<Fixture>(false, 32);

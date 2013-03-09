@@ -1,4 +1,4 @@
-package com.badlogic.gdx.rube.loader;
+package com.badlogic.gdx.rube;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -13,7 +13,6 @@ import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.physics.box2d.joints.WheelJointDef;
-import com.badlogic.gdx.rube.RubeImage;
 
 /**
  * Static data that give the default values to use for a bunch of parameters.
@@ -25,6 +24,13 @@ public class RubeDefaults
 	@SuppressWarnings("unused")
 	private static Fixture fixture = new Fixture(); // done to call ctor of fixture and init default values
 	
+	public static class Scene
+	{
+		public static		int   				stepsPerSecond 		= 60;
+		public static		int   				positionIterations 	= 3;
+		public static		int   				velocityIterations 	= 8;
+	}
+	
 	public static class World
 	{
 		public static final Vector2 			gravity 			= new Vector2(0.0f, -9.81f);
@@ -32,10 +38,6 @@ public class RubeDefaults
 		public static 		boolean				autoClearForces	 	= true;
 		public static 		boolean				continuousPhysics 	= true;
 		public static 		boolean				warmStarting 		= true;
-		
-		public static		int   				stepsPerSecond 		= 60;
-		public static		int   				positionIterations 	= 3;
-		public static		int   				velocityIterations 	= 8;
 	}
 	public static class Body
 	{
