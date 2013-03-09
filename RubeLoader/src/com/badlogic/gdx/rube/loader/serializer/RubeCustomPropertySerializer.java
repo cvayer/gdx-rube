@@ -2,29 +2,18 @@ package com.badlogic.gdx.rube.loader.serializer;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.rube.RubeCustomProperty;
-import com.badlogic.gdx.scenes.box2d.B2DSCustomProperty;
-import com.badlogic.gdx.scenes.box2d.Box2DScene;
-import com.badlogic.gdx.scenes.box2d.loader.serializer.B2DSCustomPropertySerializer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
 
 @SuppressWarnings("rawtypes")
-public class RubeCustomPropertySerializer extends B2DSCustomPropertySerializer
+public class RubeCustomPropertySerializer extends ReadOnlySerializer<RubeCustomProperty>
 {
-	public RubeCustomPropertySerializer() 
-	{
-		super();
-	}
-	
-	public RubeCustomPropertySerializer(Box2DScene _scene) 
-	{
-		super(_scene);
-	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public B2DSCustomProperty read(Json json, Object jsonData, Class type) 
+	public RubeCustomProperty read(Json json, Object jsonData, Class type) 
 	{
 		RubeCustomProperty custom = null;
 		

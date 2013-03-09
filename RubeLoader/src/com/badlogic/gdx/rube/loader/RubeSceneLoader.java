@@ -1,21 +1,41 @@
 package com.badlogic.gdx.rube.loader;
 
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.rube.RubeScene;
 import com.badlogic.gdx.rube.loader.serializer.RubeSceneSerializer;
-import com.badlogic.gdx.scenes.box2d.loader.Box2DSceneLoader;
-import com.badlogic.gdx.scenes.box2d.loader.Box2DSceneLoaderParameters;
-import com.badlogic.gdx.scenes.box2d.loader.serializer.Box2DSceneSerializer;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.SerializationException;
 
-public class RubeSceneLoader extends Box2DSceneLoader
+public class RubeSceneLoader
 {
-	public RubeSceneLoader(Box2DSceneLoaderParameters _parameters)
+	protected final Json json;
+	
+	public RubeSceneLoader()
 	{
-		super(_parameters);
+		json = new Json();
+		json.setTypeName(null);
+		json.setUsePrototypes(false);
+		json.setIgnoreUnknownFields(true);
+		json.setSerializer(RubeScene.class, new RubeSceneSerializer(json));
 	}
 	
-	@Override
-	public Box2DSceneSerializer getSceneSerializer(Box2DSceneLoaderParameters _parameters) 
+	/**
+	 * 
+	 * @param _file File to read.
+	 * @return the scene described in the document.
+	 */
+	public RubeScene loadScene(FileHandle _file)
 	{
-		return new RubeSceneSerializer(json, _parameters);
+		RubeScene scene = null;
+		try 
+		{
+			scene = json.fromJson(RubeScene.class, _file);	
+		} 
+		catch (SerializationException ex) 
+		{
+			throw new SerializationException("Error reading file: " + _file, ex);
+		}
+		return scene;
 	}
 
 }

@@ -1,11 +1,10 @@
 package com.badlogic.gdx.rube;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.box2d.B2DSCustomProperty;
 import com.badlogic.gdx.utils.ObjectIntMap;
 import com.badlogic.gdx.utils.ObjectMap;
 
-public class RubeCustomProperty extends B2DSCustomProperty
+public class RubeCustomProperty
 {
 	 private final ObjectIntMap<String> 		ints;
 	 private final ObjectMap<String, Float> 	floats;

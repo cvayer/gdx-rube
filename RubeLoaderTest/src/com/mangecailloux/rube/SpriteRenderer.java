@@ -4,59 +4,36 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.Joint;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.rube.RubeImage;
-import com.badlogic.gdx.scenes.box2d.B2DSImage;
-import com.badlogic.gdx.scenes.box2d.processor.B2DSProcessor;
-import com.badlogic.gdx.scenes.box2d.B2DSCustomProperty;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
-public class SpriteProcessor extends B2DSProcessor
+public class SpriteRenderer
 {
 
 	Array<Sprite> sprites;
 	ObjectMap<Sprite, Body> bodies;
 	ObjectMap<Sprite, RubeImage> images;
 	
-	public SpriteProcessor()
+	public SpriteRenderer()
 	{
 		sprites = new Array<Sprite>();
 		bodies = new ObjectMap<Sprite, Body>();
 		images = new ObjectMap<Sprite, RubeImage>();
 	}
 	
-	@Override
-	public void onAddWorld(World _world, B2DSCustomProperty _customProperty) {
-		// TODO Auto-generated method stub
-		
+	public void addImages(Array<RubeImage> _images)
+	{
+		if(_images != null)
+		{
+			for(int i=0; i < _images.size; ++i)
+			{
+				addImage(_images.get(i));
+			}
+		}
 	}
 
-	@Override
-	public void onAddBody(Body _body, String _name,
-			B2DSCustomProperty _customProperty) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onAddFixture(Fixture _fixture, String _name,
-			B2DSCustomProperty _customProperty) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onAddJoint(Joint _joint, String _name,
-			B2DSCustomProperty _customProperty) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onAddImage(B2DSImage _image, String _name, Body _body, B2DSCustomProperty _customProperty) {
+	public void addImage(RubeImage _image) {
 		
 		if(_image instanceof RubeImage)
 		{
@@ -75,7 +52,7 @@ public class SpriteProcessor extends B2DSProcessor
 			
 			sprites.add(sprite);
 			
-			bodies.put(sprite, _body);
+			bodies.put(sprite, _image.body);
 			images.put(sprite, image);
 		}
 	}
@@ -116,23 +93,4 @@ public class SpriteProcessor extends B2DSProcessor
 			sprite.getTexture().dispose();
 		}
 	}
-
-	@Override
-	public void onRemoveBody(Body _body) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onRemoveFixture(Fixture _fixture) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onRemoveJoint(Joint _joint) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

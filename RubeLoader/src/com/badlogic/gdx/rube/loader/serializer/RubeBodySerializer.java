@@ -7,30 +7,27 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.rube.RubeCustomProperty;
 import com.badlogic.gdx.rube.loader.RubeDefaults;
-import com.badlogic.gdx.scenes.box2d.B2DSCustomProperty;
-import com.badlogic.gdx.scenes.box2d.Box2DScene;
-import com.badlogic.gdx.scenes.box2d.loader.serializer.B2DSSerializer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 
 @SuppressWarnings("rawtypes")
-public class RubeBodySerializer extends B2DSSerializer<Body>
+public class RubeBodySerializer extends RubeSerializer<Body>
 {
 	private 	  World world;
 	private final BodyDef def = new BodyDef();
 	private final RubeFixtureSerializer fixtureSerializer;
 
-	public RubeBodySerializer(Json _json, Box2DScene _scene)
+	public RubeBodySerializer(Json _json)
 	{
-		super(_scene);
+		super();
 		
-		fixtureSerializer = new RubeFixtureSerializer(_json, _scene);
+		fixtureSerializer = new RubeFixtureSerializer(_json);
+		_json.setSerializer(Fixture.class, fixtureSerializer);
 		
 		// as some Vector2 can be stored as a float we need a custom Vector2 Serializer :(
 		_json.setSerializer(Vector2.class, new Vector2Serializer());
-		
-		_json.setSerializer(Fixture.class, fixtureSerializer);
 	}
 	
 	public void setWorld(World _world)
@@ -90,16 +87,17 @@ public class RubeBodySerializer extends B2DSSerializer<Body>
 			}
 		}
 		
+		fixtureSerializer.setScene(scene);
 		fixtureSerializer.setBody(body);
 		json.readValue("fixture", Array.class, Fixture.class, jsonData);
 		
 		String name = json.readValue("name", String.class, jsonData);
 		
-		B2DSCustomProperty customProperty = null;
-		if(json.getSerializer(B2DSCustomProperty.class) != null)
-			customProperty = json.readValue("customProperties", B2DSCustomProperty.class, jsonData);
+		RubeCustomProperty customProperty = null;
+		if(json.getSerializer(RubeCustomProperty.class) != null)
+			customProperty = json.readValue("customProperties", RubeCustomProperty.class, jsonData);
 	
-		onAddBody(body, name, customProperty);
+		scene.onAddBody(body, name, customProperty);
 		
 		return body;
 	}

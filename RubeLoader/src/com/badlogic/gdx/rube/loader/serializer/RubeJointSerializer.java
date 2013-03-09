@@ -16,16 +16,14 @@ import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.physics.box2d.joints.WheelJointDef;
+import com.badlogic.gdx.rube.RubeCustomProperty;
 import com.badlogic.gdx.rube.loader.RubeDefaults;
-import com.badlogic.gdx.scenes.box2d.B2DSCustomProperty;
-import com.badlogic.gdx.scenes.box2d.Box2DScene;
-import com.badlogic.gdx.scenes.box2d.loader.serializer.B2DSSerializer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
 
 @SuppressWarnings("rawtypes")
-public class RubeJointSerializer extends B2DSSerializer<Joint>
+public class RubeJointSerializer extends RubeSerializer<Joint>
 {
 	World			world;
 	Array<Body> 	bodies;
@@ -33,9 +31,9 @@ public class RubeJointSerializer extends B2DSSerializer<Joint>
 	
 	private final MouseJointDefSerializer mouseJointDefSerializer;
 	
-	public RubeJointSerializer(Json _json, Box2DScene _scene)
+	public RubeJointSerializer(Json _json)
 	{
-		super(_scene);
+		super();
 		
 		_json.setSerializer(RevoluteJointDef.class, 	new RevoluteJointDefSerializer());
 		_json.setSerializer(PrismaticJointDef.class, 	new PrismaticJointDefSerializer());
@@ -139,11 +137,11 @@ public class RubeJointSerializer extends B2DSSerializer<Joint>
 			
 			String name = json.readValue("name", String.class, jsonData);
 			
-			B2DSCustomProperty customProperty = null;
-			if(json.getSerializer(B2DSCustomProperty.class) != null)
-				customProperty = json.readValue("customProperties", B2DSCustomProperty.class, jsonData);
+			RubeCustomProperty customProperty = null;
+			if(json.getSerializer(RubeCustomProperty.class) != null)
+				customProperty = json.readValue("customProperties", RubeCustomProperty.class, jsonData);
 			
-			onAddJoint(joint, name, customProperty);
+			scene.onAddJoint(joint, name, customProperty);
 		}
 		
 		return joint;

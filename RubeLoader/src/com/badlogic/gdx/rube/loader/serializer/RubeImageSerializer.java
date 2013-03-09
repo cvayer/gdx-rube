@@ -1,22 +1,25 @@
 package com.badlogic.gdx.rube.loader.serializer;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.rube.RubeCustomProperty;
 import com.badlogic.gdx.rube.RubeImage;
 import com.badlogic.gdx.rube.loader.RubeDefaults;
 import com.badlogic.gdx.rube.loader.serializer.utils.RubeVertexArray;
-import com.badlogic.gdx.scenes.box2d.B2DSCustomProperty;
-import com.badlogic.gdx.scenes.box2d.B2DSImage;
-import com.badlogic.gdx.scenes.box2d.loader.serializer.B2DSImageSerializer;
 import com.badlogic.gdx.utils.Json;
 
 @SuppressWarnings("rawtypes")
-public class RubeImageSerializer extends B2DSImageSerializer
-{
+public class RubeImageSerializer extends RubeSerializer<RubeImage>
+{	
+	public RubeImageSerializer() 
+	{
+		super();
+	}
+	
 	private final Vector2 tmp = new Vector2();
 	@Override
-	public B2DSImage read(Json json, Object jsonData, Class type) 
+	public RubeImage read(Json json, Object jsonData, Class type) 
 	{
-		if(bodies == null)
+		if(scene.getBodies() == null)
 			return null;
 		
 		RubeImage defaults = RubeDefaults.Image.image;
@@ -25,8 +28,8 @@ public class RubeImageSerializer extends B2DSImageSerializer
 		
 		image.angle = json.readValue("angle", float.class, defaults.angle, jsonData);
 		int bodyIndex = json.readValue("body", int.class, jsonData);
-		if(bodyIndex >= 0 && bodyIndex < bodies.size)
-			image.body = bodies.get(bodyIndex);
+		if(bodyIndex >= 0 && bodyIndex < scene.getBodies().size)
+			image.body = scene.getBodies().get(bodyIndex);
 		
 		image.center = json.readValue("center", Vector2.class, defaults.center, jsonData);
 		
@@ -46,11 +49,11 @@ public class RubeImageSerializer extends B2DSImageSerializer
 		image.renderOrder = json.readValue("renderOrder", int.class, defaults.renderOrder, jsonData);
 		image.scale = json.readValue("scale", float.class, defaults.scale, jsonData);
 		
-		B2DSCustomProperty customProperty = null;
-		if(json.getSerializer(B2DSCustomProperty.class) != null)
-			customProperty = json.readValue("customProperties", B2DSCustomProperty.class, jsonData);
+		RubeCustomProperty customProperty = null;
+		if(json.getSerializer(RubeCustomProperty.class) != null)
+			customProperty = json.readValue("customProperties", RubeCustomProperty.class, jsonData);
 		
-		onAddImage(image, image.name, image.body, customProperty);
+		scene.onAddImage(image, customProperty);
 		
 		return image;
 	}
