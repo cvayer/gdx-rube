@@ -31,7 +31,7 @@ public class RubeImageSerializer extends RubeSerializer<RubeImage>
 		if(bodyIndex >= 0 && bodyIndex < scene.getBodies().size)
 			image.body = scene.getBodies().get(bodyIndex);
 		
-		image.center = json.readValue("center", Vector2.class, defaults.center, jsonData);
+		image.center.set(json.readValue("center", Vector2.class, defaults.center, jsonData));
 		
 		RubeVertexArray corners = json.readValue("corners", RubeVertexArray.class, jsonData);
 		if(corners != null)
@@ -48,6 +48,10 @@ public class RubeImageSerializer extends RubeSerializer<RubeImage>
 		image.opacity = json.readValue("opacity", float.class, defaults.opacity, jsonData);
 		image.renderOrder = json.readValue("renderOrder", int.class, defaults.renderOrder, jsonData);
 		image.scale = json.readValue("scale", float.class, defaults.scale, jsonData);
+		
+		int [] colorArray = json.readValue("colorTint", int[].class,RubeDefaults.Image.colorArray,jsonData);
+	    image.color.set((float)colorArray[0]/255, (float)colorArray[1]/255, (float)colorArray[2]/255, (float)colorArray[3]/255);
+	      
 		
 		RubeCustomProperty customProperty = null;
 		if(json.getSerializer(RubeCustomProperty.class) != null)

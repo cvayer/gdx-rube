@@ -3,6 +3,8 @@ package com.mangecailloux.rube;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.rube.RubeImage;
 import com.badlogic.gdx.utils.Array;
@@ -14,6 +16,8 @@ public class SpriteRenderer
 	Array<Sprite> sprites;
 	ObjectMap<Sprite, Body> bodies;
 	ObjectMap<Sprite, RubeImage> images;
+	
+	final Vector2 tmp = new Vector2();
 	
 	public SpriteRenderer()
 	{
@@ -42,17 +46,31 @@ public class SpriteRenderer
 			Texture texture = new Texture("data/" + image.file );
 			Sprite sprite = new Sprite(texture);
 			
-			sprite.translate(-image.center.x, -image.center.y);
-			
-			sprite.setRotation(image.angle);
-			
+			sprite.flip(image.flip, false);
+			sprite.setColor(image.color);
 			sprite.setSize(image.width, image.height);
+			sprite.setOrigin(image.width /2, image.height /2);
 			
-			sprite.setOrigin(image.center.x + image.width /2, image.center.y + image.height /2);
+			if(_image.body != null)
+			{
+				bodies.put(sprite, _image.body);
+			
+				
+				float bodyAngle = _image.body.getAngle()* MathUtils.radiansToDegrees;
+				
+				tmp.set(_image.center).rotate(bodyAngle).add(_image.body.getPosition()).sub(image.width/2, image.height/2);
+				
+				sprite.setRotation(bodyAngle + image.angle* MathUtils.radiansToDegrees);
+			}
+			else
+			{
+				tmp.set(_image.center).sub(image.width /2, image.height /2);
+				sprite.setRotation(image.angle* MathUtils.radiansToDegrees);
+			}
+			
+			sprite.setPosition(tmp.x, tmp.y);
 			
 			sprites.add(sprite);
-			
-			bodies.put(sprite, _image.body);
 			images.put(sprite, image);
 		}
 	}
@@ -67,18 +85,13 @@ public class SpriteRenderer
 			
 			if(body != null)
 			{
-				sprite.setPosition(body.getPosition().x, body.getPosition().y);
-				sprite.setRotation((body.getAngle() + image.angle)* 180.0f / 3.14f);
+				float bodyAngle = body.getAngle() * MathUtils.radiansToDegrees;
+				tmp.set(image.center).rotate(bodyAngle).add(image.body.getPosition()).sub(image.width/2, image.height/2);
 				
-			}
-			else
-			{
-				sprite.setPosition(0.0f, 0.0f);
-			}
-		
-			sprite.translate(- image.width /2, - image.height /2);
-			sprite.translate(image.center.x, image.center.y);
-			
+				sprite.setPosition(tmp.x, tmp.y);
+				sprite.setRotation(bodyAngle + image.angle* MathUtils.radiansToDegrees);
+				
+			}		
 			
 			sprite.draw(_batch);
 		}

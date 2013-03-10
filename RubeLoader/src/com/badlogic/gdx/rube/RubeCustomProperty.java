@@ -71,4 +71,29 @@ public class RubeCustomProperty
 	 {
 		 return booleans.get(_name);
 	 }
+	 
+	 public int getInt(String _name, int defaultValue)
+	 {
+		 return ints.get(_name, defaultValue);
+	 }
+	 
+	 public float getFloat(String _name, float defaultValue)
+	 {
+		 return floats.get(_name, defaultValue);
+	 }
+	 
+	 public String getString(String _name, String defaultValue)
+	 {
+		 return strings.get(_name, defaultValue);
+	 }
+	 
+	 public Vector2 getVec2(String _name, Vector2 defaultValue)
+	 {
+		 return vectors.get(_name, defaultValue);
+	 }
+	 
+	 public Boolean getBool(String _name, boolean defaultValue)
+	 {
+		 return booleans.get(_name, defaultValue);
+	 }
 }

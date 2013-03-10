@@ -70,5 +70,6 @@ public class RubeDefaults
 	public static class Image
 	{
 		public static final RubeImage image = new RubeImage();
+		public static final int [] colorArray = new int[]{255,255,255,255};
 	}
 }

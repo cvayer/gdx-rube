@@ -186,7 +186,7 @@ public class RubeScene {
 			Array<RubeImage> images = imagesByBody.get(_image.body);
 			if(images == null)
 			{
-				images = new Array<RubeImage>(false, 4);
+				images = new Array<RubeImage>(false, 1);
 				imagesByBody.put(_image.body, images);
 			}
 			

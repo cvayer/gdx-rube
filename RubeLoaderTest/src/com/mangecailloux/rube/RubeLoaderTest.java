@@ -2,15 +2,17 @@ package com.mangecailloux.rube;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.rube.RubeScene;
 import com.badlogic.gdx.rube.loader.RubeSceneLoader;
 
 
-public class RubeLoaderTest implements ApplicationListener {
+public class RubeLoaderTest implements ApplicationListener, InputProcessor {
 	private OrthographicCamera camera;
 	private RubeSceneLoader	loader;
 	private RubeScene	scene;
@@ -18,18 +20,27 @@ public class RubeLoaderTest implements ApplicationListener {
 	private SpriteRenderer		render;
 	private SpriteBatch       batch;
 	
+	// used for pan and scanning with the mouse.
+		private Vector3 mCamPos;
+		private Vector3 mCurrentPos;
+	
 	@Override
 	public void create() {		
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
 		
-		float cameraViewportWidth = 40.0f;
+		Gdx.input.setInputProcessor(this);
+		
+		mCamPos = new Vector3();
+		mCurrentPos = new Vector3();
+		
+		float cameraViewportWidth = 50.0f;
 		camera = new OrthographicCamera(cameraViewportWidth, cameraViewportWidth*h/w);
 		
 		
 		loader = new RubeSceneLoader();
 	
-		scene = loader.loadScene(Gdx.files.internal("data/images.json"));
+		scene = loader.loadScene(Gdx.files.internal("data/palm.json"));
 
 		
 		render = new SpriteRenderer();
@@ -74,5 +85,62 @@ public class RubeLoaderTest implements ApplicationListener {
 
 	@Override
 	public void resume() {
+	}
+
+	@Override
+	public boolean keyDown(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		mCamPos.set(screenX,screenY,0);
+		camera.unproject(mCamPos);
+		return true;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		mCurrentPos.set(screenX,screenY,0);
+		camera.unproject(mCurrentPos);
+		camera.position.sub(mCurrentPos.sub(mCamPos));
+		camera.update();
+		return true;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+		camera.zoom += (amount * 0.1f);
+		if (camera.zoom < 0.1f)
+		{
+			camera.zoom = 0.1f;
+		}
+		camera.update();
+		return true;
 	}
 }
