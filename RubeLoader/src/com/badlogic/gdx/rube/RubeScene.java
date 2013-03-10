@@ -50,7 +50,7 @@ public class RubeScene {
 	private final ObjectMap<String, Joint> 				jointsByName;
 	private final ObjectMap<String, RubeImage> 			imagesByName;
 	
-	private final ObjectMap<Body, RubeImage> 			imagesByBody;
+	private final ObjectMap<Body, Array<RubeImage>> 			imagesByBody;
 	/**
 	 * Bod2DScene is created with a definition of all it's processors. <br/>
 	 * That will ensure that the processors are created when the scene is loaded from a file.
@@ -70,7 +70,7 @@ public class RubeScene {
 		jointsByName 	= new ObjectMap<String, Joint>();
 		imagesByName	= new ObjectMap<String, RubeImage>();
 		
-		imagesByBody = new ObjectMap<Body, RubeImage>();
+		imagesByBody = new ObjectMap<Body, Array<RubeImage>>();
 	}
 	
 	public Array<Body> getBodies()
@@ -127,7 +127,7 @@ public class RubeScene {
 		return null;
 	}
 	
-	public RubeImage getImage(Body _body)
+	public Array<RubeImage> getImage(Body _body)
 	{
 		if(_body != null)
 		{
@@ -182,6 +182,15 @@ public class RubeScene {
 		if(_image.name != null)
 			imagesByName.put(_image.name, _image);
 		if(_image.body != null)
-			imagesByBody.put(_image.body, _image);
+		{
+			Array<RubeImage> images = imagesByBody.get(_image.body);
+			if(images == null)
+			{
+				images = new Array<RubeImage>(false, 4);
+				imagesByBody.put(_image.body, images);
+			}
+			
+			images.add(_image);
+		}
 	}
 }
