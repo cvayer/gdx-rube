@@ -66,6 +66,14 @@ public class RubeSprite extends Sprite {
 		setPosition(tmp.x, tmp.y);
 	}
 	
+	public void set(RubeSprite sprite)
+	{
+		super.set(sprite);
+		body = sprite.body;
+		offsetAngle = sprite.offsetAngle;
+		offsetPosition.set(sprite.offsetPosition);
+	}
+	
 	@Override
 	public void draw (SpriteBatch spriteBatch) {
 		updateBodyInfos();

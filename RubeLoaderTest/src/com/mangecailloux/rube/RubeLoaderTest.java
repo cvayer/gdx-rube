@@ -5,9 +5,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.rube.RubePolygonSprite;
 import com.badlogic.gdx.rube.RubeScene;
 import com.badlogic.gdx.rube.loader.RubeSceneLoader;
 
@@ -18,7 +20,8 @@ public class RubeLoaderTest implements ApplicationListener, InputProcessor {
 	private RubeScene	scene;
 	private Box2DDebugRenderer renderer;
 	private SpriteRenderer		render;
-	private SpriteBatch       batch;
+	private SpriteBatch       	batch;
+	private PolygonSpriteBatch 	polygonBatch;
 	
 	// used for pan and scanning with the mouse.
 		private Vector3 mCamPos;
@@ -35,6 +38,9 @@ public class RubeLoaderTest implements ApplicationListener, InputProcessor {
 		mCurrentPos = new Vector3();
 		
 		float cameraViewportWidth = 50.0f;
+		
+		RubePolygonSprite.setPixelPerMeters(w/cameraViewportWidth);
+		
 		camera = new OrthographicCamera(cameraViewportWidth, cameraViewportWidth*h/w);
 		
 		
@@ -44,11 +50,12 @@ public class RubeLoaderTest implements ApplicationListener, InputProcessor {
 
 		
 		render = new SpriteRenderer();
-		render.addImages(scene.getImages());
+		render.initFromScene(scene);
 		
 		renderer = new Box2DDebugRenderer();
 		
 		batch = new SpriteBatch();
+		polygonBatch = new PolygonSpriteBatch();
 	}
 
 	@Override
@@ -57,6 +64,7 @@ public class RubeLoaderTest implements ApplicationListener, InputProcessor {
 		render.dispose();
 		renderer.dispose();
 		batch.dispose();
+		polygonBatch.dispose();
 	}
 
 	@Override
@@ -71,6 +79,12 @@ public class RubeLoaderTest implements ApplicationListener, InputProcessor {
 		batch.begin();
 		render.render(batch);
 		batch.end();
+		
+		polygonBatch.setProjectionMatrix(camera.projection);
+		polygonBatch.setTransformMatrix(camera.view);
+		polygonBatch.begin();
+		render.render(polygonBatch);
+		polygonBatch.end();
 		
 		renderer.render(scene.world, camera.combined);
 	}
