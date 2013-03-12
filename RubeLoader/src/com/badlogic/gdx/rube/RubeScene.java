@@ -24,7 +24,9 @@ import com.badlogic.gdx.utils.ObjectMap;
 
 /**
  * A simple encapsulation of a {@link World}. Plus the data needed to run the simulation. <br/>
- * It also have a list of {@link B2DSProcessor} that will be calledback whenever something change in the scene. (adding or removing an object)
+ * It also keep a reference of all created objects ( {@link Body}, {@link Fixture}, {@link Joint}, {@link RubeImage} and {@link RubeCustomProperty} ), 
+ * and allow you to retrieve them conveniently.<br/><br/>
+ * If you copy those objects into your own system (framework, entity system, etc ) you can clear the scene with the {@link #clear()} function.<br/>
  * @author clement.vayer
  */
 public class RubeScene {
@@ -38,104 +40,118 @@ public class RubeScene {
 	/** Iteration steps done in the simulation to calculates velocities */
 	public int   velocityIterations;
 	
-	private final Array<Body> 		bodies;
-	private final Array<Fixture> 	fixtures;
-	private final Array<Joint> 		joints;
-	private final Array<RubeImage> 	images;
-	
+	private final Array<Body> 							bodies;
+	private final Array<Fixture> 						fixtures;
+	private final Array<Joint> 							joints;
+	private final Array<RubeImage> 						images;
 	private final ObjectMap<Object, RubeCustomProperty> properties;
-	
 	private final ObjectMap<String, Body> 				bodiesByName;
 	private final ObjectMap<String, Fixture> 			fixturesByName;
 	private final ObjectMap<String, Joint> 				jointsByName;
 	private final ObjectMap<String, RubeImage> 			imagesByName;
+	private final ObjectMap<Body, Array<RubeImage>> 	imagesByBody;
 	
-	private final ObjectMap<Body, Array<RubeImage>> 			imagesByBody;
-	/**
-	 * Bod2DScene is created with a definition of all it's processors. <br/>
-	 * That will ensure that the processors are created when the scene is loaded from a file.
-	 * @param _definition {@link B2DSProcessorsDefinition} of the processors. Can be null.
-	 */
+
 	public RubeScene()	{
 		
-		bodies = new Array<Body>(false, 32);
-		fixtures = new Array<Fixture>(false, 32);
-		joints = new Array<Joint>(false, 32);
-		images = new Array<RubeImage>(false, 16);
-		
-		properties = new ObjectMap<Object, RubeCustomProperty>();
-		
+		bodies 			= new Array<Body>(false, 32);
+		fixtures 		= new Array<Fixture>(false, 32);
+		joints 			= new Array<Joint>(false, 32);
+		images 			= new Array<RubeImage>(false, 16);
+		properties 		= new ObjectMap<Object, RubeCustomProperty>();
 		bodiesByName 	= new ObjectMap<String, Body>();
 		fixturesByName 	= new ObjectMap<String, Fixture>();
 		jointsByName 	= new ObjectMap<String, Joint>();
 		imagesByName	= new ObjectMap<String, RubeImage>();
-		
-		imagesByBody = new ObjectMap<Body, Array<RubeImage>>();
+		imagesByBody 	= new ObjectMap<Body, Array<RubeImage>>();
 	}
 	
-	public Array<Body> getBodies()
-	{
+	/**
+	 * @return all of the {@link Body} created when the scene was loaded.
+	 */
+	public Array<Body> getBodies() {
 		return bodies;
 	}
 	
-	public Array<RubeImage> getImages()
-	{
+	/**
+	 * @return all of the {@link RubeImage} created when the scene was loaded.
+	 */
+	public Array<RubeImage> getImages()	{
 		return images;
 	}
 	
-	public Array<Fixture> getFixtures()
-	{
+	/**
+	 * @return all of the {@link Fixture} created when the scene was loaded.
+	 */
+	public Array<Fixture> getFixtures() {
 		return fixtures;
 	}
 	
-	public Array<Joint> getJoints()
-	{
+	/**
+	 * @return all of the {@link Joint} created when the scene was loaded.
+	 */
+	public Array<Joint> getJoints() {
 		return joints;
 	}
 	
-	public RubeCustomProperty getProperty(Object _object)
-	{
-		if(_object != null)
+	/**
+	 * @param object the object we want to retrieve the property of. Can be a {@link World}, {@link Body}, {@link Fixture}, {@link Joint} or {@link RubeImage}.
+	 * @return the {@link RubeCustomProperty} linked to a scene object.
+	 */
+	public RubeCustomProperty getProperty(Object object) {
+		if(object != null)
 		{
-			return properties.get(_object, null);
+			return properties.get(object, null);
 		}
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @param type Class of the object to retrieve. Can be Body.class, Fixture.class, Joint.class or RubeImage.class.
+	 * @param name Name of the object, as set in the RUBE Editor.
+	 * @return the desired object if found, null else.
+	 */
 	@SuppressWarnings("unchecked")
-	public <T> T get(Class<T> _type, String _name) {
+	public <T> T get(Class<T> type, String name) {
 		
-		if(_name == null || _type == null)
+		if(name == null || type == null)
 			return null;
 		
-		if(_type == Body.class)
+		if(type == Body.class)
 		{
-			return (T) bodiesByName.get(_name);
+			return (T) bodiesByName.get(name, null);
 		}
-		else if(_type == Fixture.class)
+		else if(type == Fixture.class)
 		{
-			return (T) fixturesByName.get(_name);
+			return (T) fixturesByName.get(name, null);
 		}
-		else if(_type == Joint.class)
+		else if(type == Joint.class)
 		{
-			return (T) jointsByName.get(_name);
+			return (T) jointsByName.get(name, null);
 		}
-		else if(_type == RubeImage.class)
+		else if(type == RubeImage.class)
 		{
-			return (T) imagesByName.get(_name);
-		}
-		return null;
-	}
-	
-	public Array<RubeImage> getImage(Body _body)
-	{
-		if(_body != null)
-		{
-			return imagesByBody.get(_body);
+			return (T) imagesByName.get(name, null);
 		}
 		return null;
 	}
 	
+	/**
+	 * @param body {@link Body} linked to the images.
+	 * @return all the images associated with the body.
+	 */
+	public Array<RubeImage> getImage(Body body) {
+		if(body != null)
+		{
+			return imagesByBody.get(body);
+		}
+		return null;
+	}
+	
+	/**
+	 * Clear of the containers of objects, in case you don't need the scene anymore.
+	 */
 	public void clear() {
 		bodies.clear();
 		images.clear();
@@ -149,48 +165,73 @@ public class RubeScene {
 		imagesByBody.clear();
 	}
 	
-
-	public void onAddWorld(World _world, RubeCustomProperty _customProperty) {
-		properties.put(_world, _customProperty);
+	/** 
+	 * Called when the world is added to the scene. It's already populated with bodies, fuxtures and joints.
+	 * @param world The {@link World} of the scene.
+	 * @param customProperty {@link RubeCustomProperty} linked to the world.
+	 */
+	public void onAddWorld(World world, RubeCustomProperty customProperty) {
+		properties.put(world, customProperty);
 	}
 
-
-	public void onAddBody(Body _body, String _name, RubeCustomProperty _customProperty) {
+	/**
+	 * Called when a body is added to the scene.
+	 * @param body The {@link Body} added to the scene.
+	 * @param name Name of the body as set in the RUBE Editor.
+	 * @param customProperty {@link RubeCustomProperty} linked to the body.
+	 */
+	public void onAddBody(Body body, String name, RubeCustomProperty customProperty) {
 		
-		bodies.add(_body);
-		properties.put(_body, _customProperty);
-		bodiesByName.put(_name, _body);
+		bodies.add(body);
+		properties.put(body, customProperty);
+		bodiesByName.put(name, body);
 	}
 
-	public void onAddFixture(Fixture _fixture, String _name, RubeCustomProperty _customProperty) {
-		fixtures.add(_fixture);
-		properties.put(_fixture, _customProperty);
-		fixturesByName.put(_name, _fixture);
+	/**
+	 * Called when a body is added to the scene.
+	 * @param fixture The {@link Fixture} added to the scene.
+	 * @param name Name of the fixture as set in the RUBE Editor.
+	 * @param customProperty {@link RubeCustomProperty} linked to the fixture.
+	 */
+	public void onAddFixture(Fixture fixture, String name, RubeCustomProperty customProperty) {
+		fixtures.add(fixture);
+		properties.put(fixture, customProperty);
+		fixturesByName.put(name, fixture);
 	}
 
 
-	public void onAddJoint(Joint _joint, String _name, RubeCustomProperty _customProperty)	{
-		joints.add(_joint);
-		properties.put(_joint, _customProperty);
-		jointsByName.put(_name, _joint);
+	/**
+	 * Called when a joint is added to the scene.
+	 * @param joint The {@link Joint} added to the scene.
+	 * @param name Name of the joint as set in the RUBE Editor.
+	 * @param customProperty {@link RubeCustomProperty} linked to the joint.
+	 */
+	public void onAddJoint(Joint joint, String name, RubeCustomProperty customProperty)	{
+		joints.add(joint);
+		properties.put(joint, customProperty);
+		jointsByName.put(name, joint);
 	}
 	
-
-	public void onAddImage(RubeImage _image, RubeCustomProperty _customProperty) {
-		images.add(_image);
-		properties.put(_image, _customProperty);
-		if(_image.name != null)
-			imagesByName.put(_image.name, _image);
-		if(_image.body != null)
+	/**
+	 * Called when a image is added to the scene.
+	 * @param image The {@link RubeImage} added to the scene.
+	 * @param customProperty {@link RubeCustomProperty} linked to the image.
+	 */
+	public void onAddImage(RubeImage image, RubeCustomProperty customProperty) {
+		images.add(image);
+		properties.put(image, customProperty);
+		if(image.name != null)
+			imagesByName.put(image.name, image);
+		if(image.body != null)
 		{
-			Array<RubeImage> images = imagesByBody.get(_image.body);
+			Array<RubeImage> images = imagesByBody.get(image.body);
 			if(images == null)
 			{
 				images = new Array<RubeImage>(false, 1);
-				imagesByBody.put(_image.body, images);
+				imagesByBody.put(image.body, images);
 			}
 			
-			images.add(_image);
+			images.add(image);
 		}
 	}
 }

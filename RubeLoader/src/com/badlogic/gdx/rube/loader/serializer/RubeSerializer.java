@@ -3,7 +3,11 @@ package com.badlogic.gdx.rube.loader.serializer;
 import com.badlogic.gdx.rube.RubeScene;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
 
-public abstract class RubeSerializer<T> extends ReadOnlySerializer<T> {
+/**
+ * Base class for RUBE scene serializers. Used to carry the {@link RubeScene} around.
+ * @author clement.vayer
+ */
+abstract class RubeSerializer<T> extends ReadOnlySerializer<T> {
 
 	protected RubeScene scene;
 

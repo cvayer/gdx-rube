@@ -6,9 +6,14 @@ import com.badlogic.gdx.rube.loader.serializer.RubeSceneSerializer;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.SerializationException;
 
+/**
+ * Loader for Rube json files. Gives you a populated {@link RubeScene}.
+ * @author clement.vayer
+ */
 public class RubeSceneLoader
 {
-	protected final Json json;
+	/**Used to parse the Json files*/
+	private final Json json;
 	
 	public RubeSceneLoader()
 	{

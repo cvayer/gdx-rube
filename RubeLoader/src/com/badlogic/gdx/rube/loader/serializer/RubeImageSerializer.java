@@ -2,13 +2,17 @@ package com.badlogic.gdx.rube.loader.serializer;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.rube.RubeCustomProperty;
-import com.badlogic.gdx.rube.RubeDefaults;
 import com.badlogic.gdx.rube.RubeImage;
+import com.badlogic.gdx.rube.loader.RubeDefaults;
 import com.badlogic.gdx.rube.loader.serializer.utils.RubeVertexArray;
 import com.badlogic.gdx.utils.Json;
 
+/**
+ * Serializer to read a {@link RubeImage} from a RUBE .json file.
+ * @author clement.vayer
+ */
 @SuppressWarnings("rawtypes")
-public class RubeImageSerializer extends RubeSerializer<RubeImage>
+class RubeImageSerializer extends RubeSerializer<RubeImage>
 {	
 	public RubeImageSerializer() 
 	{

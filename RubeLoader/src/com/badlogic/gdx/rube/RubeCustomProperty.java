@@ -4,6 +4,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ObjectIntMap;
 import com.badlogic.gdx.utils.ObjectMap;
 
+/**
+ * Representation of the custom properties of the RUBE scene.
+ * Uses {@link ObjectMap} to store the different properties per type, with String as ids.
+ * @author HeRMeS
+ *
+ */
 public class RubeCustomProperty
 {
 	 private final ObjectIntMap<String> 		ints;
@@ -22,78 +28,63 @@ public class RubeCustomProperty
 		 booleans = new ObjectMap<String, Boolean>(2);
 	 }
 	 
-	 public void addInt(String _name, int _value)
-	 {
-		 ints.put(_name, _value);
+	 public void addInt(String name, int value) {
+		 ints.put(name, value);
 	 }
 	 
-	 public void addFloat(String _name, float _value)
-	 {
-		 floats.put(_name, _value);
+	 public void addFloat(String name, float value) {
+		 floats.put(name, value);
 	 }
 	 
-	 public void addString(String _name, String _value)
-	 {
-		 strings.put(_name, _value);
+	 public void addString(String name, String value) {
+		 strings.put(name, value);
 	 }
 	 
-	 public void addVec2(String _name, Vector2 _value)
-	 {
-		 vectors.put(_name, _value);
+	 public void addVec2(String name, Vector2 value) {
+		 vectors.put(name, value);
 	 }
 	 
-	 public void addBool(String _name, boolean _value)
-	 {
-		 booleans.put(_name, _value);
+	 public void addBool(String name, boolean value) {
+		 booleans.put(name, value);
 	 }
 	 
-	 public int getInt(String _name)
-	 {
-		 return ints.get(_name, 0);
+	 public int getInt(String name) {
+		 return ints.get(name, 0);
 	 }
 	 
-	 public float getFloat(String _name)
-	 {
-		 return floats.get(_name);
+	 public float getFloat(String name) {
+		 return floats.get(name);
 	 }
 	 
-	 public String getString(String _name)
-	 {
-		 return strings.get(_name);
+	 public String getString(String name) {
+		 return strings.get(name);
 	 }
 	 
-	 public Vector2 getVec2(String _name)
-	 {
-		 return vectors.get(_name);
+	 public Vector2 getVec2(String name) {
+		 return vectors.get(name);
 	 }
 	 
-	 public Boolean getBool(String _name)
-	 {
-		 return booleans.get(_name);
+	 public Boolean getBool(String name) {
+		 return booleans.get(name);
 	 }
 	 
-	 public int getInt(String _name, int defaultValue)
-	 {
-		 return ints.get(_name, defaultValue);
+	 public int getInt(String name, int defaultValue) {
+		 return ints.get(name, defaultValue);
 	 }
 	 
-	 public float getFloat(String _name, float defaultValue)
-	 {
-		 return floats.get(_name, defaultValue);
+	 public float getFloat(String name, float defaultValue) {
+		 return floats.get(name, defaultValue);
 	 }
 	 
-	 public String getString(String _name, String defaultValue)
-	 {
-		 return strings.get(_name, defaultValue);
+	 public String getString(String name, String defaultValue) {
+		 return strings.get(name, defaultValue);
 	 }
 	 
-	 public Vector2 getVec2(String _name, Vector2 defaultValue)
-	 {
-		 return vectors.get(_name, defaultValue);
+	 public Vector2 getVec2(String name, Vector2 defaultValue) {
+		 return vectors.get(name, defaultValue);
 	 }
 	 
-	 public Boolean getBool(String _name, boolean defaultValue)
-	 {
-		 return booleans.get(_name, defaultValue);
+	 public Boolean getBool(String name, boolean defaultValue) {
+		 return booleans.get(name, defaultValue);
 	 }
 }

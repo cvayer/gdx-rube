@@ -9,13 +9,17 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.rube.RubeCustomProperty;
-import com.badlogic.gdx.rube.RubeDefaults;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
+import com.badlogic.gdx.rube.loader.RubeDefaults;
 import com.badlogic.gdx.rube.loader.serializer.utils.RubeVertexArray;
 
+/**
+ * Serializer to read a {@link Fixture} from a RUBE .json file.
+ * @author clement.vayer
+ */
 @SuppressWarnings("rawtypes")
-public class RubeFixtureSerializer extends RubeSerializer<Fixture>
+class RubeFixtureSerializer extends RubeSerializer<Fixture>
 {
 	private Body body;
 	private final ChainShapeSerializer 	 chainShapeSerializer;
@@ -118,7 +122,7 @@ public class RubeFixtureSerializer extends RubeSerializer<Fixture>
 		return fixture;
 	}
 	
-	public static class CircleShapeSerializer extends ReadOnlySerializer<CircleShape>
+	static class CircleShapeSerializer extends ReadOnlySerializer<CircleShape>
 	{	
 		@Override
 		public CircleShape read(Json json, Object jsonData, Class type)
@@ -139,7 +143,7 @@ public class RubeFixtureSerializer extends RubeSerializer<Fixture>
 		}
 	}
 	
-	public static class PolygonShapeSerializer extends ReadOnlySerializer<PolygonShape>
+	static class PolygonShapeSerializer extends ReadOnlySerializer<PolygonShape>
 	{	
 		@Override
 		public PolygonShape read(Json json, Object jsonData, Class type)
@@ -156,7 +160,7 @@ public class RubeFixtureSerializer extends RubeSerializer<Fixture>
 		}
 	}
 	
-	public static class EdgeShapeSerializer extends ReadOnlySerializer<EdgeShape>
+	static class EdgeShapeSerializer extends ReadOnlySerializer<EdgeShape>
 	{		
 		@Override
 		public EdgeShape read(Json json, Object jsonData, Class type)
@@ -189,7 +193,7 @@ public class RubeFixtureSerializer extends RubeSerializer<Fixture>
 		}
 	}
 	
-	public static class ChainShapeSerializer extends ReadOnlySerializer<ChainShape>
+	static class ChainShapeSerializer extends ReadOnlySerializer<ChainShape>
 	{		
 		private boolean readloop;
 		

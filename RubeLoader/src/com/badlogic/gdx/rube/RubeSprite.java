@@ -35,7 +35,7 @@ public class RubeSprite extends Sprite {
 		setupFromImage(imageData);
 	}
 	
-	void setupFromImage(RubeImage imageData)
+	protected void setupFromImage(RubeImage imageData)
 	{
 		flip(imageData.flip, false);
 		setColor(imageData.color);
@@ -87,7 +87,7 @@ public class RubeSprite extends Sprite {
 		super.draw(spriteBatch, alphaModulation);
 	}
 	
-	void updateBodyInfos()
+	protected void updateBodyInfos()
 	{
 		if(body != null)
 		{
@@ -95,7 +95,6 @@ public class RubeSprite extends Sprite {
 			tmp.set(offsetPosition).rotate(bodyAngle).add(body.getPosition()).sub(getWidth()/2.0f, getHeight()/2.0f);
 			setPosition(tmp.x, tmp.y);
 			setRotation(bodyAngle + offsetAngle);
-			
 		}	
 	}
 }

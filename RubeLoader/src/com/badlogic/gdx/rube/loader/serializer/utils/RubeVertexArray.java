@@ -15,12 +15,14 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class RubeVertexArray 
 {
+	/** x coordinates of the vertices */
 	public float x[];
+	/** y coordinates of the vertices */
 	public float y[];
 	
 	/**
 	 * 
-	 * @return a new Vector2 Array. Can be null if x and y don't meet the requirement
+	 * @return a new Vector2 Array. Can be null if x and y don't meet the requirements.
 	 */
 	public Vector2[] toVector2()
 	{

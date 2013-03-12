@@ -2,13 +2,17 @@ package com.badlogic.gdx.rube.loader.serializer;
 
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.rube.RubeCustomProperty;
-import com.badlogic.gdx.rube.RubeDefaults;
 import com.badlogic.gdx.rube.RubeScene;
 import com.badlogic.gdx.rube.RubeImage;
+import com.badlogic.gdx.rube.loader.RubeDefaults;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
 
+/**
+ * Serializer to read a {@link RubeScene} from a RUBE .json file.
+ * @author clement.vayer
+ */
 public class RubeSceneSerializer extends ReadOnlySerializer<RubeScene>
 {
 	private 	final RubeWorldSerializer worldSerializer;

@@ -8,10 +8,14 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.rube.RubeCustomProperty;
-import com.badlogic.gdx.rube.RubeDefaults;
+import com.badlogic.gdx.rube.loader.RubeDefaults;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 
+/**
+ * Serializer to read a {@link Body} from a RUBE .json file.
+ * @author clement.vayer
+ */
 @SuppressWarnings("rawtypes")
 public class RubeBodySerializer extends RubeSerializer<Body>
 {

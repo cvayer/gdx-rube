@@ -7,10 +7,13 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
 
+/**
+ * Serializer to read a {@link RubeCustomProperty} from a RUBE .json file.
+ * @author clement.vayer
+ */
 @SuppressWarnings("rawtypes")
-public class RubeCustomPropertySerializer extends ReadOnlySerializer<RubeCustomProperty>
+class RubeCustomPropertySerializer extends ReadOnlySerializer<RubeCustomProperty>
 {
-	
 	@SuppressWarnings("unchecked")
 	@Override
 	public RubeCustomProperty read(Json json, Object jsonData, Class type) 

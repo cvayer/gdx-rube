@@ -5,8 +5,13 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
 import com.badlogic.gdx.utils.SerializationException;
 
+/**
+ * Serializer to read a {@link Vector2} from a RUBE .json file. <br/>
+ * It was added because sometime a (0,0) vector can be store as a simple 0, and the readValue method of the Json object can't cope with it.
+ * @author clement.vayer
+ */
 @SuppressWarnings("rawtypes")
-public class Vector2Serializer extends ReadOnlySerializer<Vector2>
+class Vector2Serializer extends ReadOnlySerializer<Vector2>
 {
 	@Override
 	public Vector2 read(Json json, Object jsonData, Class type) 

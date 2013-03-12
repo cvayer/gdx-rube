@@ -61,6 +61,8 @@ public class RubeLoaderTest implements ApplicationListener, InputProcessor {
 	@Override
 	public void dispose() 
 	{
+		scene.world.dispose();
+		scene.clear();
 		render.dispose();
 		renderer.dispose();
 		batch.dispose();
