@@ -13,9 +13,14 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 
+/**
+ *  A RubeSprite extends from {@link PolygonSprite} with additional information to properly follow a {@link Body}
+ * @author clement.vayer
+ *
+ */
 public class RubePolygonSprite extends PolygonSprite
 {
-	// Static stuff
+	// Static
 	private static float pixelsPerMeters = 100.0f;
 	
 	private static Vector2 tmp = new Vector2();
@@ -24,10 +29,21 @@ public class RubePolygonSprite extends PolygonSprite
 		return pixelsPerMeters;
 	}
 	
+	/**
+	 * Sets the pixels per meters ratio to map the textures to the fixtures
+	 * @param pixelsPerMeters How many pixels we be needed to fill one Box2D meter.
+	 */
 	public static void setPixelPerMeters(float pixelsPerMeters) {
 		RubePolygonSprite.pixelsPerMeters = pixelsPerMeters;
 	}
 
+	/**
+	 * Convenience method to create a new RubePolygonSprite from a {@link Fixture}. <br/>
+	 * Can return null if the Fixture doesn't meet the requirement (not a polygon fixture or body is null).
+	 * @param texture {@link Texture} to use to draw the sprite.
+	 * @param fixture Reference {@link Fixture} to create the sprite.
+	 * @return The newly created RubePolygonSprite.
+	 */
 	public static RubePolygonSprite createRubePolygonSprite(Texture texture, Fixture fixture)
 	{
 		if(texture != null && fixture != null && fixture.getBody() != null && fixture.getType() == Shape.Type.Polygon)
@@ -43,8 +59,7 @@ public class RubePolygonSprite extends PolygonSprite
 				for (int i = 0; i < vertexCount; ++i)
 				{
 					shape.getVertex(i, tmp);
-					tmp.rotate(body.getAngle()*MathUtils.radiansToDegrees);
-					tmp.add(body.getPosition()); // convert local coordinates to world coordinates to that textures are aligned
+					tmp.rotate(body.getAngle()*MathUtils.radiansToDegrees).add(body.getPosition()); // convert local coordinates to world coordinates to that textures are aligned
 					vertices[i*2] = tmp.x*pixelsPerMeters;
 					vertices[i*2+1] = tmp.y*pixelsPerMeters;
 				}
@@ -94,6 +109,10 @@ public class RubePolygonSprite extends PolygonSprite
 		}
 	}
 	
+	/**
+	 * Copy every attributes of the parameter.
+	 * @param sprite RubePolygonSprite to copy.
+	 */
 	public void set(RubePolygonSprite sprite)
 	{
 		super.set(sprite);

@@ -40,7 +40,7 @@ public class RubeLoaderTest implements ApplicationListener, InputProcessor {
 		float cameraViewportWidth = 50.0f;
 		
 		RubePolygonSprite.setPixelPerMeters(w/cameraViewportWidth);
-		
+	//	RubePolygonSprite.setPixelPerMeters(1.0f);
 		camera = new OrthographicCamera(cameraViewportWidth, cameraViewportWidth*h/w);
 		
 		

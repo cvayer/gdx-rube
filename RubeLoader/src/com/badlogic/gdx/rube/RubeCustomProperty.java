@@ -68,22 +68,37 @@ public class RubeCustomProperty
 		 return booleans.get(name);
 	 }
 	 
+	 /**
+	  * @return the property value if found, the defaultValue if not
+	  */
 	 public int getInt(String name, int defaultValue) {
 		 return ints.get(name, defaultValue);
 	 }
 	 
+	 /**
+	  * @return the property value if found, the defaultValue if not
+	  */
 	 public float getFloat(String name, float defaultValue) {
 		 return floats.get(name, defaultValue);
 	 }
 	 
+	 /**
+	  * @return the property value if found, the defaultValue if not
+	  */
 	 public String getString(String name, String defaultValue) {
 		 return strings.get(name, defaultValue);
 	 }
 	 
+	 /**
+	  * @return the property value if found, the defaultValue if not
+	  */
 	 public Vector2 getVec2(String name, Vector2 defaultValue) {
 		 return vectors.get(name, defaultValue);
 	 }
 	 
+	 /**
+	  * @return the property value if found, the defaultValue if not
+	  */
 	 public Boolean getBool(String name, boolean defaultValue) {
 		 return booleans.get(name, defaultValue);
 	 }

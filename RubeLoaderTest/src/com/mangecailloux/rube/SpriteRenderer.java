@@ -56,7 +56,7 @@ public class SpriteRenderer
 			
 			image.file = "data/"+image.file;
 			
-			RubeSprite sprite = new RubeSprite(image);			
+			RubeSprite sprite = new RubeSprite(new Texture(image.file), image);			
 			sprites.add(sprite);
 		}
 	}
