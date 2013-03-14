@@ -18,14 +18,14 @@ static final String GAME_NAME = "RubeLoaderTest";
 	/**
 	 * @param args
 	 */
-	public static void mainLaunch(int width, int height)
+	public static void mainLaunch(int width, int height, boolean useAssetManager)
 	{
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = GAME_NAME;
 		cfg.useGL20 = true;
 		cfg.width = width;
 		cfg.height = height;
-		new LwjglApplication(new RubeLoaderTest(), cfg);
+		new LwjglApplication(new RubeLoaderTest(useAssetManager), cfg);
 	}
 	
 	public static void main(String[] args)
@@ -41,6 +41,13 @@ static final String GAME_NAME = "RubeLoaderTest";
 	            String[] modes = { "portrait", "landscape" };
 	            JComboBox modeVals = new JComboBox(modes);
 	            modeVals.setSelectedItem(modes[1]); // default to landscape
+	            
+	            // -------------------------------------------------------------
+	            // Display mode selection
+	            // -------------------------------------------------------------
+	            String[] asset = { "Use", "Do not use" };
+	            JComboBox assetVals = new JComboBox(asset);
+	            assetVals.setSelectedItem(asset[1]); // default to  do not use
 
 	            // -------------------------------------------------------------
 	            // Resolution selection
@@ -66,6 +73,8 @@ static final String GAME_NAME = "RubeLoaderTest";
 	                  resVals,
 	                  new JLabel("Select simulated orientation"),
 	                  modeVals,
+	                  new JLabel("Use AssetManager"),
+	                  assetVals,
 	            };
 	            int result = JOptionPane.showConfirmDialog(null, inputs,"Sim Options",JOptionPane.OK_CANCEL_OPTION);
 	            System.out.println("User Selected: " + resVals.getSelectedItem() + " " + modeVals.getSelectedItem() + " " + result);
@@ -78,6 +87,8 @@ static final String GAME_NAME = "RubeLoaderTest";
 
 	            boolean isPortrait = modeVals.getSelectedItem().equals("portrait");
 	            resolutionResult = (String)resVals.getSelectedItem();
+	            
+	            boolean useAssetManager = assetVals.getSelectedItem().equals("Use");
 
 	            if (result == 0)
 	            {
@@ -87,7 +98,7 @@ static final String GAME_NAME = "RubeLoaderTest";
 	                  m.find();
 	                  int w = Integer.parseInt(m.group(isPortrait ? 1 : 2));
 	                  int h = Integer.parseInt(m.group(isPortrait ? 2 : 1));
-	                  mainLaunch(w, h);
+	                  mainLaunch(w, h, useAssetManager);
 	               }
 	            }
 	         }

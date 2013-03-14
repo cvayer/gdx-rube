@@ -1,5 +1,6 @@
 package com.mangecailloux.rube;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
@@ -9,9 +10,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.rube.RubeCustomProperty;
 import com.badlogic.gdx.rube.RubeImage;
-import com.badlogic.gdx.rube.RubePolygonSprite;
 import com.badlogic.gdx.rube.RubeScene;
-import com.badlogic.gdx.rube.RubeSprite;
+import com.badlogic.gdx.rube.graphics.g2d.RubePolygonSprite;
+import com.badlogic.gdx.rube.graphics.g2d.RubeSprite;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectMap.Values;
@@ -31,24 +32,24 @@ public class SpriteRenderer
 		textureMap = new ObjectMap<String, Texture>();
 	}
 	
-	public void initFromScene(RubeScene _scene)
+	public void initFromScene(RubeScene _scene, AssetManager assetManager)
 	{
-		addImages(_scene.getImages());
+		addImages(_scene.getImages(), assetManager);
 		addFixtures(_scene);
 	}
 	
-	public void addImages(Array<RubeImage> _images)
+	public void addImages(Array<RubeImage> _images, AssetManager assetManager)
 	{
 		if(_images != null)
 		{
 			for(int i=0; i < _images.size; ++i)
 			{
-				addImage(_images.get(i));
+				addImage(_images.get(i), assetManager);
 			}
 		}
 	}
 
-	public void addImage(RubeImage _image) {
+	public void addImage(RubeImage _image, AssetManager assetManager) {
 		
 		if(_image instanceof RubeImage)
 		{
@@ -56,7 +57,18 @@ public class SpriteRenderer
 			
 			image.file = "data/"+image.file;
 			
-			RubeSprite sprite = new RubeSprite(new Texture(image.file), image);			
+			Texture texture = null;
+			
+			if(assetManager != null)
+			{
+				texture = assetManager.get(image.file, Texture.class);
+			}
+			else
+			{
+				texture = new Texture(image.file);
+			}
+			
+			RubeSprite sprite = new RubeSprite(texture, image);			
 			sprites.add(sprite);
 		}
 	}

@@ -1,12 +1,14 @@
-package com.badlogic.gdx.rube;
+package com.badlogic.gdx.rube.graphics.g2d;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.rube.RubeImage;
 
 /**
  * A RubeSprite extends from {@link Sprite} with additional information to properly follow a {@link Body}
@@ -70,6 +72,15 @@ public class RubeSprite extends Sprite {
 		}
 		
 		setPosition(tmp.x, tmp.y);
+		
+		if(imageData.filter == 0)
+		{
+			getTexture().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+		}
+		else
+		{
+			getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		}
 	}
 	
 	/**

@@ -1,8 +1,8 @@
-package com.badlogic.gdx.rube.loader;
+package com.badlogic.gdx.rube.reader;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.rube.RubeScene;
-import com.badlogic.gdx.rube.loader.serializer.RubeSceneSerializer;
+import com.badlogic.gdx.rube.reader.serializer.RubeSceneSerializer;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.SerializationException;
 
@@ -10,12 +10,12 @@ import com.badlogic.gdx.utils.SerializationException;
  * Loader for Rube json files. Gives you a populated {@link RubeScene}.
  * @author clement.vayer
  */
-public class RubeSceneLoader
+public class RubeSceneReader
 {
 	/**Used to parse the Json files*/
 	private final Json json;
 	
-	public RubeSceneLoader() {
+	public RubeSceneReader() {
 		json = new Json();
 		json.setTypeName(null);
 		json.setUsePrototypes(false);
@@ -28,7 +28,7 @@ public class RubeSceneLoader
 	 * @param _file File to read.
 	 * @return the scene described in the document.
 	 */
-	public RubeScene loadScene(FileHandle file) {
+	public RubeScene readScene(FileHandle file) {
 		RubeScene scene = null;
 		try 
 		{

@@ -1,4 +1,4 @@
-package com.badlogic.gdx.rube.loader.serializer;
+package com.badlogic.gdx.rube.reader.serializer;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.rube.RubeCustomProperty;
@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
  * @author clement.vayer
  */
 @SuppressWarnings("rawtypes")
-class RubeCustomPropertySerializer extends ReadOnlySerializer<RubeCustomProperty>
+public class RubeCustomPropertySerializer extends ReadOnlySerializer<RubeCustomProperty>
 {
 	@SuppressWarnings("unchecked")
 	@Override

@@ -1,10 +1,10 @@
-package com.badlogic.gdx.rube.loader.serializer;
+package com.badlogic.gdx.rube.reader.serializer;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.rube.RubeCustomProperty;
 import com.badlogic.gdx.rube.RubeImage;
-import com.badlogic.gdx.rube.loader.RubeDefaults;
-import com.badlogic.gdx.rube.loader.serializer.utils.RubeVertexArray;
+import com.badlogic.gdx.rube.reader.RubeDefaults;
+import com.badlogic.gdx.rube.reader.serializer.utils.RubeVertexArray;
 import com.badlogic.gdx.utils.Json;
 
 /**

@@ -3,29 +3,48 @@ package com.mangecailloux.rube;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.RubeSceneLoader;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.rube.RubePolygonSprite;
 import com.badlogic.gdx.rube.RubeScene;
-import com.badlogic.gdx.rube.loader.RubeSceneLoader;
+import com.badlogic.gdx.rube.graphics.g2d.RubePolygonSprite;
+import com.badlogic.gdx.rube.reader.RubeSceneReader;
 
 
 public class RubeLoaderTest implements ApplicationListener, InputProcessor {
-	private OrthographicCamera camera;
-	private RubeSceneLoader	loader;
-	private RubeScene	scene;
+	private OrthographicCamera 		camera;
+
 	private Box2DDebugRenderer renderer;
 	private SpriteRenderer		render;
 	private SpriteBatch       	batch;
 	private PolygonSpriteBatch 	polygonBatch;
 	
 	// used for pan and scanning with the mouse.
-		private Vector3 mCamPos;
-		private Vector3 mCurrentPos;
+	private final Vector3 mCamPos;
+	private final Vector3 mCurrentPos;
+	
+	private RubeSceneReader	loader;
+	private RubeScene	scene;
+	
+	private boolean		useAssetManager;
+	private boolean		loaded;
+	private AssetManager assetManager;
+	private String 		scenefileName;
+	
+	
+	public RubeLoaderTest(boolean useAssetManager)
+	{
+		mCamPos = new Vector3();
+		mCurrentPos = new Vector3();
+		this.useAssetManager = useAssetManager;
+	}
+
 	
 	@Override
 	public void create() {		
@@ -34,28 +53,33 @@ public class RubeLoaderTest implements ApplicationListener, InputProcessor {
 		
 		Gdx.input.setInputProcessor(this);
 		
-		mCamPos = new Vector3();
-		mCurrentPos = new Vector3();
+		renderer 		= new Box2DDebugRenderer();
+		batch 			= new SpriteBatch();
+		polygonBatch 	= new PolygonSpriteBatch();
+		render 			= new SpriteRenderer();
 		
 		float cameraViewportWidth = 50.0f;
-		
-		RubePolygonSprite.setPixelPerMeters(w/cameraViewportWidth);
-	//	RubePolygonSprite.setPixelPerMeters(1.0f);
 		camera = new OrthographicCamera(cameraViewportWidth, cameraViewportWidth*h/w);
 		
+		RubePolygonSprite.setPixelPerMeters(w/cameraViewportWidth);
 		
-		loader = new RubeSceneLoader();
-	
-		scene = loader.loadScene(Gdx.files.internal("data/palm.json"));
-
+		scenefileName = "data/palm.json";
 		
-		render = new SpriteRenderer();
-		render.initFromScene(scene);
-		
-		renderer = new Box2DDebugRenderer();
-		
-		batch = new SpriteBatch();
-		polygonBatch = new PolygonSpriteBatch();
+		if(!useAssetManager)
+		{
+			loader = new RubeSceneReader();
+			scene = loader.readScene(Gdx.files.internal(scenefileName));
+			render.initFromScene(scene, null);
+		}
+		else
+		{
+			assetManager = new AssetManager();
+			assetManager.setLoader(RubeScene.class, new RubeSceneLoader(new InternalFileHandleResolver()));
+			
+			assetManager.load(scenefileName, RubeScene.class);
+			
+			loaded = false;
+		}		
 	}
 
 	@Override
@@ -74,6 +98,23 @@ public class RubeLoaderTest implements ApplicationListener, InputProcessor {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
+		if(useAssetManager)
+		{
+			if(!loaded)
+			{
+				if(assetManager.update())
+				{
+					loaded = true;
+					// Init renderer
+					
+					scene = assetManager.get(scenefileName, RubeScene.class);
+					render.initFromScene(scene, assetManager);
+				}
+				return;
+			}
+		}
+		
+
 		scene.world.step(1.0f/scene.stepsPerSecond, scene.velocityIterations, scene.positionIterations);
 		
 		batch.setProjectionMatrix(camera.projection);

@@ -1,4 +1,4 @@
-package com.badlogic.gdx.rube.loader.serializer;
+package com.badlogic.gdx.rube.reader.serializer;
 
 import com.badlogic.gdx.rube.RubeScene;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;

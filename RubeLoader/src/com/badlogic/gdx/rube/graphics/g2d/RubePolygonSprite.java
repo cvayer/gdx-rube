@@ -1,4 +1,4 @@
-package com.badlogic.gdx.rube;
+package com.badlogic.gdx.rube.graphics.g2d;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonRegion;
