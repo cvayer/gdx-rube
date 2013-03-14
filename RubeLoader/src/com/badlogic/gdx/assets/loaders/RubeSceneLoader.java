@@ -5,7 +5,6 @@ import com.badlogic.gdx.assets.AssetLoaderParameters;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.SynchronousAssetLoader;
-import com.badlogic.gdx.assets.loaders.TextureLoader;
 import com.badlogic.gdx.assets.loaders.TextureLoader.TextureParameter;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,7 +13,6 @@ import com.badlogic.gdx.rube.RubeCustomProperty;
 import com.badlogic.gdx.rube.RubeScene;
 import com.badlogic.gdx.rube.reader.RubeSceneReader;
 import com.badlogic.gdx.rube.reader.serializer.RubeCustomPropertySerializer;
-import com.badlogic.gdx.rube.reader.serializer.RubeSceneSerializer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.SerializationException;
@@ -58,6 +56,7 @@ public class RubeSceneLoader extends SynchronousAssetLoader<RubeScene, RubeScene
 		}
 	}
 	
+	@SuppressWarnings("rawtypes")
 	static class RubeSceneDependencies
 	{
 		Array<AssetDescriptor> dependencies;
@@ -112,7 +111,7 @@ public class RubeSceneLoader extends SynchronousAssetLoader<RubeScene, RubeScene
 			public String basePath;
 			
 			
-			@SuppressWarnings("rawtypes")
+			@SuppressWarnings({ "rawtypes", "unchecked" })
 			@Override
 			public RubeSceneDependencies read(Json json, Object jsonData,	Class type) {
 				
