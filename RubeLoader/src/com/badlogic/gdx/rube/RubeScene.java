@@ -31,6 +31,7 @@ import com.badlogic.gdx.utils.ObjectMap;
  */
 public class RubeScene {
 	
+	/** Tag to look for in the World's properties when searching for an atlas filename*/
 	public static String atlasPropertyName = "atlas";
 	
 	/** Box2D {@link World} */
@@ -237,6 +238,11 @@ public class RubeScene {
 		}
 	}
 	
+	/**
+	 * Returns the path + filename of the atlas to use.
+	 * @param index if 0, will search for the atlas with no suffix, else the atlas stored in the property name RubeScene.atlasPropertyName + index
+	 * @return the filepath if found, null else.
+	 */
 	public String getAtlasFilePath(int index)
 	{
 		if(world != null)
@@ -257,6 +263,9 @@ public class RubeScene {
 		return null;
 	}
 	
+	/**
+	 * @return true, if one of the properties of the world is as a name matching the atlasPropertyName static variable.
+	 */
 	public boolean usesAtlas()
 	{
 		if(world != null)
