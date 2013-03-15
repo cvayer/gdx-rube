@@ -47,11 +47,25 @@ class RubeImageSerializer extends RubeSerializer<RubeImage>
 		}
 		
 		image.file = json.readValue("file", String.class, jsonData);
+		
+		if(scene.usesAtlas())
+		{
+			int fslashIndex = image.file.lastIndexOf('/');
+			int dotIndex = image.file.lastIndexOf('.');
+			
+			if(fslashIndex != -1 && dotIndex != -1 && fslashIndex < dotIndex)
+			{
+				image.file = image.file.substring(fslashIndex + 1, dotIndex);
+			}
+		}
+		
+		
 		image.filter = json.readValue("filter", int.class, defaults.filter, jsonData);
 		image.name = json.readValue("name", String.class, jsonData);
 		image.opacity = json.readValue("opacity", float.class, defaults.opacity, jsonData);
 		image.renderOrder = json.readValue("renderOrder", int.class, defaults.renderOrder, jsonData);
 		image.scale = json.readValue("scale", float.class, defaults.scale, jsonData);
+		image.flip = json.readValue("flip", boolean.class, defaults.flip, jsonData);
 		
 		int [] colorArray = json.readValue("colorTint", int[].class,RubeDefaults.Image.colorArray,jsonData);
 	    image.color.set((float)colorArray[0]/255, (float)colorArray[1]/255, (float)colorArray[2]/255, (float)colorArray[3]/255);

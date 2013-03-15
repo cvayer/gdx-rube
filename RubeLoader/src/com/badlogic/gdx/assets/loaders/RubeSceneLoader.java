@@ -9,6 +9,7 @@ import com.badlogic.gdx.assets.loaders.TextureLoader.TextureParameter;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.rube.RubeCustomProperty;
 import com.badlogic.gdx.rube.RubeScene;
 import com.badlogic.gdx.rube.reader.RubeSceneReader;
@@ -23,6 +24,7 @@ public class RubeSceneLoader extends SynchronousAssetLoader<RubeScene, RubeScene
 	
 	private final RubeSceneReader reader;
 	private final RubeSceneDependenciesReader dependenciesReader;
+	private 	  RubeSceneDependencies 	  rubeDependencies;
 	
 	public RubeSceneLoader (FileHandleResolver resolver) {
 		super(resolver);
@@ -37,37 +39,54 @@ public class RubeSceneLoader extends SynchronousAssetLoader<RubeScene, RubeScene
 
 		FileHandle sceneFile = resolve(fileName);	
 		
-		return reader.readScene(sceneFile);
+		if(sceneFile != null)
+		{
+			return reader.readScene(sceneFile);
+		}
+		
+		return null;
 	}
 
 	@SuppressWarnings("rawtypes")
 	@Override
 	public Array<AssetDescriptor> getDependencies (String fileName, RubeSceneParameter parameter) {
 
-		FileHandle sceneFile = resolve(fileName);	
+		Array<AssetDescriptor> dependencies = null;
+		if(parameter == null || parameter.loadImages)
+		{
+			FileHandle sceneFile = resolve(fileName);	
 		
-		RubeSceneDependencies dependencies = dependenciesReader.readDependencies(sceneFile.parent().path(), sceneFile);
+			rubeDependencies = dependenciesReader.readDependencies(sceneFile.parent().path(), sceneFile);
+			
+			dependencies = rubeDependencies.dependencies;
+		}
+		else
+		{
+			rubeDependencies = null;
+		}
 
-		return dependencies.getDependencies();
+		return dependencies;
 	}
 
 	static public class RubeSceneParameter extends AssetLoaderParameters<RubeScene> {
-		public RubeSceneParameter () {
+		
+		public boolean loadImages = true;
+		
+		public RubeSceneParameter (boolean loadImages) {
+			this.loadImages = loadImages;
 		}
 	}
 	
 	@SuppressWarnings("rawtypes")
 	static class RubeSceneDependencies
 	{
-		Array<AssetDescriptor> dependencies;
+		public final Array<AssetDescriptor> dependencies;
+		public		 boolean				useAtlas;
 		
 		RubeSceneDependencies()
 		{
 			dependencies = new Array<AssetDescriptor>();
-		}
-		
-		Array<AssetDescriptor> getDependencies() {
-			return dependencies;
+			useAtlas = false;
 		}
 	}
 	
@@ -96,7 +115,7 @@ public class RubeSceneLoader extends SynchronousAssetLoader<RubeScene, RubeScene
 			RubeSceneDependencies dependencies = null;
 			try 
 			{
-				serializer.basePath = basePath;
+				serializer.basePath = basePath + "/";
 				dependencies = json.fromJson(RubeSceneDependencies.class, file);	
 			} 
 			catch (SerializationException ex) 
@@ -106,7 +125,7 @@ public class RubeSceneLoader extends SynchronousAssetLoader<RubeScene, RubeScene
 			return dependencies;
 		}
 		
-		static public class RubeSceneDependenciesSerializer extends ReadOnlySerializer<RubeSceneDependencies>
+		static class RubeSceneDependenciesSerializer extends ReadOnlySerializer<RubeSceneDependencies>
 		{
 			public String basePath;
 			
@@ -117,34 +136,67 @@ public class RubeSceneLoader extends SynchronousAssetLoader<RubeScene, RubeScene
 				
 				RubeSceneDependencies rubeDependencies = new RubeSceneDependencies();
 				
-				Array<AssetDescriptor> dependencies = rubeDependencies.getDependencies();
+				Array<AssetDescriptor> dependencies = rubeDependencies.dependencies;
 				
-		//		RubeCustomProperty customProperty = json.readValue("customProperties", RubeCustomProperty.class, jsonData);
+				RubeCustomProperty customProperty = json.readValue("customProperties", RubeCustomProperty.class, jsonData);
 				
-				Array<ImageInfo> infos = json.readValue("image", Array.class, ImageInfo.class, jsonData);
+				// Test if we want atlas mode
 				
-				if(infos != null)
+				rubeDependencies.useAtlas = false;
+				if(customProperty != null)
 				{
-					for(int i=0; i < infos.size; ++i)
+					String atlas = customProperty.getString(RubeScene.atlasPropertyName, null);
+					
+					if(atlas != null)
 					{
-						ImageInfo info = infos.get(i);
+						AssetDescriptor<TextureAtlas> atlasDesc = new AssetDescriptor<TextureAtlas>(basePath +  atlas, TextureAtlas.class);
+						dependencies.add(atlasDesc);
+						rubeDependencies.useAtlas  = true;
 						
-						TextureParameter parameter = new TextureParameter();
-						
-						if(info.filter == 0)
+						int i = 1;
+						do
 						{
-							parameter.minFilter = TextureFilter.Nearest;
-							parameter.magFilter = TextureFilter.Nearest;
+							atlas = customProperty.getString(RubeScene.atlasPropertyName + i, null);
+							++i;
+							if(atlas != null)
+							{
+								atlasDesc = new AssetDescriptor<TextureAtlas>(basePath +  atlas, TextureAtlas.class);
+								dependencies.add(atlasDesc);
+							}
 						}
-						else
+						while(atlas != null);
+					}	
+				}
+				
+				
+				if(!rubeDependencies.useAtlas ) // Regular texture dependencies
+				{
+					Array<ImageInfo> infos = json.readValue("image", Array.class, ImageInfo.class, jsonData);
+					
+					if(infos != null)
+					{
+						for(int i=0; i < infos.size; ++i)
 						{
-							parameter.minFilter = TextureFilter.Linear;
-							parameter.magFilter = TextureFilter.Linear;
+							ImageInfo info = infos.get(i);
+							
+							TextureParameter parameter = new TextureParameter();
+							
+							if(info.filter == 0)
+							{
+								parameter.minFilter = TextureFilter.Nearest;
+								parameter.magFilter = TextureFilter.Nearest;
+							}
+							else
+							{
+								parameter.minFilter = TextureFilter.Linear;
+								parameter.magFilter = TextureFilter.Linear;
+							}
+							
+							// TODO : add dependencies only once
+							AssetDescriptor<Texture> desc = new AssetDescriptor<Texture>(basePath + info.file, Texture.class, parameter );
+							
+							dependencies.add(desc);
 						}
-						
-						AssetDescriptor<Texture> desc = new AssetDescriptor<Texture>(basePath + "/" + info.file, Texture.class, parameter );
-						
-						dependencies.add(desc);
 					}
 				}
 				

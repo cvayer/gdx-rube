@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.rube.RubeCustomProperty;
@@ -34,42 +36,59 @@ public class SpriteRenderer
 	
 	public void initFromScene(RubeScene _scene, AssetManager assetManager)
 	{
-		addImages(_scene.getImages(), assetManager);
+		addImages(_scene, _scene.getImages(), assetManager);
 		addFixtures(_scene);
 	}
 	
-	public void addImages(Array<RubeImage> _images, AssetManager assetManager)
+	public void addImages(RubeScene _scene, Array<RubeImage> _images, AssetManager assetManager)
 	{
 		if(_images != null)
 		{
 			for(int i=0; i < _images.size; ++i)
 			{
-				addImage(_images.get(i), assetManager);
+				addImage(_scene, _images.get(i), assetManager);
 			}
 		}
 	}
 
-	public void addImage(RubeImage _image, AssetManager assetManager) {
+	public void addImage(RubeScene _scene, RubeImage _image, AssetManager assetManager) {
 		
 		if(_image instanceof RubeImage)
 		{
 			RubeImage image = (RubeImage)_image;
 			
-			image.file = "data/"+image.file;
+			
 			
 			Texture texture = null;
+			RubeSprite sprite = null;
 			
 			if(assetManager != null)
 			{
-				texture = assetManager.get(image.file, Texture.class);
+				if(_scene.usesAtlas())
+				{
+					TextureAtlas atlas = assetManager.get("data/" + _scene.getAtlasFilePath(0), TextureAtlas.class);
+					if(atlas != null)
+					{
+						TextureRegion region = atlas.findRegion(image.file);
+						if(region != null)
+							sprite = new RubeSprite(region, image);	
+					}
+				}
+				else
+				{
+					texture = assetManager.get("data/" + image.file, Texture.class);
+					sprite = new RubeSprite(texture, image);	
+				}
 			}
 			else
 			{
-				texture = new Texture(image.file);
+				texture = new Texture("data/" + image.file);
+				sprite = new RubeSprite(texture, image);	
 			}
 			
-			RubeSprite sprite = new RubeSprite(texture, image);			
-			sprites.add(sprite);
+
+			if(sprite != null)
+				sprites.add(sprite);
 		}
 	}
 	

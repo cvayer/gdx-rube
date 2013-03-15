@@ -1,0 +1,40 @@
+
+palm.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+brick
+  rotate: false
+  xy: 0, 243
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+palmbranch
+  rotate: false
+  xy: 0, 0
+  size: 203, 242
+  orig: 203, 242
+  offset: 0, 0
+  index: -1
+palmtrunk
+  rotate: false
+  xy: 257, 353
+  size: 109, 146
+  orig: 109, 146
+  offset: 0, 0
+  index: -1
+toyzrockinghorse
+  rotate: false
+  xy: 257, 292
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+egg
+  rotate: false
+  xy: 204, 222
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: -1

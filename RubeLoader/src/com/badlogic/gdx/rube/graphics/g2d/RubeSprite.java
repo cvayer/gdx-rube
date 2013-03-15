@@ -46,6 +46,7 @@ public class RubeSprite extends Sprite {
 	
 	protected void setupFromImage(RubeImage imageData) {
 		flip(imageData.flip, false);
+		imageData.color.a *= imageData.opacity;
 		setColor(imageData.color);
 		setSize(imageData.width, imageData.height);
 		

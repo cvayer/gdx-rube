@@ -18,21 +18,22 @@ static final String GAME_NAME = "RubeLoaderTest";
 	/**
 	 * @param args
 	 */
-	public static void mainLaunch(int width, int height, boolean useAssetManager)
+	public static void mainLaunch(int width, int height, boolean useAssetManager, String sceneToLoad)
 	{
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = GAME_NAME;
 		cfg.useGL20 = true;
 		cfg.width = width;
 		cfg.height = height;
-		new LwjglApplication(new RubeLoaderTest(useAssetManager), cfg);
+		new LwjglApplication(new RubeLoaderTest(useAssetManager, sceneToLoad), cfg);
 	}
 	
 	public static void main(String[] args)
 	{
 	      SwingUtilities.invokeLater(new Runnable()
 	      {
-	         @Override
+	         @SuppressWarnings({ "unchecked", "rawtypes" })
+			@Override
 	         public void run()
 	         {
 	            // -------------------------------------------------------------
@@ -43,11 +44,18 @@ static final String GAME_NAME = "RubeLoaderTest";
 	            modeVals.setSelectedItem(modes[1]); // default to landscape
 	            
 	            // -------------------------------------------------------------
-	            // Display mode selection
+	            // AssetManager Mode
 	            // -------------------------------------------------------------
 	            String[] asset = { "Use", "Do not use" };
 	            JComboBox assetVals = new JComboBox(asset);
-	            assetVals.setSelectedItem(asset[1]); // default to  do not use
+	            assetVals.setSelectedItem(asset[0]); // default to  do not use
+	            
+	            // -------------------------------------------------------------
+	            // scene Mode
+	            // -------------------------------------------------------------
+	            String[] scene = { "palm.json", "palmAtlas.json" };
+	            JComboBox sceneVals = new JComboBox(scene);
+	            assetVals.setSelectedItem(scene[0]); // default to  do not use
 
 	            // -------------------------------------------------------------
 	            // Resolution selection
@@ -75,6 +83,8 @@ static final String GAME_NAME = "RubeLoaderTest";
 	                  modeVals,
 	                  new JLabel("Use AssetManager"),
 	                  assetVals,
+	                  new JLabel("Scene to load"),
+	                  sceneVals,
 	            };
 	            int result = JOptionPane.showConfirmDialog(null, inputs,"Sim Options",JOptionPane.OK_CANCEL_OPTION);
 	            System.out.println("User Selected: " + resVals.getSelectedItem() + " " + modeVals.getSelectedItem() + " " + result);
@@ -89,6 +99,8 @@ static final String GAME_NAME = "RubeLoaderTest";
 	            resolutionResult = (String)resVals.getSelectedItem();
 	            
 	            boolean useAssetManager = assetVals.getSelectedItem().equals("Use");
+	            
+	            String sceneToLoad = sceneVals.getSelectedItem().toString();
 
 	            if (result == 0)
 	            {
@@ -98,7 +110,7 @@ static final String GAME_NAME = "RubeLoaderTest";
 	                  m.find();
 	                  int w = Integer.parseInt(m.group(isPortrait ? 1 : 2));
 	                  int h = Integer.parseInt(m.group(isPortrait ? 2 : 1));
-	                  mainLaunch(w, h, useAssetManager);
+	                  mainLaunch(w, h, useAssetManager, sceneToLoad);
 	               }
 	            }
 	         }

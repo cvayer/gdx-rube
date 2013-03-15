@@ -38,11 +38,13 @@ public class RubeLoaderTest implements ApplicationListener, InputProcessor {
 	private String 		scenefileName;
 	
 	
-	public RubeLoaderTest(boolean useAssetManager)
+	public RubeLoaderTest(boolean useAssetManager, String sceneToLoad)
 	{
 		mCamPos = new Vector3();
 		mCurrentPos = new Vector3();
 		this.useAssetManager = useAssetManager;
+		
+		scenefileName = "data/" + sceneToLoad;
 	}
 
 	
@@ -63,7 +65,6 @@ public class RubeLoaderTest implements ApplicationListener, InputProcessor {
 		
 		RubePolygonSprite.setPixelPerMeters(w/cameraViewportWidth);
 		
-		scenefileName = "data/palm.json";
 		
 		if(!useAssetManager)
 		{

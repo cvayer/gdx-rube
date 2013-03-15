@@ -31,6 +31,8 @@ import com.badlogic.gdx.utils.ObjectMap;
  */
 public class RubeScene {
 	
+	public static String atlasPropertyName = "atlas";
+	
 	/** Box2D {@link World} */
 	public World world;
 	/** Simulation steps wanted per second */
@@ -233,5 +235,41 @@ public class RubeScene {
 			
 			images.add(image);
 		}
+	}
+	
+	public String getAtlasFilePath(int index)
+	{
+		if(world != null)
+		{
+			RubeCustomProperty properties = getProperty(world);
+			if(properties != null)
+			{
+				if(index == 0)
+				{
+					return properties.getString(RubeScene.atlasPropertyName, null);
+				}
+				else
+				{
+					return properties.getString(RubeScene.atlasPropertyName + index, null);
+				}
+			}
+		}
+		return null;
+	}
+	
+	public boolean usesAtlas()
+	{
+		if(world != null)
+		{
+			RubeCustomProperty properties = getProperty(world);
+			if(properties != null)
+			{
+				if(properties.getString(RubeScene.atlasPropertyName, null) != null)
+				{
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }
