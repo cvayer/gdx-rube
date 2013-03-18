@@ -42,7 +42,7 @@ Then when it's loaded, retrieve your scene like you do for any other Asset
 
 		RubeScene scene = assetManager.get("data/yourscene.json", RubeScene.class);
 		
-Several scene objects are created by the loadScene method.  These objects can be used for post-processing operations:
+Several scene objects are created by the readScene method.  These objects can be used for post-processing operations:
 
 	* scene.world: This object is the Box2D physics world and is populated with the bodies, joints, and fixtures from the JSON file.
 	* scene.getBodies(): This method returns an array of bodies created.
