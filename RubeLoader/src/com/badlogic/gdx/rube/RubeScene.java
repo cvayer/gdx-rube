@@ -239,7 +239,8 @@ public class RubeScene {
 	}
 	
 	/**
-	 * Returns the path + filename of the atlas to use.
+	 * Returns the path + filename of the atlas to use. <br/>
+	 * By default will look for a world's property with the name "atlas" then "atlas1", "atlas2", etc.
 	 * @param index if 0, will search for the atlas with no suffix, else the atlas stored in the property name RubeScene.atlasPropertyName + index
 	 * @return the filepath if found, null else.
 	 */

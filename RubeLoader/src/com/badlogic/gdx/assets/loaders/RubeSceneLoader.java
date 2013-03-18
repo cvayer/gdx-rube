@@ -19,7 +19,14 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.SerializationException;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
 
-
+/**
+ * <p> Loader of {@link RubeScene} for the {@link AssetManager}. </p>
+ * <p> By default will try to load the images as dependencies. <br/>
+ * If there is a world property with the name "atlas" ( and then "atlas1", "atlas2", etc ) the atlases referenced by the properties will be added to the dependencies. <br/>
+ * Else each textures referenced by the RubeImages will be added as dependencies.
+ * </p>
+ * @author clement.vayer
+ */
 public class RubeSceneLoader extends SynchronousAssetLoader<RubeScene, RubeSceneLoader.RubeSceneParameter> {
 	
 	private final RubeSceneReader reader;
@@ -28,11 +35,9 @@ public class RubeSceneLoader extends SynchronousAssetLoader<RubeScene, RubeScene
 	
 	public RubeSceneLoader (FileHandleResolver resolver) {
 		super(resolver);
-		
 		reader = new RubeSceneReader();
 		dependenciesReader = new RubeSceneDependenciesReader();
 	}
-
 
 	@Override
 	public RubeScene load (AssetManager assetManager, String fileName, RubeSceneParameter parameter) {
@@ -52,12 +57,11 @@ public class RubeSceneLoader extends SynchronousAssetLoader<RubeScene, RubeScene
 	public Array<AssetDescriptor> getDependencies (String fileName, RubeSceneParameter parameter) {
 
 		Array<AssetDescriptor> dependencies = null;
+		// We add the images as dependencies, except if there is a parameter and the loadImages boolean is set to false.
 		if(parameter == null || parameter.loadImages)
 		{
 			FileHandle sceneFile = resolve(fileName);	
-		
 			rubeDependencies = dependenciesReader.readDependencies(sceneFile.parent().path(), sceneFile);
-			
 			dependencies = rubeDependencies.dependencies;
 		}
 		else
@@ -68,15 +72,27 @@ public class RubeSceneLoader extends SynchronousAssetLoader<RubeScene, RubeScene
 		return dependencies;
 	}
 
+	/**
+	 * Parameters for the {@link RubeSceneLoader}
+	 * @author clement.vayer
+	 */
 	static public class RubeSceneParameter extends AssetLoaderParameters<RubeScene> {
 		
+		/** set it to false if you want to handle the image loading of the scene outside of the RubeSceneLoader  */
 		public boolean loadImages = true;
 		
+		/**
+		 * 
+		 * @param loadImages Set it to false, if you want to handle the loading of the textures outside of the RubeSceneLoader.
+		 */
 		public RubeSceneParameter (boolean loadImages) {
 			this.loadImages = loadImages;
 		}
 	}
 	
+	/**
+	 * Wrapper class for RubeScene dependencies.
+	 */
 	@SuppressWarnings("rawtypes")
 	static class RubeSceneDependencies
 	{
@@ -129,7 +145,6 @@ public class RubeSceneLoader extends SynchronousAssetLoader<RubeScene, RubeScene
 		{
 			public String basePath;
 			
-			
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			@Override
 			public RubeSceneDependencies read(Json json, Object jsonData,	Class type) {
@@ -160,8 +175,12 @@ public class RubeSceneLoader extends SynchronousAssetLoader<RubeScene, RubeScene
 							++i;
 							if(atlas != null)
 							{
-								atlasDesc = new AssetDescriptor<TextureAtlas>(basePath +  atlas, TextureAtlas.class);
-								dependencies.add(atlasDesc);
+								String path = basePath +  atlas;
+								if(!doesDependencyExists(dependencies, path, TextureAtlas.class))
+								{
+									atlasDesc = new AssetDescriptor<TextureAtlas>(basePath +  atlas, TextureAtlas.class);
+									dependencies.add(atlasDesc);
+								}
 							}
 						}
 						while(atlas != null);
@@ -179,28 +198,35 @@ public class RubeSceneLoader extends SynchronousAssetLoader<RubeScene, RubeScene
 						{
 							ImageInfo info = infos.get(i);
 							
-							TextureParameter parameter = new TextureParameter();
-							
-							if(info.filter == 0)
+							String path = basePath + info.file;
+							if(!doesDependencyExists(dependencies, path, Texture.class))
 							{
-								parameter.minFilter = TextureFilter.Nearest;
-								parameter.magFilter = TextureFilter.Nearest;
+								TextureParameter parameter = new TextureParameter();
+								if(info.filter == 1)
+								{
+									parameter.minFilter = TextureFilter.Linear;
+									parameter.magFilter = TextureFilter.Linear;
+								}
+								
+								AssetDescriptor<Texture> desc = new AssetDescriptor<Texture>(path, Texture.class, parameter );
+								dependencies.add(desc);
 							}
-							else
-							{
-								parameter.minFilter = TextureFilter.Linear;
-								parameter.magFilter = TextureFilter.Linear;
-							}
-							
-							// TODO : add dependencies only once
-							AssetDescriptor<Texture> desc = new AssetDescriptor<Texture>(basePath + info.file, Texture.class, parameter );
-							
-							dependencies.add(desc);
 						}
 					}
 				}
-				
+			
 				return rubeDependencies;
+			}
+			
+			@SuppressWarnings("rawtypes")
+			boolean doesDependencyExists(Array<AssetDescriptor> dependencies, String path, Class<?> type)
+			{
+				for(int i = 0; i < dependencies.size; ++i)
+				{
+					if(dependencies.get(i).fileName.equals(path) && dependencies.get(i).type.equals(type))
+						return true;
+				}
+				return false;
 			}
 			
 			static class ImageInfo
