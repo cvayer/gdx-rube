@@ -6,6 +6,8 @@ and images.
 
 This repo contains a fully self-contained Libgdx test for reference.
 
+Thanks to Tescott for the help !
+
 About RUBE
 ==========
 From https://www.iforce2d.net/rube/:

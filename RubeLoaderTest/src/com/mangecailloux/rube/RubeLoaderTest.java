@@ -42,8 +42,8 @@ public class RubeLoaderTest implements ApplicationListener, InputProcessor {
 	{
 		mCamPos = new Vector3();
 		mCurrentPos = new Vector3();
-		this.useAssetManager = useAssetManager;
 		
+		this.useAssetManager = useAssetManager;
 		scenefileName = "data/" + sceneToLoad;
 	}
 
@@ -58,11 +58,14 @@ public class RubeLoaderTest implements ApplicationListener, InputProcessor {
 		renderer 		= new Box2DDebugRenderer();
 		batch 			= new SpriteBatch();
 		polygonBatch 	= new PolygonSpriteBatch();
+		
+		// This is a custom renderer. It doesn't do much, just create sprites based on the scene, and then render them sequentially.
 		render 			= new SpriteRenderer();
 		
 		float cameraViewportWidth = 50.0f;
 		camera = new OrthographicCamera(cameraViewportWidth, cameraViewportWidth*h/w);
 		
+		// Used when creating RubePolygonSprites, 
 		RubePolygonSprite.setPixelPerMeters(w/cameraViewportWidth);
 		
 		
