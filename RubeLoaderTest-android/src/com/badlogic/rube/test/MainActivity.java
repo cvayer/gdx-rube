@@ -1,9 +1,10 @@
-package com.mangecailloux.rube;
+package com.badlogic.rube.test;
 
 import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.badlogic.gdx.rube.test.RubeLoaderTest;
 
 public class MainActivity extends AndroidApplication {
     @Override

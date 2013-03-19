@@ -18,6 +18,7 @@ public class RubeSceneSerializer extends ReadOnlySerializer<RubeScene>
 	private 	final RubeWorldSerializer worldSerializer;
 	private 	final RubeImageSerializer imageSerializer;
 	private		final RubeCustomPropertySerializer customPropertiesSerializer;
+	public 			  boolean					   stripImageFile;
 	
 	public RubeSceneSerializer(Json _json)
 	{		
@@ -45,6 +46,7 @@ public class RubeSceneSerializer extends ReadOnlySerializer<RubeScene>
 		scene.world					= json.readValue(World.class,	jsonData);
 		
 		imageSerializer.setScene(scene);
+		imageSerializer.stripImageFile = stripImageFile;
 		json.readValue("image", Array.class, RubeImage.class, jsonData);
 		return scene;
 	}

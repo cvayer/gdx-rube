@@ -1,10 +1,9 @@
-package com.mangecailloux.rube;
+package com.badlogic.gdx.rube.test;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -58,12 +57,12 @@ public class SpriteRenderer
 			RubeImage image = (RubeImage)_image;
 			
 			
-			
 			Texture texture = null;
 			RubeSprite sprite = null;
 			
 			if(assetManager != null)
 			{
+				// If the scene uses atlases instead of a bunch of texture we get it instead
 				if(_scene.usesAtlas())
 				{
 					TextureAtlas atlas = assetManager.get("data/" + _scene.getAtlasFilePath(0), TextureAtlas.class);
@@ -74,15 +73,20 @@ public class SpriteRenderer
 							sprite = new RubeSprite(region, image);	
 					}
 				}
-				else
+				else // else we get the textures
 				{
 					texture = assetManager.get("data/" + image.file, Texture.class);
 					sprite = new RubeSprite(texture, image);	
 				}
 			}
-			else
+			else // If we don't use the asset manager we create a texture if needed
 			{
-				texture = new Texture("data/" + image.file);
+				texture = textureMap.get("data/" + image.file);
+				if(texture == null)
+				{
+					texture = new Texture("data/" + image.file);
+					textureMap.put("data/" + image.file, texture);
+				}
 				sprite = new RubeSprite(texture, image);	
 			}
 			
@@ -105,6 +109,7 @@ public class SpriteRenderer
 				String textureName = property.getString("TextureMask", null);
 				if(textureName != null)
 				{
+					// We create a texture if needed
 					textureName = "data/" + textureName;
 					Texture texture = textureMap.get(textureName);
 					
@@ -115,6 +120,7 @@ public class SpriteRenderer
 						textureMap.put(textureName, texture);
 					}
 					
+					// And use that texture plus fixture infos to create a polygon sprite
 					RubePolygonSprite sprite = RubePolygonSprite.createRubePolygonSprite(texture, fixture);
 					if(sprite != null)
 					{
@@ -146,13 +152,6 @@ public class SpriteRenderer
 	
 	public void dispose()
 	{
-		for(int i =0; i  < sprites.size; ++i)
-		{
-			Sprite sprite = sprites.get(i);
-			
-			sprite.getTexture().dispose();
-		}
-		
 		Values<Texture> textures = textureMap.values();
 		
 		while(textures.hasNext())

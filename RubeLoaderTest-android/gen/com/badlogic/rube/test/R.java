@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.mangecailloux.rube;
+package com.badlogic.rube.test;
 
 public final class R {
     public static final class attr {

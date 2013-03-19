@@ -1,4 +1,4 @@
-package com.mangecailloux.rube;
+package com.badlogic.gdx.rube.test;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -21,21 +21,24 @@ public class RubeLoaderTest implements ApplicationListener, InputProcessor {
 	private OrthographicCamera 		camera;
 
 	private Box2DDebugRenderer renderer;
-	private SpriteRenderer		render;
+
 	private SpriteBatch       	batch;
 	private PolygonSpriteBatch 	polygonBatch;
 	
 	// used for pan and scanning with the mouse.
-	private final Vector3 mCamPos;
-	private final Vector3 mCurrentPos;
+	private final Vector3 	mCamPos;
+	private final Vector3 	mCurrentPos;
+	private boolean			useAssetManager;
+	private boolean			loaded;
+	private AssetManager 	assetManager;
+	private String 			scenefileName;
 	
-	private RubeSceneReader	loader;
-	private RubeScene	scene;
-	
-	private boolean		useAssetManager;
-	private boolean		loaded;
-	private AssetManager assetManager;
-	private String 		scenefileName;
+	// Reader to load a scene from a file
+	private RubeSceneReader		reader;
+	// Your scene
+	private RubeScene			scene;
+	// A simple custom renderer
+	private SpriteRenderer		render;
 	
 	
 	public RubeLoaderTest(boolean useAssetManager, String sceneToLoad)
@@ -65,22 +68,30 @@ public class RubeLoaderTest implements ApplicationListener, InputProcessor {
 		float cameraViewportWidth = 50.0f;
 		camera = new OrthographicCamera(cameraViewportWidth, cameraViewportWidth*h/w);
 		
-		// Used when creating RubePolygonSprites, 
+		// Used when creating RubePolygonSprites, will affect the Uvs of the texture inside the shape
 		RubePolygonSprite.setPixelPerMeters(w/cameraViewportWidth);
 		
 		
 		if(!useAssetManager)
 		{
-			loader = new RubeSceneReader();
-			scene = loader.readScene(Gdx.files.internal(scenefileName));
+			// No AssetManager method
+			// 1. Create a reader
+			reader = new RubeSceneReader();
+			// 2. Read your scene
+			scene = reader.readScene(Gdx.files.internal(scenefileName));
+			// 3. (Optional) Post process you scene the way you want it, to organise or retrieve informations the way you see fit
 			render.initFromScene(scene, null);
 		}
 		else
 		{
+			// AssetManager method
 			assetManager = new AssetManager();
+			// 1. Assign a loader to the RubeScene class, using the FileResolver of your choice.
 			assetManager.setLoader(RubeScene.class, new RubeSceneLoader(new InternalFileHandleResolver()));
 			
+			// 2. Load you scene like any other asset
 			assetManager.load(scenefileName, RubeScene.class);
+			// 3. see the render method
 			
 			loaded = false;
 		}		
@@ -89,8 +100,11 @@ public class RubeLoaderTest implements ApplicationListener, InputProcessor {
 	@Override
 	public void dispose() 
 	{
+		// Don't forget to dispose your Box2D world
 		scene.world.dispose();
+		// clear() will clear all arrays and ObjectMaps used to store scene objects, but will not dispose the world
 		scene.clear();
+		
 		render.dispose();
 		renderer.dispose();
 		batch.dispose();
@@ -109,16 +123,20 @@ public class RubeLoaderTest implements ApplicationListener, InputProcessor {
 				if(assetManager.update())
 				{
 					loaded = true;
-					// Init renderer
-					
+					// AssetManager method
+					// 3. When the assetManager has finished loading the assets you can use your scene
 					scene = assetManager.get(scenefileName, RubeScene.class);
+					
+					// 4. (Optional) Post process you scene the way you want it, to organise or retrieve informations the way you see fit
 					render.initFromScene(scene, assetManager);
 				}
 				return;
 			}
 		}
 		
-
+		// Run the world simulation using the data from the scene.
+		// Warning : It's just an example, in a real case, you will need to fix your simulation delta time, to avoid having the simulation
+		// having different speed depending on the device.
 		scene.world.step(1.0f/scene.stepsPerSecond, scene.velocityIterations, scene.positionIterations);
 		
 		batch.setProjectionMatrix(camera.projection);

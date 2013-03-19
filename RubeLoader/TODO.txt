@@ -1,8 +1,0 @@
-
-Ask for world bounding box and center : useful for camera
-
-File conversion : 
-
-Think of a lighter json file format : 
-
-Same shapes could be factorized, same for fixture, etc

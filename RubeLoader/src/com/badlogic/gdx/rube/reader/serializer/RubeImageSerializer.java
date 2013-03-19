@@ -14,6 +14,8 @@ import com.badlogic.gdx.utils.Json;
 @SuppressWarnings("rawtypes")
 class RubeImageSerializer extends RubeSerializer<RubeImage>
 {	
+	public 	boolean	stripImageFile;
+	
 	public RubeImageSerializer() 
 	{
 		super();
@@ -48,7 +50,7 @@ class RubeImageSerializer extends RubeSerializer<RubeImage>
 		
 		image.file = json.readValue("file", String.class, jsonData);
 		
-		if(scene.usesAtlas())
+		if(stripImageFile)
 		{
 			int fslashIndex = image.file.lastIndexOf('/');
 			int dotIndex = image.file.lastIndexOf('.');

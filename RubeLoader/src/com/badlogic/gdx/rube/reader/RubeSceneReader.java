@@ -14,13 +14,17 @@ public class RubeSceneReader
 {
 	/**Used to parse the Json files*/
 	private final Json json;
+	private final RubeSceneSerializer sceneSerializer;
 	
 	public RubeSceneReader() {
 		json = new Json();
 		json.setTypeName(null);
 		json.setUsePrototypes(false);
 		json.setIgnoreUnknownFields(true);
-		json.setSerializer(RubeScene.class, new RubeSceneSerializer(json));
+		
+		sceneSerializer =  new RubeSceneSerializer(json);
+		
+		json.setSerializer(RubeScene.class, sceneSerializer);
 	}
 	
 	/**
@@ -29,9 +33,20 @@ public class RubeSceneReader
 	 * @return the scene described in the document.
 	 */
 	public RubeScene readScene(FileHandle file) {
+		return readScene(file, false);
+	}
+	
+	/**
+	 * 
+	 * @param file File to read.
+	 * @param stripImageFile True if you want the filepath in the RubeImages to be stripped from path and extension. Useful when using a TextureAtlas
+	 * @return the scene described in the document.
+	 */
+	public RubeScene readScene(FileHandle file, boolean stripImageFile) {
 		RubeScene scene = null;
 		try 
 		{
+			sceneSerializer.stripImageFile = stripImageFile;
 			scene = json.fromJson(RubeScene.class, file);	
 		} 
 		catch (SerializationException ex) 

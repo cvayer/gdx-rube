@@ -153,7 +153,7 @@ public class RubeScene {
 	}
 	
 	/**
-	 * Clear of the containers of objects, in case you don't need the scene anymore.
+	 * Clear of the containers of objects, in case you don't need the scene anymore. Do not change anything on the World. You have to dispose it when not needed anymore.
 	 */
 	public void clear() {
 		bodies.clear();

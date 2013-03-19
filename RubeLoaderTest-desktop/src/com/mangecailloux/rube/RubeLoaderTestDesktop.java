@@ -11,6 +11,7 @@ import javax.swing.SwingUtilities;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.rube.test.RubeLoaderTest;
 
 public class RubeLoaderTestDesktop {
 static final String GAME_NAME = "RubeLoaderTest";
