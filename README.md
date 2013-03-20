@@ -1,6 +1,6 @@
-RubeLoader
+gdx-rube
 ==========
-This is a RUBE scene JSON loader for libGdx.  It reads JSON data output by RUBE and creates and populates
+This is a RUBE scene JSON loader and scene for libGdx.  It reads JSON data output by RUBE and creates and populates
 a Box2D world with the bodies, joints, and fixtures defined therein.  It includes support for custom properties
 and images.   
 
