@@ -11,7 +11,6 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.rube.RubeCustomProperty;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
-import com.badlogic.gdx.rube.reader.RubeDefaults;
 import com.badlogic.gdx.rube.reader.serializer.utils.RubeVertexArray;
 
 /**
