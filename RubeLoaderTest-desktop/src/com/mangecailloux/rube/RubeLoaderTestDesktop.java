@@ -31,9 +31,8 @@ static final String GAME_NAME = "RubeLoaderTest";
 	
 	public static void main(String[] args)
 	{
-	      SwingUtilities.invokeLater(new Runnable()
-	      {
-	         @SuppressWarnings({ "unchecked", "rawtypes" })
+		SwingUtilities.invokeLater(new Runnable()
+		{
 			@Override
 	         public void run()
 	         {

@@ -70,8 +70,11 @@ class RubeImageSerializer extends RubeSerializer<RubeImage>
 		image.flip = json.readValue("flip", boolean.class, defaults.flip, jsonData);
 		
 		int [] colorArray = json.readValue("colorTint", int[].class,RubeDefaults.Image.colorArray,jsonData);
-	    image.color.set((float)colorArray[0]/255, (float)colorArray[1]/255, (float)colorArray[2]/255, (float)colorArray[3]/255);
-	      
+
+	    image.color.r = (float)colorArray[0]/255;
+	    image.color.g = (float)colorArray[1]/255;
+	    image.color.b = (float)colorArray[2]/255;
+	    image.color.a = (float)colorArray[3]/255;
 		
 		RubeCustomProperty customProperty = null;
 		if(json.getSerializer(RubeCustomProperty.class) != null)
