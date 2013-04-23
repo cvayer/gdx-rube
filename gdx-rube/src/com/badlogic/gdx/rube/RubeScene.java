@@ -141,6 +141,35 @@ public class RubeScene {
 	}
 	
 	/**
+	 * @param type Class of the objects by name to retrieve. Can be Body.class, Fixture.class, Joint.class or RubeImage.class.
+	 * @return the desired OjectMap if found, null else.
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> ObjectMap<String, T> getObjectsByName(Class<T> type) {
+		
+		if(type == null)
+			return null;
+		
+		if(type == Body.class)
+		{
+			return (ObjectMap<String, T>) bodiesByName;
+		}
+		else if(type == Fixture.class)
+		{
+			return (ObjectMap<String, T>) fixturesByName;
+		}
+		else if(type == Joint.class)
+		{
+			return (ObjectMap<String, T>) jointsByName;
+		}
+		else if(type == RubeImage.class)
+		{
+			return (ObjectMap<String, T>) imagesByName;
+		}
+		return null;
+	}
+	
+	/**
 	 * @param body {@link Body} linked to the images.
 	 * @return all the images associated with the body.
 	 */
