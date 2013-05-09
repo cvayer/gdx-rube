@@ -5,6 +5,7 @@ import com.badlogic.gdx.rube.RubeCustomProperty;
 import com.badlogic.gdx.rube.RubeImage;
 import com.badlogic.gdx.rube.reader.serializer.utils.RubeVertexArray;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 /**
  * Serializer to read a {@link RubeImage} from a RUBE .json file.
@@ -22,7 +23,7 @@ class RubeImageSerializer extends RubeSerializer<RubeImage>
 	
 	private final Vector2 tmp = new Vector2();
 	@Override
-	public RubeImage read(Json json, Object jsonData, Class type) 
+	public RubeImage read(Json json, JsonValue jsonData, Class type) 
 	{
 		if(scene.getBodies() == null)
 			return null;

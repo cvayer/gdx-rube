@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.rube.RubeCustomProperty;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 /**
  * Serializer to read a {@link World} from a RUBE .json file.
@@ -31,7 +32,7 @@ class RubeWorldSerializer extends RubeSerializer<World>
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public World read(Json json, Object jsonData, Class type) 
+	public World read(Json json, JsonValue jsonData, Class type) 
 	{
 		boolean allowSleep = json.readValue("allowSleep", boolean.class, RubeDefaults.World.allowSleep, jsonData);
 		boolean autoClearForces = json.readValue("autoClearForces", boolean.class, RubeDefaults.World.autoClearForces, jsonData);

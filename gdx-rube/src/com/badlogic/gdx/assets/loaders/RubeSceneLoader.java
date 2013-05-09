@@ -16,6 +16,7 @@ import com.badlogic.gdx.rube.reader.RubeSceneReader;
 import com.badlogic.gdx.rube.reader.serializer.RubeCustomPropertySerializer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.SerializationException;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
 
@@ -147,7 +148,7 @@ public class RubeSceneLoader extends SynchronousAssetLoader<RubeScene, RubeScene
 			
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			@Override
-			public RubeSceneDependencies read(Json json, Object jsonData,	Class type) {
+			public RubeSceneDependencies read(Json json, JsonValue jsonData,	Class type) {
 				
 				RubeSceneDependencies rubeDependencies = new RubeSceneDependencies();
 				
@@ -234,6 +235,7 @@ public class RubeSceneLoader extends SynchronousAssetLoader<RubeScene, RubeScene
 				public String file;
 				public int 	  filter;
 			}
+
 		}
 	}
 

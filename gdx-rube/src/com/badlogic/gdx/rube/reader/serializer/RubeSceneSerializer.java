@@ -7,6 +7,7 @@ import com.badlogic.gdx.rube.RubeImage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
+import com.badlogic.gdx.utils.JsonValue;
 
 /**
  * Serializer to read a {@link RubeScene} from a RUBE .json file.
@@ -34,7 +35,7 @@ public class RubeSceneSerializer extends ReadOnlySerializer<RubeScene>
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public RubeScene read(Json json, Object jsonData, Class type) {
+	public RubeScene read(Json json, JsonValue jsonData, Class type) {
 
 		RubeScene scene = new RubeScene();
 		scene.stepsPerSecond 		= json.readValue("stepsPerSecond", 		int.class, RubeDefaults.Scene.stepsPerSecond, 		jsonData);

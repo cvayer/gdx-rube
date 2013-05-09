@@ -3,6 +3,7 @@ package com.badlogic.gdx.rube.reader.serializer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
+import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.SerializationException;
 
 /**
@@ -14,7 +15,7 @@ import com.badlogic.gdx.utils.SerializationException;
 class Vector2Serializer extends ReadOnlySerializer<Vector2>
 {
 	@Override
-	public Vector2 read(Json json, Object jsonData, Class type) 
+	public Vector2 read(Json json, JsonValue jsonData, Class type) 
 	{
 		Vector2 vector = new Vector2(0.0f, 0.0f); 
 		

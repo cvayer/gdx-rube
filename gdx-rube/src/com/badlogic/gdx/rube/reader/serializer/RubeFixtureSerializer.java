@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.rube.RubeCustomProperty;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
+import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.rube.reader.serializer.utils.RubeVertexArray;
 
 /**
@@ -41,7 +42,7 @@ class RubeFixtureSerializer extends RubeSerializer<Fixture>
 	}
 	
 	@Override
-	public Fixture read(Json json, Object jsonData, Class type) 
+	public Fixture read(Json json, JsonValue jsonData, Class type) 
 	{
 		if(body == null)
 			return null;
@@ -124,7 +125,7 @@ class RubeFixtureSerializer extends RubeSerializer<Fixture>
 	static class CircleShapeSerializer extends ReadOnlySerializer<CircleShape>
 	{	
 		@Override
-		public CircleShape read(Json json, Object jsonData, Class type)
+		public CircleShape read(Json json, JsonValue jsonData, Class type)
 		{			
 			CircleShape shape = null;
 
@@ -145,7 +146,7 @@ class RubeFixtureSerializer extends RubeSerializer<Fixture>
 	static class PolygonShapeSerializer extends ReadOnlySerializer<PolygonShape>
 	{	
 		@Override
-		public PolygonShape read(Json json, Object jsonData, Class type)
+		public PolygonShape read(Json json, JsonValue jsonData, Class type)
 		{
 			RubeVertexArray vertices = json.readValue("vertices", RubeVertexArray.class, jsonData);
 			
@@ -162,7 +163,7 @@ class RubeFixtureSerializer extends RubeSerializer<Fixture>
 	static class EdgeShapeSerializer extends ReadOnlySerializer<EdgeShape>
 	{		
 		@Override
-		public EdgeShape read(Json json, Object jsonData, Class type)
+		public EdgeShape read(Json json, JsonValue jsonData, Class type)
 		{
 			EdgeShape shape = null;
 			
@@ -202,7 +203,7 @@ class RubeFixtureSerializer extends RubeSerializer<Fixture>
 		}
 		
 		@Override
-		public ChainShape read(Json json, Object jsonData, Class type)
+		public ChainShape read(Json json, JsonValue jsonData, Class type)
 		{
 			ChainShape chain = null;
 			RubeVertexArray vertices = json.readValue("vertices", RubeVertexArray.class, jsonData);

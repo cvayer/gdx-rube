@@ -20,6 +20,7 @@ import com.badlogic.gdx.rube.RubeCustomProperty;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
+import com.badlogic.gdx.utils.JsonValue;
 
 /**
  * Serializer to read a {@link Joint} from a RUBE .json file.
@@ -61,7 +62,7 @@ class RubeJointSerializer extends RubeSerializer<Joint>
 	}
 	
 	@Override
-	public Joint read(Json json, Object jsonData, Class type) 
+	public Joint read(Json json, JsonValue jsonData, Class type) 
 	{
 		if(bodies == null || world == null)
 			return null;
@@ -153,7 +154,7 @@ class RubeJointSerializer extends RubeSerializer<Joint>
 	public class RevoluteJointDefSerializer extends ReadOnlySerializer<RevoluteJointDef>
 	{	
 		@Override
-		public RevoluteJointDef read(Json json, Object jsonData, Class type)
+		public RevoluteJointDef read(Json json, JsonValue jsonData, Class type)
 		{	
 			RevoluteJointDef defaults = RubeDefaults.Joint.revoluteDef;
 			
@@ -182,7 +183,7 @@ class RubeJointSerializer extends RubeSerializer<Joint>
 	public class PrismaticJointDefSerializer extends ReadOnlySerializer<PrismaticJointDef>
 	{	
 		@Override
-		public PrismaticJointDef read(Json json, Object jsonData, Class type)
+		public PrismaticJointDef read(Json json, JsonValue jsonData, Class type)
 		{	
 			PrismaticJointDef defaults = RubeDefaults.Joint.prismaticDef;
 			
@@ -218,7 +219,7 @@ class RubeJointSerializer extends RubeSerializer<Joint>
 	public class DistanceJointDefSerializer extends ReadOnlySerializer<DistanceJointDef>
 	{	
 		@Override
-		public DistanceJointDef read(Json json, Object jsonData, Class type)
+		public DistanceJointDef read(Json json, JsonValue jsonData, Class type)
 		{	
 			DistanceJointDef defaults = RubeDefaults.Joint.distanceDef;
 			
@@ -243,7 +244,7 @@ class RubeJointSerializer extends RubeSerializer<Joint>
 	public class PulleyJointDefSerializer extends ReadOnlySerializer<PulleyJointDef>
 	{	
 		@Override
-		public PulleyJointDef read(Json json, Object jsonData, Class type)
+		public PulleyJointDef read(Json json, JsonValue jsonData, Class type)
 		{	
 			PulleyJointDef defaults = RubeDefaults.Joint.pulleyDef;
 			
@@ -276,7 +277,7 @@ class RubeJointSerializer extends RubeSerializer<Joint>
 		public Vector2 target;
 		
 		@Override
-		public MouseJointDef read(Json json, Object jsonData, Class type)
+		public MouseJointDef read(Json json, JsonValue jsonData, Class type)
 		{	
 			MouseJointDef defaults = RubeDefaults.Joint.mouseDef;
 			
@@ -302,7 +303,7 @@ class RubeJointSerializer extends RubeSerializer<Joint>
 	public class WeldJointDefSerializer extends ReadOnlySerializer<WeldJointDef>
 	{	
 		@Override
-		public WeldJointDef read(Json json, Object jsonData, Class type)
+		public WeldJointDef read(Json json, JsonValue jsonData, Class type)
 		{	
 			WeldJointDef defaults = RubeDefaults.Joint.weldDef;
 			
@@ -325,7 +326,7 @@ class RubeJointSerializer extends RubeSerializer<Joint>
 	public class FrictionJointDefSerializer extends ReadOnlySerializer<FrictionJointDef>
 	{	
 		@Override
-		public FrictionJointDef read(Json json, Object jsonData, Class type)
+		public FrictionJointDef read(Json json, JsonValue jsonData, Class type)
 		{	
 			FrictionJointDef defaults = RubeDefaults.Joint.frictionDef;
 			
@@ -349,7 +350,7 @@ class RubeJointSerializer extends RubeSerializer<Joint>
 	public class WheelJointDefSerializer extends ReadOnlySerializer<WheelJointDef>
 	{	
 		@Override
-		public WheelJointDef read(Json json, Object jsonData, Class type)
+		public WheelJointDef read(Json json, JsonValue jsonData, Class type)
 		{	
 			WheelJointDef defaults = RubeDefaults.Joint.wheelDef;
 			
@@ -379,7 +380,7 @@ class RubeJointSerializer extends RubeSerializer<Joint>
 	public class RopeJointDefSerializer extends ReadOnlySerializer<RopeJointDef>
 	{	
 		@Override
-		public RopeJointDef read(Json json, Object jsonData, Class type)
+		public RopeJointDef read(Json json, JsonValue jsonData, Class type)
 		{	
 			RopeJointDef defaults = RubeDefaults.Joint.ropeDef;
 			
@@ -402,7 +403,7 @@ class RubeJointSerializer extends RubeSerializer<Joint>
 	public class GearJointDefSerializer extends ReadOnlySerializer<GearJointDef>
 	{	
 		@Override
-		public GearJointDef read(Json json, Object jsonData, Class type)
+		public GearJointDef read(Json json, JsonValue jsonData, Class type)
 		{	
 			if(joints == null )
 				return null;

@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.rube.RubeCustomProperty;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 /**
  * Serializer to read a {@link Body} from a RUBE .json file.
@@ -39,7 +40,7 @@ public class RubeBodySerializer extends RubeSerializer<Body>
 	}
 	
 	@Override
-	public Body read(Json json, Object jsonData, Class type) 
+	public Body read(Json json, JsonValue jsonData, Class type) 
 	{
 		if(world == null)
 			return null;

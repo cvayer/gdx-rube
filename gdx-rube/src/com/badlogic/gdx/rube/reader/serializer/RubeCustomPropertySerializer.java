@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.rube.RubeCustomProperty;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
 
 /**
@@ -16,11 +16,40 @@ public class RubeCustomPropertySerializer extends ReadOnlySerializer<RubeCustomP
 {
 	@SuppressWarnings("unchecked")
 	@Override
-	public RubeCustomProperty read(Json json, Object jsonData, Class type) 
+	public RubeCustomProperty read(Json json, JsonValue jsonData, Class type) 
 	{
-		RubeCustomProperty custom = null;
+		RubeCustomProperty custom = new RubeCustomProperty();
 		
-		Array<ObjectMap<String,?>> customProperties = json.readValue(Array.class, ObjectMap.class, jsonData);
+		for(int i = 0; i < jsonData.size(); ++i)
+		{
+			JsonValue child = jsonData.get(i);
+			String name = child.getString("name");
+			
+			if(child.get("string") != null)
+			{
+				custom.addString(name, child.getString("string"));
+			}
+			else if (child.get("int") != null)
+	        {
+	           custom.addInt(name, child.getInt("int"));
+	        }
+	        else if (child.get("float") != null)
+	        {
+	           custom.addFloat(name, child.getFloat("float"));
+	        }
+	        else if (child.get("vec2") != null)
+	        {
+	           custom.addVec2(name, json.readValue(Vector2.class, child.get("vec2")));
+	        }
+	        else if (child.get("bool") != null)
+	        {
+	           custom.addBool(name, child.getBoolean("bool"));
+	        }
+		}
+		
+	/*	RubeCustomProperty custom = null;
+		
+		Array<JsonValue> customProperties = json.readValue(Array.class, JsonValue.class, jsonData);
 		
 	    if (customProperties != null)
 	    {
@@ -28,30 +57,32 @@ public class RubeCustomPropertySerializer extends ReadOnlySerializer<RubeCustomP
 	    	
 		    for (int i = 0; i < customProperties.size; i++)
 		    {
-		    	ObjectMap<String, ?> property = customProperties.get(i);
-		    	String propertyName = (String)property.get("name");
-		        if (property.containsKey("string"))
+		    	JsonValue property = customProperties.get(i);
+		    	
+		    	String propertyName = property.getString("name");
+		    			    	
+		        if (property.getChild("string") != null)
 		        {
-		        	custom.addString(propertyName, json.readValue(String.class, property.get("string")));
+		        	custom.addString(propertyName, property.getString("string"));
 		        }
-		        else if (property.containsKey("int"))
+		        else if (property.getChild("int") != null)
 		        {
-		           custom.addInt(propertyName, json.readValue(int.class, property.get("int")));
+		           custom.addInt(propertyName, property.getInt("int"));
 		        }
-		        else if (property.containsKey("float"))
+		        else if (property.getChild("float") != null)
 		        {
-		           custom.addFloat(propertyName, json.readValue(float.class, property.get("float")));
+		           custom.addFloat(propertyName, property.getFloat("float"));
 		        }
-		        else if (property.containsKey("vec2"))
+		        else if (property.getChild("vec2") != null)
 		        {
 		           custom.addVec2(propertyName, json.readValue(Vector2.class, property.get("vec2")));
 		        }
-		        else if (property.containsKey("bool"))
+		        else if (property.getChild("bool") != null)
 		        {
-		           custom.addBool(propertyName, json.readValue(boolean.class, property.get("bool")));
+		           custom.addBool(propertyName, property.getBoolean("bool"));
 		        }
 		    }
-	   }
+	   }*/
 		
 		return custom;
 	}
