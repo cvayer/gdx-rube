@@ -39,30 +39,20 @@ public class RubeSceneLoader extends SynchronousAssetLoader<RubeScene, RubeScene
 		reader = new RubeSceneReader();
 		dependenciesReader = new RubeSceneDependenciesReader();
 	}
-
+	
 	@Override
-	public RubeScene load (AssetManager assetManager, String fileName, RubeSceneParameter parameter) {
-
-		FileHandle sceneFile = resolve(fileName);	
-		
-		if(sceneFile != null)
-		{
-			return reader.readScene(sceneFile);
-		}
-		
-		return null;
+	public RubeScene load(AssetManager assetManager, String fileName, FileHandle file, RubeSceneParameter parameter) {
+		return  reader.readScene(file);
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
-	public Array<AssetDescriptor> getDependencies (String fileName, RubeSceneParameter parameter) {
-
+	public Array<AssetDescriptor> getDependencies(String fileName, FileHandle file, RubeSceneParameter parameter) {
+		
 		Array<AssetDescriptor> dependencies = null;
 		// We add the images as dependencies, except if there is a parameter and the loadImages boolean is set to false.
 		if(parameter == null || parameter.loadImages)
 		{
-			FileHandle sceneFile = resolve(fileName);	
-			rubeDependencies = dependenciesReader.readDependencies(sceneFile.parent().path(), sceneFile);
+			rubeDependencies = dependenciesReader.readDependencies(file.parent().path(), file);
 			dependencies = rubeDependencies.dependencies;
 		}
 		else
@@ -238,5 +228,4 @@ public class RubeSceneLoader extends SynchronousAssetLoader<RubeScene, RubeScene
 
 		}
 	}
-
 }
