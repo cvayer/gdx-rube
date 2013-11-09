@@ -42,7 +42,15 @@ public class RubeSceneLoader extends SynchronousAssetLoader<RubeScene, RubeScene
 	
 	@Override
 	public RubeScene load(AssetManager assetManager, String fileName, FileHandle file, RubeSceneParameter parameter) {
-		return  reader.readScene(file);
+		
+		boolean stripImageFile = false;
+		
+		if(rubeDependencies != null)
+		{
+			stripImageFile = rubeDependencies.useAtlas;
+		}
+		
+		return  reader.readScene(file, stripImageFile);
 	}
 
 	@Override
